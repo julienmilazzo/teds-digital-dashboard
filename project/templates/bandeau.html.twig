@@ -1,0 +1,50 @@
+<div class="container-fluid div1">
+    <div class="row">
+        <div class="col-sm">
+            <img src="images/teds.png" class="img-fluid" alt="teds" style="padding: 10px">
+        </div>
+        <div class="col-sm headr">
+            <header class="header1">
+                <a href="{{ path('home') }}" style="color: rgb(240, 15, 15); text-decoration: none;">Teds Dashboard</a>
+            </header>
+            <br>
+        </div>
+        <div class="col-sm headr2">
+        </div>
+    </div>
+</div>
+<!--This is the NAV-->
+<div class="div2 menu">
+    <nav class="nav1">
+        <ul class="nav nav-tabs nav-justified ">
+            <li class="nav-item dropdown dropdown1">
+                <a class="nav-link dropdown-toggle a1 dropbtn activ" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Liste</a>
+                <div class="dropdown-menu dropdown-content">
+                    <a class="a2 activ" href="{{ path('client_index') }}">Client</a>
+                    <a class="a2" href="{{ path('site_index') }}">Site</a>
+                    <a class="a2">Nom de domain</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown dropdown1">
+                <a class="nav-link dropdown-toggle a1 dropbtn activ" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Ajouter</a>
+                <div class="dropdown-menu dropdown-content">
+                    <a class="a2 activ" href="{{ path('client_new') }}">Client</a>
+                    <a class="a2" href="{{ path('site_new') }}">Site</a>
+                    <a class="a2">Nom de domain</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown dropdown1">
+                <a class="nav-link dropdown-toggle a1 dropbtn activ" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mettre a jour</a>
+                <div class="dropdown-menu dropdown-content">
+                    <a class="a2 activ" >Client</a>
+                    <a class="a2">Site</a>
+                    <a class="a2">Nom de domain</a>
+                </div>
+            </li>
+            <li class="nav-item" id="toplink">
+                <a class="nav-link logout a1" href="{{ path('app_logout') }}">Déconnexion</a>
+            </li>
+
+        </ul>
+    </nav>
+</div>

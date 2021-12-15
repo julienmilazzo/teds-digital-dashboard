@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ServerRepository::class)
  */
-class Server
+class Server extends Service
 {
     /**
      * @ORM\Id
@@ -18,16 +18,6 @@ class Server
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $RenewalDate;
 
     /**
      * @ORM\OneToMany(targetEntity=Site::class, mappedBy="server")
@@ -48,30 +38,6 @@ class Server
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getRenewalDate(): ?\DateTimeInterface
-    {
-        return $this->RenewalDate;
-    }
-
-    public function setRenewalDate(\DateTimeInterface $RenewalDate): self
-    {
-        $this->RenewalDate = $RenewalDate;
-
-        return $this;
     }
 
     /**

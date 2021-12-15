@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DomainName{% endblock %}
+
+{% block body %}
+    <h1>DomainName</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ domain_name.id }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>{{ domain_name.url }}</td>
+            </tr>
+            <tr>
+                <th>Provider</th>
+                <td>{{ domain_name.provider }}</td>
+            </tr>
+            <tr>
+                <th>Offer</th>
+                <td>{{ domain_name.offer }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ domain_name.price }}</td>
+            </tr>
+            <tr>
+                <th>InvoicedPrice</th>
+                <td>{{ domain_name.invoicedPrice }}</td>
+            </tr>
+            <tr>
+                <th>RenewalType</th>
+                <td>{{ domain_name.renewalType }}</td>
+            </tr>
+            <tr>
+                <th>RenawalDate</th>
+                <td>{{ domain_name.renawalDate ? domain_name.renawalDate|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('domain_name_index') }}">back to list</a>
+
+    <a href="{{ path('domain_name_edit', {'id': domain_name.id}) }}">edit</a>
+
+    {{ include('domain_name/_delete_form.html.twig') }}
+{% endblock %}

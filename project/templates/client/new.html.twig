@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}New Client{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,13 +13,15 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
+
     <div class="container-fluid div3">
         <div class="div4">
-            {% if app.user %}
-                <h1>Que souhaitez-vous faire ?</h1>
-            {% else %}
-                <a href="{{ path('app_login') }}">Se connecter</a>
-            {% endif %}
+            <h1>Create new Client</h1>
+
+            {{ include('client/_form.html.twig') }}
+
+            <a href="{{ path('client_index') }}">back to list</a>
+
         </div>
     </div>
 

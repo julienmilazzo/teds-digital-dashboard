@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=DomainNameRepository::class)
  */
-class DomainName
+class DomainName extends Service
 {
     /**
      * @ORM\Id
@@ -21,11 +21,6 @@ class DomainName
      * @ORM\Column(type="string", length=255)
      */
     private $url;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $RenewalDate;
 
     /**
      * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="domainNames")
@@ -46,18 +41,6 @@ class DomainName
     public function setUrl(string $url): self
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    public function getRenewalDate(): ?\DateTimeInterface
-    {
-        return $this->RenewalDate;
-    }
-
-    public function setRenewalDate(\DateTimeInterface $RenewalDate): self
-    {
-        $this->RenewalDate = $RenewalDate;
 
         return $this;
     }

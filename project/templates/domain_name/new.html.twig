@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DomainName{% endblock %}
+
+{% block body %}
+    <h1>Create new DomainName</h1>
+
+    {{ include('domain_name/_form.html.twig') }}
+
+    <a href="{{ path('domain_name_index') }}">back to list</a>
+{% endblock %}

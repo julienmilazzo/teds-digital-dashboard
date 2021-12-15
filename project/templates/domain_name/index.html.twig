@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DomainName index{% endblock %}
+
+{% block body %}
+    <h1>DomainName index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Url</th>
+                <th>Provider</th>
+                <th>Offer</th>
+                <th>Price</th>
+                <th>InvoicedPrice</th>
+                <th>RenewalType</th>
+                <th>RenawalDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for domain_name in domain_names %}
+            <tr>
+                <td>{{ domain_name.id }}</td>
+                <td>{{ domain_name.url }}</td>
+                <td>{{ domain_name.provider }}</td>
+                <td>{{ domain_name.offer }}</td>
+                <td>{{ domain_name.price }}</td>
+                <td>{{ domain_name.invoicedPrice }}</td>
+                <td>{{ domain_name.renewalType }}</td>
+                <td>{{ domain_name.renawalDate ? domain_name.renawalDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}">show</a>
+                    <a href="{{ path('domain_name_edit', {'id': domain_name.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('domain_name_new') }}">Create new</a>
+{% endblock %}

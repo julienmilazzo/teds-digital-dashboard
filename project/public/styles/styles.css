@@ -16,11 +16,6 @@ body{
 .headr2{
     text-align: right;
 }
-.famnit{
-    height: 180px;
-    width: 184px;
-    cursor: -webkit-grab; cursor: grab;
-}
 /*for the header*/
 .div1{
     width: 100%;
@@ -40,9 +35,6 @@ body{
     margin-left: 10%;
     height: 100%;
 }
-.nav-link {
-    color: rgb(240, 15, 15)!important;
-}
 .div2{
     background-color: white;
 }
@@ -51,25 +43,19 @@ body{
     color: white;
     padding: 17px 16px;
     background-color: white;
+    font-size: 20px;
 }
 /*Link in dropdown*/
 .a2{
     color: white;
-    padding: 17px 16px;
 }
-/*When this is the active link*/
-
-/*For the link with the dropdown*/
-.dropbtn {
+.a2:hover {
     background-color: white;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
+    color: #393942;
 }
-.activ{
-    background-color: #393942;
+.logout:hover {
+    background-color: white;
+    color: #393942;
 }
 .dropdown1 {
     position: relative;
@@ -80,7 +66,7 @@ body{
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #DCDCDC;
+    background-color: whitesmoke;
     min-width: 160px;/*width min of the content */
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1; /*Put the content over*/
@@ -88,14 +74,15 @@ body{
 
 /* Links inside the dropdown */
 .dropdown-content a {
-    color: rgb(240, 15, 15);
+    color: #393942;
     padding: 12px 16px;
     text-decoration: none;/*erase the underliner when you over*/
     display: block;
+    width: 100%;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {background-color: rgb(240, 15, 15)}
 .a1:hover {color: black;}
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
@@ -142,4 +129,15 @@ body{
 .divcar2{
     color: #393942;
 }
+.header-bandeau {
 
+}
+.menu {
+    background-color: rgb(240, 15, 15);
+    color: #393942!important;
+}
+.dropdown-content {
+    width: 75%;
+    font-size: 18px;
+    background-color:  #F7C3C1;
+}

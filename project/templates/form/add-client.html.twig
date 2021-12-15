@@ -1,25 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}Ajouter Client{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
 {% endblock %}
 
 {% block body %}
+
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
+
     <div class="container-fluid div3">
         <div class="div4">
-            {% if app.user %}
-                <h1>Que souhaitez-vous faire ?</h1>
-            {% else %}
-                <a href="{{ path('app_login') }}">Se connecter</a>
-            {% endif %}
+            {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.address) }}
+            {{ form_row(form.city) }}
+            {{ form_row(form.zipCode) }}
+            {{ form_row(form.phone) }}
+            {{ form_end(form) }}
         </div>
     </div>
 
