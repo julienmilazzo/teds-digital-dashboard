@@ -6,7 +6,7 @@ use App\Entity\Server;
 use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
-use Symfony\Component\Form\Extension\Core\Type\{DateType, NumberType, TextType};
+use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, NumberType, TextType};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ServerType extends AbstractType
@@ -19,6 +19,16 @@ class ServerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('name', TextType::class, [
+                'label' => 'Nom du serveur :',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-7 mb-4',
+                ],
+            ])
             ->add('provider', TextType::class, [
                 'label' => 'Prestataire :',
                 'label_attr' => [
@@ -91,6 +101,16 @@ class ServerType extends AbstractType
                 'choice_label' => 'name',
                 'mapped' => false,
                 'multiple' => true
+            ])
+            ->add('enable', CheckboxType::class, [
+                'label' => 'Actif : ',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-1 mb-4',
+                ],
             ])
         ;
     }

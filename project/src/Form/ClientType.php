@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Client;
-use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
+use Symfony\Component\Form\{AbstractType, Extension\Core\Type\CheckboxType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -75,6 +75,16 @@ class ClientType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'col-7 mb-4',
+                ],
+            ])
+            ->add('enable', CheckboxType::class, [
+                'label' => 'Actif : ',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-1 mb-4',
                 ],
             ])
         ;

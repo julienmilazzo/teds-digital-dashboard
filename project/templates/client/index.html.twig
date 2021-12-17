@@ -26,18 +26,20 @@
                     <th>Ville</th>
                     <th>Code postal</th>
                     <th>Téléphone</th>
+                    <th>Actif</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for client in clients %}
-                    <tr>
+                    <tr style="vertical-align: middle;">
                         <td>{{ client.name }}</td>
                         <td>{{ client.email }}</td>
                         <td>{{ client.address }}</td>
                         <td>{{ client.city }}</td>
                         <td>{{ client.zipCode }}</td>
                         <td>{{ client.phone }}</td>
+                        <td>{{ client.enable ? 'Oui' : 'Non' }}</td>
                         <td style="width: 17%">
                             <a href="{{ path('client_show', {'id': client.id}) }}" class="btn btn-secondary">Détails</a>
                             <a href="{{ path('client_edit', {'id': client.id}) }}" class="btn btn-success">Éditer</a>

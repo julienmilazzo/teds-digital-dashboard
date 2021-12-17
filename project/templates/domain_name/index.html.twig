@@ -28,13 +28,14 @@
                         <th>Type de renouvellement</th>
                         <th>Date de renouvellement</th>
                         <th>Site</th>
+                        <th>Actif</th>
                         <th>actions</th>
 
                     </tr>
                 </thead>
                 <tbody>
                 {% for domain_name in domain_names %}
-                    <tr>
+                    <tr style="vertical-align: middle;">
                         <td>{{ domain_name.url }}</td>
                         <td>{{ domain_name.provider }}</td>
                         <td>{{ domain_name.offer }}</td>
@@ -43,8 +44,9 @@
                         <td>{{ domain_name.renewalType }}</td>
                         <td>{{ domain_name.renawalDate ? domain_name.renawalDate|date('Y-m-d') : '' }}</td>
                         <td>{{ domain_name.site.name }}</td>
+                        <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>
                         <td>
-                            <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary">Détails</a>
+                            <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary" style="margin-bottom: 5px">Détails</a>
                             <a href="{{ path('domain_name_edit', {'id': domain_name.id}) }}" class="btn btn-success">Éditer</a>
                         </td>
 

@@ -6,7 +6,7 @@ use App\Entity\DomainName;
 use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
-use Symfony\Component\Form\Extension\Core\Type\{DateType, NumberType, TextType};
+use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, NumberType, TextType};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DomainNameType extends AbstractType
@@ -100,6 +100,16 @@ class DomainNameType extends AbstractType
                 'class' => Site::class,
                 'choice_label' => 'name',
                 'mapped' => false,
+            ])
+            ->add('enable', CheckboxType::class, [
+                'label' => 'Actif : ',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-1 mb-4',
+                ],
             ])
         ;
     }

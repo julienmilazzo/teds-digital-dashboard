@@ -74,6 +74,16 @@ class SiteType extends AbstractType
                 'mapped' => false,
                 'multiple' => true
             ])
+            ->add('enable', CheckboxType::class, [
+                'label' => 'Actif : ',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-1 mb-4',
+                ],
+            ])
         ;
     }
 

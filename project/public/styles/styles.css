@@ -1,7 +1,10 @@
+html {
+    --tedsColor : rgb(240, 15, 15);
+}
 body{
     font-family: Avantgarde;
     background-color: white;
-    color: rgb(240, 15, 15);
+    color: var(--tedsColor);
 }
 /*For the title*/
 .headr{
@@ -20,7 +23,7 @@ body{
 .div1{
     width: 100%;
     background-color: white;
-    color: rgb(240, 15, 15);
+    color: var(--tedsColor);
 }
 /*For the nav*/
 .nav1{
@@ -38,6 +41,10 @@ body{
     background-color: white;
     font-size: 20px;
 }
+.a1:hover {
+    background-color: white;
+    color: #393942;
+}
 /*The biggest division usefull for the background*/
 .div3{
     height: 100%;
@@ -52,7 +59,7 @@ body{
     background-color: white;
 }
 .menu {
-    background-color: rgb(240, 15, 15);
+    background-color: var(--tedsColor);
     color: #393942!important;
 }
 

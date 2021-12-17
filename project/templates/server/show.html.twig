@@ -16,7 +16,7 @@
     <div class="container-fluid div3">
         <div class="div4">
 
-            <h1>Détails du serveur : </h1>
+            <h1>Détails du serveur : {{ server.name }} </h1>
 
             <table class="table">
                 <tbody>
@@ -43,6 +43,10 @@
                     <tr>
                         <th>Date de renouvellement</th>
                         <td>{{ server.renawalDate ? server.renawalDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Actif</th>
+                        <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
                     </tr>
                 </tbody>
             </table>
