@@ -87,6 +87,7 @@ class ServerType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'col-7 mb-4',
+                    'style' => 'display: inline'
                 ],
             ])
             ->add('site', EntityType::class, [
