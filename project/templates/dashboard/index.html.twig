@@ -13,13 +13,10 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
+
     <div class="container-fluid div3">
         <div class="div4">
-            {% if app.user %}
-                <h1>Que souhaitez-vous faire ?</h1>
-            {% else %}
-                <a href="{{ path('app_login') }}">Se connecter</a>
-            {% endif %}
+            <h1>Que souhaitez-vous faire ?</h1>
         </div>
     </div>
 

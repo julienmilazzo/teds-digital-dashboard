@@ -3,21 +3,19 @@
 namespace App\Form;
 
 use App\Entity\Client;
-use App\Entity\Server;
-use App\Entity\Site;
+use App\Entity\{Server, Site};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
+use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, TextType};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SiteType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -77,34 +75,12 @@ class SiteType extends AbstractType
                 'multiple' => true
             ])
         ;
-
-//        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-//            /** @var Site $site */
-//            $site = $event->getData();
-//            $shop = $product->getShop();
-//            $cientAvailables = $this->em->getRepository(Category::class)
-//                ->findBy([
-//                    'shop' => $product->getId() ? $product->getShop() : $shop
-//                ])
-//            ;
-//            $event->getForm()->add('categoryList', EntityType::class, [
-//                'label' => 'Catégorie *: ',
-//                'label_attr' => [
-//                    'class' => 'col-3 mb-4'
-//                ],
-//                'attr' => [
-//                    'class' => 'col-6'
-//                ],
-//                'mapped' => false,
-//                'required' => true,
-//                'class' => Category::class,
-//                'choices' => $categoriesAvailable,
-//                'choice_label' => 'name',
-//            ]);
-//        });
-
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

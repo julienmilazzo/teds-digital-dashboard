@@ -13,17 +13,17 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
+
     <div class="container-fluid div3">
         <div class="div4">
             <h1>Éditer serveur</h1>
             <a href="{{ path('server_index') }}" class="btn btn-primary" style="float: right">< Retour</a>
             <br><br>
             {{ include('server/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-
             {{ include('server/_delete_form.html.twig') }}
         </div>
     </div>
+
     {% block footer %}
         {{ parent() }}
     {% endblock %}

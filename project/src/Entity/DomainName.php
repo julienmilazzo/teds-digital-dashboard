@@ -4,9 +4,15 @@ namespace App\Entity;
 
 use App\Repository\DomainNameRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=DomainNameRepository::class)
+ * @UniqueEntity(
+ *     fields= {"url"},
+ *     errorPath="url",
+ *     message= "Ce nom de domain est déjà enregistré"
+ *     )
  */
 class DomainName extends Service
 {
@@ -27,16 +33,31 @@ class DomainName extends Service
      */
     private $site;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enable;
+
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
+    /**
+     * @param string $url
+     * @return $this
+     */
     public function setUrl(string $url): self
     {
         $this->url = $url;
@@ -44,14 +65,40 @@ class DomainName extends Service
         return $this;
     }
 
+    /**
+     * @return Site|null
+     */
     public function getSite(): ?Site
     {
         return $this->site;
     }
 
+    /**
+     * @param Site|null $site
+     * @return $this
+     */
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getEnable(): ?bool
+    {
+        return $this->enable;
+    }
+
+    /**
+     * @param bool $enable
+     * @return $this
+     */
+    public function setEnable(bool $enable): self
+    {
+        $this->enable = $enable;
 
         return $this;
     }

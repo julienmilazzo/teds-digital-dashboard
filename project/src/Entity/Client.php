@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -60,21 +59,39 @@ class Client
      */
     private $sites;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enable;
+
+    /**
+     *
+     */
     public function __construct()
     {
         $this->sites = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -82,11 +99,18 @@ class Client
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -94,11 +118,18 @@ class Client
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAddress(): ?string
     {
         return $this->address;
     }
 
+    /**
+     * @param string $address
+     * @return $this
+     */
     public function setAddress(string $address): self
     {
         $this->address = $address;
@@ -106,11 +137,18 @@ class Client
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCity(): ?string
     {
         return $this->city;
     }
 
+    /**
+     * @param string $city
+     * @return $this
+     */
     public function setCity(string $city): self
     {
         $this->city = $city;
@@ -118,11 +156,18 @@ class Client
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getZipCode(): ?string
     {
         return $this->zipCode;
     }
 
+    /**
+     * @param string $zipCode
+     * @return $this
+     */
     public function setZipCode(string $zipCode): self
     {
         $this->zipCode = $zipCode;
@@ -130,11 +175,18 @@ class Client
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPhone(): ?string
     {
         return $this->phone;
     }
 
+    /**
+     * @param string $phone
+     * @return $this
+     */
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
@@ -150,6 +202,10 @@ class Client
         return $this->sites;
     }
 
+    /**
+     * @param Site $site
+     * @return $this
+     */
     public function addSite(Site $site): self
     {
         if (!$this->sites->contains($site)) {
@@ -160,6 +216,10 @@ class Client
         return $this;
     }
 
+    /**
+     * @param Site $site
+     * @return $this
+     */
     public function removeSite(Site $site): self
     {
         if ($this->sites->removeElement($site)) {
@@ -168,6 +228,25 @@ class Client
                 $site->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getEnable(): ?bool
+    {
+        return $this->enable;
+    }
+
+    /**
+     * @param bool $enable
+     * @return $this
+     */
+    public function setEnable(bool $enable): self
+    {
+        $this->enable = $enable;
 
         return $this;
     }

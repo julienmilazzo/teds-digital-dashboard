@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\SiteRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)
+ * @UniqueEntity(
+ *     fields= {"name"},
+ *     errorPath="name",
+ *     message= "Ce nom de site est déjà enregistré"
+ *     )
  */
 class Site
 {
@@ -50,22 +55,40 @@ class Site
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enable;
+
+    /**
+     *
+     */
     public function __construct()
     {
         $this->servers = new ArrayCollection();
         $this->domainNames = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getOnlineDate(): ?\DateTimeInterface
     {
         return $this->onlineDate;
     }
 
+    /**
+     * @param \DateTimeInterface $onlineDate
+     * @return $this
+     */
     public function setOnlineDate(\DateTimeInterface $onlineDate): self
     {
         $this->onlineDate = $onlineDate;
@@ -73,11 +96,18 @@ class Site
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getOnline(): ?bool
     {
         return $this->online;
     }
 
+    /**
+     * @param bool $online
+     * @return $this
+     */
     public function setOnline(bool $online): self
     {
         $this->online = $online;
@@ -85,11 +115,18 @@ class Site
         return $this;
     }
 
+    /**
+     * @return Client|null
+     */
     public function getClient(): ?Client
     {
         return $this->client;
     }
 
+    /**
+     * @param Client|null $client
+     * @return $this
+     */
     public function setClient(?Client $client): self
     {
         $this->client = $client;
@@ -105,6 +142,10 @@ class Site
         return $this->servers;
     }
 
+    /**
+     * @param Server $server
+     * @return $this
+     */
     public function addServer(Server $server): self
     {
         if (!$this->servers->contains($server)) {
@@ -115,6 +156,10 @@ class Site
         return $this;
     }
 
+    /**
+     * @param Server $server
+     * @return $this
+     */
     public function removeServer(Server $server): self
     {
         if ($this->servers->removeElement($server)) {
@@ -132,6 +177,10 @@ class Site
         return $this->domainNames;
     }
 
+    /**
+     * @param DomainName $domainName
+     * @return $this
+     */
     public function addDomainName(DomainName $domainName): self
     {
         if (!$this->domainNames->contains($domainName)) {
@@ -142,6 +191,10 @@ class Site
         return $this;
     }
 
+    /**
+     * @param DomainName $domainName
+     * @return $this
+     */
     public function removeDomainName(DomainName $domainName): self
     {
         if ($this->domainNames->removeElement($domainName)) {
@@ -154,14 +207,40 @@ class Site
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getEnable(): ?bool
+    {
+        return $this->enable;
+    }
+
+    /**
+     * @param bool $enable
+     * @return $this
+     */
+    public function setEnable(bool $enable): self
+    {
+        $this->enable = $enable;
 
         return $this;
     }

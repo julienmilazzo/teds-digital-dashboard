@@ -39,7 +39,7 @@
                         <td>{{ server.price }}</td>
                         <td>{{ server.invoicedPrice }}</td>
                         <td>{{ server.renewalType }}</td>
-                        <td>{{ server.renawalDate ? server.renawalDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ server.renawalDate ? server.renawalDate|date('d-m-Y') : '' }}</td>
                         <td>
                             <a href="{{ path('server_show', {'id': server.id}) }}" class="btn btn-secondary">Détails</a>
                             <a href="{{ path('server_edit', {'id': server.id}) }}" class="btn btn-success">Éditer</a>
