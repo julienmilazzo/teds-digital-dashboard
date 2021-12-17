@@ -1,11 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New DomainName{% endblock %}
+{% block title %}Nom de domaine ajout{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <h1>Create new DomainName</h1>
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
+            <h1>Ajouter un nom de domaine :</h1>
+            <a href="{{ path('domain_name_index') }}" class="btn btn-primary" style="float: right"> < Retour</a>
+            <br><br>
 
-    {{ include('domain_name/_form.html.twig') }}
+            {{ include('domain_name/_form.html.twig') }}
 
-    <a href="{{ path('domain_name_index') }}">back to list</a>
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}

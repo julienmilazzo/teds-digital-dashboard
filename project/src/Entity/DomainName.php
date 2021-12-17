@@ -23,10 +23,9 @@ class DomainName extends Service
     private $url;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="domainNames")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="domainNames")
      */
-    private $server;
+    private $site;
 
     public function getId(): ?int
     {
@@ -45,14 +44,14 @@ class DomainName extends Service
         return $this;
     }
 
-    public function getServer(): ?Server
+    public function getSite(): ?Site
     {
-        return $this->server;
+        return $this->site;
     }
 
-    public function setServer(?Server $server): self
+    public function setSite(?Site $site): self
     {
-        $this->server = $server;
+        $this->site = $site;
 
         return $this;
     }

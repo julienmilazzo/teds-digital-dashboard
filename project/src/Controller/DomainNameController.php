@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/domain/name')]
+#[Route('/domain-name')]
 class DomainNameController extends AbstractController
 {
     #[Route('/', name: 'domain_name_index', methods: ['GET'])]
@@ -30,6 +30,11 @@ class DomainNameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DomainName $domainName */
+            $domainName = $form->getData();
+            if($form->get('site')->getData()) {
+                $domainName->setSite($form->get('site')->getData());
+            }
             $entityManager->persist($domainName);
             $entityManager->flush();
 

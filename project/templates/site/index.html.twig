@@ -1,37 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Site index{% endblock %}
+{% block title %}Site liste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <h1>Site index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>OnlineDate</th>
-                <th>Online</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for site in sites %}
-            <tr>
-                <td>{{ site.id }}</td>
-                <td>{{ site.onlineDate ? site.onlineDate|date('Y-m-d') : '' }}</td>
-                <td>{{ site.online ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('site_show', {'id': site.id}) }}">show</a>
-                    <a href="{{ path('site_edit', {'id': site.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
 
-    <a href="{{ path('site_new') }}">Create new</a>
+            <h1>Liste des sites : </h1>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom du site</th>
+                        <th>Date de mis en ligne</th>
+                        <th>En ligne</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for site in sites %}
+                    <tr>
+                        <td>{{ site.name }}</td>
+                        <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
+                        <td>{{ site.online ? 'Oui' : 'Non' }}</td>
+                        <td>
+                            <a href="{{ path('site_show', {'id': site.id}) }}" class="btn btn-secondary">Détails</a>
+                            <a href="{{ path('site_edit', {'id': site.id}) }}" class="btn btn-success">Éditer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun site trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('site_new') }}" class="btn btn-primary">Ajouter</a>
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}

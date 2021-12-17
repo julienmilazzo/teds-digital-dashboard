@@ -10,12 +10,23 @@
 {% endblock %}
 
 {% block body %}
-    {% block bandeau %}
-        {% include 'bandeau-login.html.twig' %}
-    {% endblock %}
-
+    <div class="container-fluid div1">
+        <div class="row">
+            <div class="col-sm">
+                <img src="images/teds.png" class="img-fluid" alt="teds" style="padding: 10px">
+            </div>
+            <div class="col-sm headr">
+                <header class="header1">
+                    <a href="{{ path('home') }}" style="color: rgb(240, 15, 15); text-decoration: none;">Teds Dashboard</a>
+                </header>
+                <br>
+            </div>
+            <div class="col-sm headr2">
+            </div>
+        </div>
+    </div>
     <div class="container-fluid div3">
-        <div class="div4">
+        <div class="div4" style="background-color: whitesmoke; text-align: center">
             <form method="post">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -27,11 +38,11 @@
                     </div>
                 {% endif %}
 
-                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-                <label for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                <label for="inputPassword">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <h1 class="h3 mb-3 font-weight-normal">Connectez-vous pour continuer:</h1>
+                <label for="inputEmail">Email :</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus style="width: 33%; margin-left: 34%;">
+                <label for="inputPassword">Mot de passe :</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required style="width: 33%; margin-left: 34%; margin-bottom: 15px">
 
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"

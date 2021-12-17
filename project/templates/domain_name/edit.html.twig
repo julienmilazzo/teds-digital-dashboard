@@ -1,13 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit DomainName{% endblock %}
+{% block title %}Nom de domain éditeur{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit DomainName</h1>
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
+            <h1>Éditer nom de domaine :</h1>
+            <a href="{{ path('domain_name_index') }}" class="btn btn-primary" style="float: right">< Retour</a>
+            <br><br>
+            {{ include('domain_name/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    {{ include('domain_name/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('domain_name_index') }}">back to list</a>
-
-    {{ include('domain_name/_delete_form.html.twig') }}
+            {{ include('domain_name/_delete_form.html.twig') }}
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}

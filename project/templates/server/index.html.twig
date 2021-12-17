@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Serveur liste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
+
+            <h1>Liste des serveurs</h1>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Prestataire</th>
+                        <th>Offre</th>
+                        <th>Prix</th>
+                        <th>Prix payé</th>
+                        <th>Type de renouvellement</th>
+                        <th>Date de renouvellement</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for server in servers %}
+                    <tr>
+                        <td>{{ server.provider }}</td>
+                        <td>{{ server.offer }}</td>
+                        <td>{{ server.price }}</td>
+                        <td>{{ server.invoicedPrice }}</td>
+                        <td>{{ server.renewalType }}</td>
+                        <td>{{ server.renawalDate ? server.renawalDate|date('Y-m-d') : '' }}</td>
+                        <td>
+                            <a href="{{ path('server_show', {'id': server.id}) }}" class="btn btn-secondary">Détails</a>
+                            <a href="{{ path('server_edit', {'id': server.id}) }}" class="btn btn-success">Éditer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucun serveur</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('server_new') }}" class="btn btn-primary">Ajouter</a>
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+
+{% endblock %}

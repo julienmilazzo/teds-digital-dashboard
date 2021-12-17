@@ -1,30 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Site{% endblock %}
+{% block title %}Site détails{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <h1>Site</h1>
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
+            <h1>Détails du site : {{ site.name }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ site.id }}</td>
-            </tr>
-            <tr>
-                <th>OnlineDate</th>
-                <td>{{ site.onlineDate ? site.onlineDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Online</th>
-                <td>{{ site.online ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Date de mise en ligne</th>
+                        <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>En ligne</th>
+                        <td>{{ site.online ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-    <a href="{{ path('site_index') }}">back to list</a>
+            <a href="{{ path('site_index') }}" class="btn btn-warning">< Retour</a>
 
-    <a href="{{ path('site_edit', {'id': site.id}) }}">edit</a>
-
-    {{ include('site/_delete_form.html.twig') }}
+            <a href="{{ path('site_edit', {'id': site.id}) }}" class="btn btn-success">Éditer</a>
+            <br><br>
+            {{ include('site/_delete_form.html.twig') }}
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}

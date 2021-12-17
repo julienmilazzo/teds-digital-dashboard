@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Site ajout{% endblock %}
+{% block title %}Serveur ajout{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -10,16 +10,16 @@
 {% endblock %}
 
 {% block body %}
+
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
     <div class="container-fluid div3">
         <div class="div4">
-            <h1>Ajouter un site</h1>
-            <a href="{{ path('site_index') }}" class="btn btn-primary" style="float: right">< Retour</a>
+            <h1>Ajouter un serveur : </h1>
+            <a href="{{ path('server_index') }}" class="btn btn-primary" style="float: right">< Retour</a>
             <br><br>
-            {{ include('site/_form.html.twig') }}
-
+            {{ include('server/_form.html.twig') }}
         </div>
     </div>
     {% block footer %}

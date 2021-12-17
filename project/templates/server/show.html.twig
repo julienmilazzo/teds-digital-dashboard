@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nom de domaine détails{% endblock %}
+{% block title %}Serveur détails{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,54 +13,49 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-
     <div class="container-fluid div3">
         <div class="div4">
-            <h1>Détails du nom de domaine : {{ domain_name.url }}</h1>
+
+            <h1>Détails du serveur : </h1>
 
             <table class="table">
                 <tbody>
                     <tr>
                         <th>Prestataire</th>
-                        <td>{{ domain_name.provider }}</td>
+                        <td>{{ server.provider }}</td>
                     </tr>
                     <tr>
                         <th>Offre</th>
-                        <td>{{ domain_name.offer }}</td>
+                        <td>{{ server.offer }}</td>
                     </tr>
                     <tr>
                         <th>Prix</th>
-                        <td>{{ domain_name.price }}</td>
+                        <td>{{ server.price }}</td>
                     </tr>
                     <tr>
                         <th>Prix payé</th>
-                        <td>{{ domain_name.invoicedPrice }}</td>
+                        <td>{{ server.invoicedPrice }}</td>
                     </tr>
                     <tr>
                         <th>Type de renouvellement</th>
-                        <td>{{ domain_name.renewalType }}</td>
+                        <td>{{ server.renewalType }}</td>
                     </tr>
                     <tr>
                         <th>Date de renouvellement</th>
-                        <td>{{ domain_name.renawalDate ? domain_name.renawalDate|date('d-m-Y') : '' }}</td>
+                        <td>{{ server.renawalDate ? server.renawalDate|date('Y-m-d') : '' }}</td>
                     </tr>
-                <tr>
-                    <th>Site</th>
-                    <td>{{ domain_name.site.name ? domain_name.site.name }}</td>
-                </tr>
                 </tbody>
             </table>
 
-            <a href="{{ path('domain_name_index') }}" class="btn btn-warning">< Retour</a>
+            <a href="{{ path('server_index') }}" class="btn btn-warning">< Retour</a>
 
-            <a href="{{ path('domain_name_edit', {'id': domain_name.id}) }}" class="btn btn-success">Éditer</a>
-            <br>
-            <br>
-            {{ include('domain_name/_delete_form.html.twig') }}
+            <a href="{{ path('server_edit', {'id': server.id}) }}" class="btn btn-success">Éditer</a>
+            <br><br>
+            {{ include('server/_delete_form.html.twig') }}
         </div>
     </div>
-
     {% block footer %}
         {{ parent() }}
     {% endblock %}
+
 {% endblock %}

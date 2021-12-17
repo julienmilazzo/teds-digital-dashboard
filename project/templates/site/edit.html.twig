@@ -1,13 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Site{% endblock %}
+{% block title %}Site éditeur{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Site</h1>
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
 
-    {{ include('site/_form.html.twig', {'button_label': 'Update'}) }}
+            <h1>Éditer Site</h1>
+            <a href="{{ path('site_index') }}" class="btn btn-primary" style="float: right">< Retour</a>
+            <br><br>
+            {{ include('site/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('site_index') }}">back to list</a>
-
-    {{ include('site/_delete_form.html.twig') }}
+            {{ include('site/_delete_form.html.twig') }}
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}

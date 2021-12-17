@@ -20,14 +20,9 @@ class Server extends Service
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=Site::class, mappedBy="server")
+     * @ORM\ManyToMany(targetEntity=Site::class, inversedBy="servers")
      */
     private $sites;
-
-    /**
-     * @ORM\OneToMany(targetEntity=DomainName::class, mappedBy="server")
-     */
-    private $domainNames;
 
     public function __construct()
     {
@@ -38,36 +33,6 @@ class Server extends Service
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Site[]
-     */
-    public function getSites(): Collection
-    {
-        return $this->sites;
-    }
-
-    public function addSite(Site $site): self
-    {
-        if (!$this->sites->contains($site)) {
-            $this->sites[] = $site;
-            $site->setServer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSite(Site $site): self
-    {
-        if ($this->sites->removeElement($site)) {
-            // set the owning side to null (unless already changed)
-            if ($site->getServer() === $this) {
-                $site->setServer(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -96,6 +61,30 @@ class Server extends Service
                 $domainName->setServer(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Site[]
+     */
+    public function getSites(): Collection
+    {
+        return $this->sites;
+    }
+
+    public function addSite(Site $site): self
+    {
+        if (!$this->sites->contains($site)) {
+            $this->sites[] = $site;
+        }
+
+        return $this;
+    }
+
+    public function removeSite(Site $site): self
+    {
+        $this->sites->removeElement($site);
 
         return $this;
     }
