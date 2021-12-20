@@ -7,6 +7,12 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        function searchSite() {
+            var url = '{{ path("server_search") }}';
+            window.location.href = url + '?searchName=' + $('#search').val();
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -17,19 +23,22 @@
     <div class="container-fluid div3">
         <div class="div4">
 
-            <h1>Liste des serveurs</h1>
-
+            <h1 style="display: inline-block">Liste des serveurs</h1>
+            <div style="float: right">
+                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick="searchSite()" >Rechercher</button>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Nom</th>
-                        <th>Prestataire</th>
-                        <th>Offre</th>
-                        <th>Prix</th>
-                        <th>Prix payé</th>
-                        <th>Type de renouvellement</th>
-                        <th>Date de renouvellement</th>
-                        <th>Actif</th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'name'}) }}">Nom</a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'provider'}) }}">Prestataire</a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'offer'}) }}">Offre</a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'price'}) }}">Prix</a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'invoicedPrice'}) }}">Prix payé</a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalType'}) }}">Type de renouvellement</a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalDate'}) }}">Date de renouvellement</a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'enable'}) }}">Actif</a></th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -42,7 +51,7 @@
                         <td>{{ server.price }}</td>
                         <td>{{ server.invoicedPrice }}</td>
                         <td>{{ server.renewalType }}</td>
-                        <td>{{ server.renawalDate ? server.renawalDate|date('d-m-Y') : '' }}</td>
+                        <td>{{ server.renewalDate ? server.renewalDate|date('d-m-Y') : '' }}</td>
                         <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
                         <td>
                             <a href="{{ path('server_show', {'id': server.id}) }}" class="btn btn-secondary" style="margin-bottom: 5px">Détails</a>

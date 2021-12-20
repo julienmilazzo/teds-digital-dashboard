@@ -79,7 +79,7 @@ class DomainNameType extends AbstractType
                     'class' => 'col-7 mb-4',
                 ],
             ])
-            ->add('renawalDate', DateType::class, [
+            ->add('renewalDate', DateType::class, [
                 'label' => 'Date de renouvellement :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4',

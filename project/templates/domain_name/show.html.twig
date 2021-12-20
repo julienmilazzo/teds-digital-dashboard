@@ -42,11 +42,11 @@
                     </tr>
                     <tr>
                         <th>Date de renouvellement</th>
-                        <td>{{ domain_name.renawalDate ? domain_name.renawalDate|date('d-m-Y') : '' }}</td>
+                        <td>{{ domain_name.renewalDate ? domain_name.renewalDate|date('d-m-Y') : '' }}</td>
                     </tr>
                 <tr>
                     <th>Site</th>
-                    <td>{{ domain_name.site.name ? domain_name.site.name }}</td>
+                    <td><a href="{{ path('site_show', {'id': domain_name.site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails">{{ domain_name.site.name ? "- " ~ domain_name.site.name }}</a></td>
                 </tr>
                 <tr>
                     <th>Actif</th>

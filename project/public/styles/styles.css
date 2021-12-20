@@ -62,4 +62,15 @@ body{
     background-color: var(--tedsColor);
     color: #393942!important;
 }
-
+.search-bar {
+    display: inline-block!important;
+    width: 68%!important;
+}
+.a-ordered {
+    text-decoration: none;
+    color: #393942;
+}
+.a-ordered:hover,
+.a-link:hover {
+    color: var(--tedsColor);
+}

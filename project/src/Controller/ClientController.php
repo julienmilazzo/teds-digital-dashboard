@@ -21,6 +21,53 @@ class ClientController extends AbstractController
         ]);
     }
 
+    #[Route('/search', name: 'client_search', methods: ['GET'])]
+    public function search(Request $request, ClientRepository $clientRepository): Response
+    {
+        return $this->render('client/search.html.twig', [
+            'clients' => $clientRepository->findBy(['name' => $request->get('searchName')]),
+        ]);
+    }
+
+    #[Route('/ordered', name: 'client_ordered', methods: ['GET'])]
+    public function ordered(Request $request, ClientRepository $clientRepository): Response
+    {
+
+        switch ($request->get('orderedType')) {
+            case 'name':
+                return $this->render('client/index.html.twig', [
+                    'clients' => $clientRepository->findBy([], ['name' => 'ASC']),
+                ]);
+            case 'email' :
+                return $this->render('client/index.html.twig', [
+                    'clients' => $clientRepository->findBy([], ['email' => 'ASC']),
+                ]);
+            case 'address' :
+                return $this->render('client/index.html.twig', [
+                    'clients' => $clientRepository->findBy([], ['address' => 'ASC']),
+                ]);
+            case 'city' :
+                return $this->render('client/index.html.twig', [
+                    'clients' => $clientRepository->findBy([], ['city' => 'ASC']),
+                ]);
+            case 'zipCode' :
+                return $this->render('client/index.html.twig', [
+                    'clients' => $clientRepository->findBy([], ['zipCode' => 'ASC']),
+                ]);
+            case 'phone' :
+                return $this->render('client/index.html.twig', [
+                    'clients' => $clientRepository->findBy([], ['phone' => 'ASC']),
+                ]);
+            case 'enable' :
+                return $this->render('client/index.html.twig', [
+                    'clients' => $clientRepository->findBy([], ['enable' => 'ASC']),
+                ]);
+        }
+        return $this->render('client/search.html.twig', [
+            'clients' => $clientRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'client_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

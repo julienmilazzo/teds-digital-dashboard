@@ -21,6 +21,65 @@ class DomainNameController extends AbstractController
         ]);
     }
 
+    #[Route('/search', name: 'domain_name_search', methods: ['GET'])]
+    public function search(Request $request, DomainNameRepository $domainNameRepository): Response
+    {
+        return $this->render('domain_name/search.html.twig', [
+            'domain_names' => $domainNameRepository->findBy(['url' => $request->get('searchUrl')]),
+        ]);
+    }
+
+    #[Route('/ordered', name: 'domain_name_ordered', methods: ['GET'])]
+    public function ordered(Request $request, DomainNameRepository $domainNameRepository): Response
+    {
+
+        switch ($request->get('orderedType')) {
+            case 'url':
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['url' => 'ASC']),
+                ]);
+            case 'onlineDate' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['onlineDate' => 'ASC']),
+                ]);
+            case 'provider' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['provider' => 'ASC']),
+                ]);
+            case 'price' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['price' => 'ASC']),
+                ]);
+            case 'invoicedPrice' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['invoicedPrice' => 'ASC']),
+                ]);
+            case 'renewalType' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['renewalType' => 'ASC']),
+                ]);
+            case 'renewalDate' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['renewalDate' => 'ASC']),
+                ]);
+            case 'offer' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['offer' => 'ASC']),
+                ]);
+            case 'enable' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['enable' => 'ASC']),
+                ]);
+            case 'site' :
+                return $this->render('domain_name/index.html.twig', [
+                    'domain_names' => $domainNameRepository->findBy([], ['site' => 'ASC']),
+                ]);
+        }
+        return $this->render('domain_name/search.html.twig', [
+            'domain_names' => $domainNameRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'domain_name_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

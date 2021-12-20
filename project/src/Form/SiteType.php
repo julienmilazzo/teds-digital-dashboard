@@ -49,6 +49,7 @@ class SiteType extends AbstractType
                 'attr' => [
                     'class' => 'col-1 mb-4',
                 ],
+                'required' => false
             ])
             ->add('client', EntityType::class, [
                 'label' => 'Client :',
@@ -83,6 +84,7 @@ class SiteType extends AbstractType
                 'attr' => [
                     'class' => 'col-1 mb-4',
                 ],
+                'required' => false
             ])
         ;
     }

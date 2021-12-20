@@ -31,6 +31,22 @@
                         <th>Actif</th>
                         <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
                     </tr>
+                    <tr>
+                        <th>Serveurs :</th>
+                        <td>
+                            {% for server in site.servers %}
+                                <a href="{{ path('server_show', {'id': server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> - {{ server.name }} </a><br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Noms de domaine :</th>
+                        <td>
+                            {% for domainName in site.domainNames %}
+                                <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> - {{ domainName.url }} </a><br>
+                            {% endfor %}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 

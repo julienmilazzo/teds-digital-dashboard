@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site liste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
+
+            <h1>Résultats de votre recherche : </h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'url'}) }}">Url</a></th>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'provider'}) }}">Prestataire</a></th>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'offer'}) }}">Offre</a></th>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'price'}) }}">Prix</a></th>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'invoicedPrice'}) }}">Prix payé</a></th>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'renewalType'}) }}">Type de renouvellement</a></th>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'renewalDate'}) }}">Date de renouvellement</a></th>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'site'}) }}">Site</a></th>
+                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'enable'}) }}">Actif</a></th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for domain_name in domain_names %}
+                    <tr style="vertical-align: middle;">
+                        <td>{{ domain_name.url }}</td>
+                        <td>{{ domain_name.provider }}</td>
+                        <td>{{ domain_name.offer }}</td>
+                        <td>{{ domain_name.price }}</td>
+                        <td>{{ domain_name.invoicedPrice }}</td>
+                        <td>{{ domain_name.renewalType }}</td>
+                        <td>{{ domain_name.renewalDate ? domain_name.renewalDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ domain_name.site.name }}</td>
+                        <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>
+                        <td>
+                            <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary" style="margin-bottom: 5px">Détails</a>
+                            <a href="{{ path('domain_name_edit', {'id': domain_name.id}) }}" class="btn btn-success">Éditer</a>
+                        </td>
+
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Aucun Nom de domaine</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('domain_name_index') }}" class="btn btn-warning">< Retour liste</a>
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

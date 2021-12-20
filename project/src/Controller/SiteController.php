@@ -21,6 +21,40 @@ class SiteController extends AbstractController
         ]);
     }
 
+    #[Route('/search', name: 'site_search', methods: ['GET'])]
+    public function search(Request $request, SiteRepository $siteRepository): Response
+    {
+        return $this->render('site/search.html.twig', [
+            'sites' => $siteRepository->findBy(['name' => $request->get('searchName')]),
+        ]);
+    }
+
+    #[Route('/ordered', name: 'site_ordered', methods: ['GET'])]
+    public function ordered(Request $request, SiteRepository $siteRepository): Response
+    {
+        switch ($request->get('orderedType')) {
+            case 'name':
+                return $this->render('site/index.html.twig', [
+                    'sites' => $siteRepository->findBy([], ['name' => 'ASC']),
+                ]);
+            case 'onlineDate' :
+                return $this->render('site/index.html.twig', [
+                    'sites' => $siteRepository->findBy([], ['onlineDate' => 'ASC']),
+                ]);
+            case 'online' :
+                return $this->render('site/index.html.twig', [
+                    'sites' => $siteRepository->findBy([], ['online' => 'ASC']),
+                ]);
+            case 'enable' :
+                return $this->render('site/index.html.twig', [
+                    'sites' => $siteRepository->findBy([], ['enable' => 'ASC']),
+                ]);
+        }
+        return $this->render('site/search.html.twig', [
+            'sites' => $siteRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'site_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -49,6 +83,7 @@ class SiteController extends AbstractController
     #[Route('/{id}', name: 'site_show', methods: ['GET'])]
     public function show(Site $site): Response
     {
+
         return $this->render('site/show.html.twig', [
             'site' => $site,
         ]);

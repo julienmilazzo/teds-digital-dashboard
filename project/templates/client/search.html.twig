@@ -1,31 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client liste{% endblock %}
+{% block title %}Site liste{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        function searchSite() {
-            var url = '{{ path("client_search") }}';
-            window.location.href = url + '?searchName=' + $('#search').val();
-        }
-    </script>
 {% endblock %}
 
 {% block body %}
+
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
     <div class="container-fluid div3">
         <div class="div4">
-            <h1 style="display: inline-block">Liste des clients</h1>
-            <div style="float: right">
-                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" onclick="searchSite()" >Rechercher</button>
-            </div>
+
+            <h1>Résultats de votre recherche : </h1>
             <table class="table">
                 <thead>
                 <tr>
@@ -61,8 +53,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-
-            <a href="{{ path('client_new') }}" class="btn btn-primary">Ajouter</a>
+            <a href="{{ path('client_index') }}" class="btn btn-warning">< Retour liste</a>
         </div>
     </div>
     {% block footer %}

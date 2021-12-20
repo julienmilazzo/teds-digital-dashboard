@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site liste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
+
+            <h1>Résultats de votre recherche : </h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'name'}) }}">Nom</a></th>
+                    <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'provider'}) }}">Prestataire</a></th>
+                    <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'offer'}) }}">Offre</a></th>
+                    <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'price'}) }}">Prix</a></th>
+                    <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'invoicedPrice'}) }}">Prix payé</a></th>
+                    <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalType'}) }}">Type de renouvellement</a></th>
+                    <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalDate'}) }}">Date de renouvellement</a></th>
+                    <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'enable'}) }}">Actif</a></th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for server in servers %}
+                    <tr style="vertical-align: middle;">
+                        <td>{{ server.name }}</td>
+                        <td>{{ server.provider }}</td>
+                        <td>{{ server.offer }}</td>
+                        <td>{{ server.price }}</td>
+                        <td>{{ server.invoicedPrice }}</td>
+                        <td>{{ server.renewalType }}</td>
+                        <td>{{ server.renewalDate ? server.renewalDate|date('d-m-Y') : '' }}</td>
+                        <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
+                        <td>
+                            <a href="{{ path('server_show', {'id': server.id}) }}" class="btn btn-secondary" style="margin-bottom: 5px">Détails</a>
+                            <a href="{{ path('server_edit', {'id': server.id}) }}" class="btn btn-success">Éditer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucun serveur</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('server_index') }}" class="btn btn-warning">< Retour liste</a>
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

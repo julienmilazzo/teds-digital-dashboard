@@ -42,11 +42,19 @@
                     </tr>
                     <tr>
                         <th>Date de renouvellement</th>
-                        <td>{{ server.renawalDate ? server.renawalDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ server.renewalDate ? server.renewalDate|date('Y-m-d') : '' }}</td>
                     </tr>
                     <tr>
                         <th>Actif</th>
                         <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sites :</th>
+                        <td>
+                            {% for site in server.sites %}
+                                -<a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> {{ site.name }} </a><br>
+                            {% endfor %}
+                        </td>
                     </tr>
                 </tbody>
             </table>
