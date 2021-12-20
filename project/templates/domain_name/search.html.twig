@@ -22,15 +22,15 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'url'}) }}">Url</a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'provider'}) }}">Prestataire</a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'offer'}) }}">Offre</a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'price'}) }}">Prix</a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'invoicedPrice'}) }}">Prix payé</a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'renewalType'}) }}">Type de renouvellement</a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'renewalDate'}) }}">Date de renouvellement</a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'site'}) }}">Site</a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'enable'}) }}">Actif</a></th>
+                    <th>Url</th>
+                    <th>Prestataire</th>
+                    <th>Offre</th>
+                    <th>Prix</th>
+                    <th>Prix payé</th>
+                    <th>Type de renouvellement</th>
+                    <th>Date de renouvellement</th>
+                    <th>Site</th>
+                    <th>Actif</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -50,7 +50,6 @@
                             <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary" style="margin-bottom: 5px">Détails</a>
                             <a href="{{ path('domain_name_edit', {'id': domain_name.id}) }}" class="btn btn-success">Éditer</a>
                         </td>
-
                     </tr>
                 {% else %}
                     <tr>

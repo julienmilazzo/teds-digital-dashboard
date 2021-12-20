@@ -32,26 +32,10 @@ class SiteController extends AbstractController
     #[Route('/ordered', name: 'site_ordered', methods: ['GET'])]
     public function ordered(Request $request, SiteRepository $siteRepository): Response
     {
-        switch ($request->get('orderedType')) {
-            case 'name':
-                return $this->render('site/index.html.twig', [
-                    'sites' => $siteRepository->findBy([], ['name' => 'ASC']),
-                ]);
-            case 'onlineDate' :
-                return $this->render('site/index.html.twig', [
-                    'sites' => $siteRepository->findBy([], ['onlineDate' => 'ASC']),
-                ]);
-            case 'online' :
-                return $this->render('site/index.html.twig', [
-                    'sites' => $siteRepository->findBy([], ['online' => 'ASC']),
-                ]);
-            case 'enable' :
-                return $this->render('site/index.html.twig', [
-                    'sites' => $siteRepository->findBy([], ['enable' => 'ASC']),
-                ]);
-        }
-        return $this->render('site/search.html.twig', [
-            'sites' => $siteRepository->findAll(),
+        $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+        return $this->render('site/index.html.twig', [
+            'sites' => $siteRepository->findBy([], [$request->get('orderedType') => $orderBy]),
+            'orderBy' => $orderBy
         ]);
     }
 

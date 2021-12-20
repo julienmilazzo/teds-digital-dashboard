@@ -32,39 +32,10 @@ class ClientController extends AbstractController
     #[Route('/ordered', name: 'client_ordered', methods: ['GET'])]
     public function ordered(Request $request, ClientRepository $clientRepository): Response
     {
-
-        switch ($request->get('orderedType')) {
-            case 'name':
-                return $this->render('client/index.html.twig', [
-                    'clients' => $clientRepository->findBy([], ['name' => 'ASC']),
-                ]);
-            case 'email' :
-                return $this->render('client/index.html.twig', [
-                    'clients' => $clientRepository->findBy([], ['email' => 'ASC']),
-                ]);
-            case 'address' :
-                return $this->render('client/index.html.twig', [
-                    'clients' => $clientRepository->findBy([], ['address' => 'ASC']),
-                ]);
-            case 'city' :
-                return $this->render('client/index.html.twig', [
-                    'clients' => $clientRepository->findBy([], ['city' => 'ASC']),
-                ]);
-            case 'zipCode' :
-                return $this->render('client/index.html.twig', [
-                    'clients' => $clientRepository->findBy([], ['zipCode' => 'ASC']),
-                ]);
-            case 'phone' :
-                return $this->render('client/index.html.twig', [
-                    'clients' => $clientRepository->findBy([], ['phone' => 'ASC']),
-                ]);
-            case 'enable' :
-                return $this->render('client/index.html.twig', [
-                    'clients' => $clientRepository->findBy([], ['enable' => 'ASC']),
-                ]);
-        }
-        return $this->render('client/search.html.twig', [
-            'clients' => $clientRepository->findAll(),
+        $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+        return $this->render('client/index.html.twig', [
+            'clients' => $clientRepository->findBy([], [$request->get('orderedType') => $orderBy]),
+            'orderBy' => $orderBy
         ]);
     }
 

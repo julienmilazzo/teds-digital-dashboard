@@ -32,47 +32,10 @@ class ServerController extends AbstractController
     #[Route('/ordered', name: 'server_ordered', methods: ['GET'])]
     public function ordered(Request $request, ServerRepository $serverRepository): Response
     {
-
-        switch ($request->get('orderedType')) {
-            case 'name':
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['name' => 'ASC']),
-                ]);
-            case 'onlineDate' :
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['onlineDate' => 'ASC']),
-                ]);
-            case 'provider' :
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['provider' => 'ASC']),
-                ]);
-            case 'price' :
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['price' => 'ASC']),
-                ]);
-            case 'invoicedPrice' :
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['invoicedPrice' => 'ASC']),
-                ]);
-            case 'renewalType' :
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['renewalType' => 'ASC']),
-                ]);
-            case 'renewalDate' :
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['renewalDate' => 'ASC']),
-                ]);
-            case 'offer' :
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['offer' => 'ASC']),
-                ]);
-            case 'enable' :
-                return $this->render('server/index.html.twig', [
-                    'servers' => $serverRepository->findBy([], ['enable' => 'ASC']),
-                ]);
-        }
-        return $this->render('server/search.html.twig', [
-            'servers' => $serverRepository->findAll(),
+        $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+        return $this->render('server/index.html.twig', [
+            'servers' => $serverRepository->findBy([], [$request->get('orderedType') => $orderBy]),
+            'orderBy' => $orderBy
         ]);
     }
 

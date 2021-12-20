@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% set sort = orderBy is not defined or orderBy is same as ('ASC') ? 'ASC' : 'DESC' %}
+
 {% block title %}Site liste{% endblock %}
 
 {% block stylesheets %}
@@ -31,10 +33,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name'}) }}">Nom du site</a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate'}) }}">Date de mis en ligne</a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online'}) }}">En ligne</a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable'}) }}">Actif</a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort }) }}">Nom du site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : app.request.get('orderedType') is same as ('onlineDate') ? sort }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('onlineDate')) ? 'down' : 'up' }}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : app.request.get('orderedType') is same as ('online') ? sort }) }}">En ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('online')) ? 'down' : 'up' }}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
                         <th>Actions</th>
                     </tr>
                 </thead>
