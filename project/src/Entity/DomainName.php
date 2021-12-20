@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *     fields= {"url"},
  *     errorPath="url",
- *     message= "Ce nom de domain est déjà enregistré"
+ *     message= "Ce nom de domaine est déjà enregistré"
  *     )
  */
 class DomainName extends Service

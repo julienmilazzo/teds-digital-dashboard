@@ -60,9 +60,6 @@ class Site
      */
     private $enable;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->servers = new ArrayCollection();
