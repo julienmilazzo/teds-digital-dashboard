@@ -48,7 +48,7 @@
                     <th>Site</th>
                     {% if domain_name.site is defined and domain_name.site is not null %}
                         <td>
-                            {{ domain_name.site.name ? "- " ~ domain_name.site.name }}
+                            - {{ domain_name.site.name }}
                             <a href="{{ path('site_show', {'id': domain_name.site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
                         </td>
                     {% endif %}

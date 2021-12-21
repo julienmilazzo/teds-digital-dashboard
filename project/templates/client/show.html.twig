@@ -50,6 +50,7 @@
                         {% for site in client.sites %}
                             - {{ site.name }}
                             <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                            <a class="a-link btn" href="{{ path('client_remove_site', {'id' : client.id, 'siteId' : site.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
                         {% endfor %}
                     </td>
                 </tr>

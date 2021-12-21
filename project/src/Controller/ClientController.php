@@ -4,8 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Client;
 use App\Form\ClientType;
-use App\Repository\ClientRepository;
-use App\Repository\SiteRepository;
+use App\Repository\{ClientRepository, SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};

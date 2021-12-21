@@ -4,8 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Server;
 use App\Form\ServerType;
-use App\Repository\ServerRepository;
-use App\Repository\SiteRepository;
+use App\Repository\{ServerRepository, SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -87,8 +86,10 @@ class ServerController extends AbstractController
             }
             $entityManager->persist($server);
             $entityManager->flush();
+
             return $this->redirectToRoute('server_index', [], Response::HTTP_SEE_OTHER);
         }
+
         return $this->renderForm('server/edit.html.twig', [
             'server' => $server,
             'form' => $form,

@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Server;
 use App\Entity\Site;
 use App\Form\SiteType;
-use App\Repository\DomainNameRepository;
-use App\Repository\ServerRepository;
-use App\Repository\SiteRepository;
+use App\Repository\{DomainNameRepository, ServerRepository,SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
