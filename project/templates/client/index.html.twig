@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set sort = orderBy is not defined or orderBy is same as ('ASC') ? 'ASC' : 'DESC' %}
+{% set orderedType = app.request.get('orderedType') %}
 
 {% block title %}Client liste{% endblock %}
 
@@ -31,13 +31,13 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort }) }}">Nom <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'email', 'orderBy' : app.request.get('orderedType') is same as ('email') ? sort }) }}">Email <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('email')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'address', 'orderBy' : app.request.get('orderedType') is same as ('address') ? sort }) }}">Adresse <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('address')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'city', 'orderBy' : app.request.get('orderedType') is same as ('city') ? sort }) }}">Ville <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('city')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'zipCode', 'orderBy' : app.request.get('orderedType') is same as ('zipCode') ? sort }) }}">Code postal <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('zipCode')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'phone', 'orderBy' : app.request.get('orderedType') is same as ('phone') ? sort }) }}">Téléphone <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('phone')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'name', 'orderBy' : sort(orderedType, 'name', orderBy ?? null)[0] }) }}">Nom <i class="fa fa-arrow-{{ (sort(orderedType, 'name', orderBy ?? null))[1]}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'email', 'orderBy' : sort(orderedType, 'email', orderBy ?? null)[0] }) }}">Email <i class="fa fa-arrow-{{ (sort(orderedType, 'email', orderBy ?? null))[1]}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'address', 'orderBy' : sort(orderedType, 'address', orderBy ?? null)[0] }) }}">Adresse <i class="fa fa-arrow-{{ (sort(orderedType, 'address', orderBy ?? null))[1]}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'city', 'orderBy' : sort(orderedType, 'city', orderBy ?? null)[0] }) }}">Ville <i class="fa fa-arrow-{{ (sort(orderedType, 'city', orderBy ?? null))[1]}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'zipCode', 'orderBy' : sort(orderedType, 'zipCode', orderBy ?? null)[0] }) }}">Code postal <i class="fa fa-arrow-{{ (sort(orderedType, 'zipCode', orderBy ?? null))[1]}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'phone', 'orderBy' : sort(orderedType, 'phone', orderBy ?? null)[0] }) }}">Téléphone <i class="fa fa-arrow-{{ (sort(orderedType, 'phone', orderBy ?? null))[1]}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'enable', 'orderBy' : sort(orderedType, 'enable', orderBy ?? null)[0] }) }}">Actif <i class="fa fa-arrow-{{ (sort(orderedType, 'enable', orderBy ?? null))[1]}}"></i></a></th>
                     <th>Actions</th>
                 </tr>
                 </thead>

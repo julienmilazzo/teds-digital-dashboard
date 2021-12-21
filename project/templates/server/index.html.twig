@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set sort = orderBy is not defined or orderBy is same as ('ASC') ? 'ASC' : 'DESC' %}
+{% set orderedType = app.request.get('orderedType') %}
 
 {% block title %}Serveur liste{% endblock %}
 
@@ -33,14 +33,14 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort }) }}">Nom <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'provider', 'orderBy' : app.request.get('orderedType') is same as ('provider') ? sort }) }}">Prestataire <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('provider')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'offer', 'orderBy' : app.request.get('orderedType') is same as ('offer') ? sort }) }}">Offre <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('offer')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'price', 'orderBy' : app.request.get('orderedType') is same as ('price') ? sort }) }}">Prix <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('price')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'invoicedPrice', 'orderBy' : app.request.get('orderedType') is same as ('invoicedPrice') ? sort }) }}">Prix payé <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('invoicedPrice')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalType', 'orderBy' : app.request.get('orderedType') is same as ('renewalType') ? sort }) }}">Type de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalType')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalDate', 'orderBy' : app.request.get('orderedType') is same as ('renewalDate') ? sort }) }}">Date de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalDate')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'name', 'orderBy' : sort(orderedType, 'name', orderBy ?? null)[0] }) }}">Nom <i class="fa fa-arrow-{{ (sort(orderedType, 'name', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'provider', 'orderBy' : sort(orderedType, 'provider', orderBy ?? null)[0] }) }}">Prestataire <i class="fa fa-arrow-{{ (sort(orderedType, 'provider', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'offer', 'orderBy' : sort(orderedType, 'offer', orderBy ?? null)[0] }) }}">Offre <i class="fa fa-arrow-{{ (sort(orderedType, 'offer', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'price', 'orderBy' : sort(orderedType, 'price', orderBy ?? null)[0] }) }}">Prix (€) <i class="fa fa-arrow-{{ (sort(orderedType, 'price', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'invoicedPrice', 'orderBy' : sort(orderedType, 'invoicedPrice', orderBy ?? null)[0] }) }}">Prix payé (€) <i class="fa fa-arrow-{{ (sort(orderedType, 'invoicedPrice', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalType', 'orderBy' : sort(orderedType, 'renewalType', orderBy ?? null)[0] }) }}">Type de renouvellement <i class="fa fa-arrow-{{ (sort(orderedType, 'renewalType', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalDate', 'orderBy' : sort(orderedType, 'renewalDate', orderBy ?? null)[0] }) }}">Date de renouvellement <i class="fa fa-arrow-{{ (sort(orderedType, 'renewalDate', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'enable', 'orderBy' : sort(orderedType, 'enable', orderBy ?? null)[0] }) }}">Actif <i class="fa fa-arrow-{{ (sort(orderedType, 'enable', orderBy ?? null))[1]}}"></i></a></th>
                         <th>Actions</th>
                     </tr>
                 </thead>

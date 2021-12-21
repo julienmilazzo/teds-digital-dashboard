@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set sort = orderBy is not defined or orderBy is same as ('ASC') ? 'ASC' : 'DESC' %}
+{% set orderedType = app.request.get('orderedType') %}
 
 {% block title %}Site liste{% endblock %}
 
@@ -33,10 +33,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort }) }}">Nom du site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : app.request.get('orderedType') is same as ('onlineDate') ? sort }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('onlineDate')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : app.request.get('orderedType') is same as ('online') ? sort }) }}">En ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('online')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : sort(orderedType, 'name', orderBy ?? null)[0] }) }}">Nom <i class="fa fa-arrow-{{ (sort(orderedType, 'name', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : sort(orderedType, 'onlineDate', orderBy ?? null)[0] }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort(orderedType, 'onlineDate', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : sort(orderedType, 'online', orderBy ?? null)[0] }) }}">En ligne <i class="fa fa-arrow-{{ (sort(orderedType, 'online', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : sort(orderedType, 'enable', orderBy ?? null)[0] }) }}">Actif <i class="fa fa-arrow-{{ (sort(orderedType, 'enable', orderBy ?? null))[1]}}"></i></a></th>
                         <th>Actions</th>
                     </tr>
                 </thead>
