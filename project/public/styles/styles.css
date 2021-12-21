@@ -74,3 +74,6 @@ body{
 .a-link:hover {
     color: var(--tedsColor);
 }
+footer {
+    background-color: whitesmoke;
+}
