@@ -48,7 +48,8 @@
                     <th>Sites</th>
                     <td>
                         {% for site in client.sites %}
-                            <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails">- {{ site.name }}</a>
+                            - {{ site.name }}
+                            <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                         {% endfor %}
                     </td>
                 </tr>

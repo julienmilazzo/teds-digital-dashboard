@@ -96,12 +96,13 @@ class ServerType extends AbstractType
                     'class' => 'col-3 mb-4'
                 ],
                 'attr' => [
-                    'class' => 'col-6'
+                    'class' => 'col-6',
                 ],
                 'class' => Site::class,
                 'choice_label' => 'name',
                 'mapped' => false,
-                'multiple' => true
+                'multiple' => true,
+                'required' => false
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',
@@ -112,6 +113,7 @@ class ServerType extends AbstractType
                 'attr' => [
                     'class' => 'col-1 mb-4',
                 ],
+                'required' => false
             ])
         ;
     }

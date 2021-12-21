@@ -53,7 +53,7 @@
                         <td>{{ domain_name.invoicedPrice }}</td>
                         <td>{{ domain_name.renewalType }}</td>
                         <td>{{ domain_name.renewalDate ? domain_name.renewalDate|date('Y-m-d') : '' }}</td>
-                        <td>{{ domain_name.site.name }}</td>
+                        <td>{{ domain_name.site is defined and domain_name.site is not null ? domain_name.site.name : '-' }}</td>
                         <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>
                         <td>
                             <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary" style="margin-bottom: 5px">Détails</a>

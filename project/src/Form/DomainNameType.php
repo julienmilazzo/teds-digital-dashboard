@@ -101,6 +101,7 @@ class DomainNameType extends AbstractType
                 'class' => Site::class,
                 'choice_label' => 'name',
                 'mapped' => false,
+                'required' => false
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',
@@ -111,6 +112,7 @@ class DomainNameType extends AbstractType
                 'attr' => [
                     'class' => 'col-1 mb-4',
                 ],
+                'required' => false
             ])
         ;
     }

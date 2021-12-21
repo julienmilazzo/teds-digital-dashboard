@@ -79,6 +79,12 @@ class DomainNameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DomainName $domainName */
+            $domainName = $form->getData();
+            if($form->get('site')->getData()) {
+                $domainName->setSite($form->get('site')->getData());
+            }
+            $entityManager->persist($domainName);
             $entityManager->flush();
 
             return $this->redirectToRoute('domain_name_index', [], Response::HTTP_SEE_OTHER);

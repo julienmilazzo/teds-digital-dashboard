@@ -86,6 +86,7 @@ class ClientType extends AbstractType
                 'attr' => [
                     'class' => 'col-1 mb-4',
                 ],
+                'required' => false
             ])
         ;
     }

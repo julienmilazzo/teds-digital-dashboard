@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Client;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -94,5 +95,17 @@ class ClientController extends AbstractController
         }
 
         return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/remove-site/{id}', name: 'client_remove_site', methods: ['GET', 'POST'])]
+    public function removeSite(Request $request, Client $client, EntityManagerInterface $entityManager, SiteRepository $siteRepository): Response
+    {
+        $site = $siteRepository->findOneBy(['id' => $request->get('siteId')]);
+        $client->removeSite($site);
+        $entityManager->flush();
+
+        return $this->render('client/show.html.twig', [
+            'client' => $client,
+        ]);
     }
 }

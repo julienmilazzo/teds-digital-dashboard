@@ -73,7 +73,8 @@ class SiteType extends AbstractType
                 'class' => Server::class,
                 'choice_label' => 'provider',
                 'mapped' => false,
-                'multiple' => true
+                'multiple' => true,
+                'required' => false
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',

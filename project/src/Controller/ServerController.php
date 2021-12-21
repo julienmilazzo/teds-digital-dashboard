@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Server;
 use App\Form\ServerType;
 use App\Repository\ServerRepository;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -52,7 +53,6 @@ class ServerController extends AbstractController
             foreach ($form->get('site')->getData() as $site) {
                 $server->addSite($site);
             }
-
             $entityManager->persist($server);
             $entityManager->flush();
 
@@ -80,11 +80,15 @@ class ServerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Server $server */
+            $server = $form->getData();
+            foreach ($form->get('site')->getData() as $site) {
+                $server->addSite($site);
+            }
+            $entityManager->persist($server);
             $entityManager->flush();
-
             return $this->redirectToRoute('server_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('server/edit.html.twig', [
             'server' => $server,
             'form' => $form,
@@ -100,5 +104,17 @@ class ServerController extends AbstractController
         }
 
         return $this->redirectToRoute('server_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/remove-site/{id}', name: 'server_remove_site', methods: ['GET', 'POST'])]
+    public function removeSite(Request $request, Server $server, EntityManagerInterface $entityManager, SiteRepository $siteRepository): Response
+    {
+        $site = $siteRepository->findOneBy(['id' => $request->get('siteId')]);
+        $server->removeSite($site);
+        $entityManager->flush();
+
+        return $this->render('server/show.html.twig', [
+            'server' => $server,
+        ]);
     }
 }

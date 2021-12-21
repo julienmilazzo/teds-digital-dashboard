@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Server;
 use App\Entity\Site;
 use App\Form\SiteType;
+use App\Repository\DomainNameRepository;
+use App\Repository\ServerRepository;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -80,6 +83,12 @@ class SiteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Site $site */
+            $site = $form->getData();
+            foreach ($form->get('server')->getData() as $server) {
+                $site->addServer($server);
+            }
+            $entityManager->persist($site);
             $entityManager->flush();
 
             return $this->redirectToRoute('site_index', [], Response::HTTP_SEE_OTHER);
@@ -100,5 +109,29 @@ class SiteController extends AbstractController
         }
 
         return $this->redirectToRoute('site_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/remove-server/{id}', name: 'site_remove_server', methods: ['GET', 'POST'])]
+    public function removeServer(Request $request, Site $site, EntityManagerInterface $entityManager, ServerRepository $serverRepository): Response
+    {
+        $server = $serverRepository->findOneBy(['id' => $request->get('serverId')]);
+        $site->removeServer($server);
+        $entityManager->flush();
+
+        return $this->render('site/show.html.twig', [
+            'site' => $site,
+        ]);
+    }
+
+    #[Route('/remove-domain-name/{id}', name: 'site_remove_domain_name', methods: ['GET', 'POST'])]
+    public function removeDomainName(Request $request, Site $site, EntityManagerInterface $entityManager, DomainNameRepository $domainNameRepository): Response
+    {
+        $domainName = $domainNameRepository->findOneBy(['id' => $request->get('domainNameId')]);
+        $site->removeDomainName($domainName);
+        $entityManager->flush();
+
+        return $this->render('site/show.html.twig', [
+            'site' => $site,
+        ]);
     }
 }
