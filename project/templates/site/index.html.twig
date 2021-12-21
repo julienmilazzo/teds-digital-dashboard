@@ -33,10 +33,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : sort(orderedType, 'name', orderBy ?? null)[0] }) }}">Nom <i class="fa fa-arrow-{{ (sort(orderedType, 'name', orderBy ?? null))[1]}}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : sort(orderedType, 'onlineDate', orderBy ?? null)[0] }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort(orderedType, 'onlineDate', orderBy ?? null))[1]}}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : sort(orderedType, 'online', orderBy ?? null)[0] }) }}">En ligne <i class="fa fa-arrow-{{ (sort(orderedType, 'online', orderBy ?? null))[1]}}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : sort(orderedType, 'enable', orderBy ?? null)[0] }) }}">Actif <i class="fa fa-arrow-{{ (sort(orderedType, 'enable', orderBy ?? null))[1]}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : sort(orderedType, 'name', orderBy ?? null) }) }}">Nom <i class="fa fa-arrow-{{ (direction(orderedType, 'name', orderBy ?? null))}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : sort(orderedType, 'onlineDate', orderBy ?? null) }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (direction(orderedType, 'onlineDate', orderBy ?? null))}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : sort(orderedType, 'online', orderBy ?? null) }) }}">En ligne <i class="fa fa-arrow-{{ (direction(orderedType, 'online', orderBy ?? null))}}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : sort(orderedType, 'enable', orderBy ?? null) }) }}">Actif <i class="fa fa-arrow-{{ (direction(orderedType, 'enable', orderBy ?? null))}}"></i></a></th>
                         <th>Actions</th>
                     </tr>
                 </thead>

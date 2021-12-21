@@ -31,13 +31,13 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'name', 'orderBy' : sort(orderedType, 'name', orderBy ?? null)[0] }) }}">Nom <i class="fa fa-arrow-{{ (sort(orderedType, 'name', orderBy ?? null))[1]}}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'email', 'orderBy' : sort(orderedType, 'email', orderBy ?? null)[0] }) }}">Email <i class="fa fa-arrow-{{ (sort(orderedType, 'email', orderBy ?? null))[1]}}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'address', 'orderBy' : sort(orderedType, 'address', orderBy ?? null)[0] }) }}">Adresse <i class="fa fa-arrow-{{ (sort(orderedType, 'address', orderBy ?? null))[1]}}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'city', 'orderBy' : sort(orderedType, 'city', orderBy ?? null)[0] }) }}">Ville <i class="fa fa-arrow-{{ (sort(orderedType, 'city', orderBy ?? null))[1]}}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'zipCode', 'orderBy' : sort(orderedType, 'zipCode', orderBy ?? null)[0] }) }}">Code postal <i class="fa fa-arrow-{{ (sort(orderedType, 'zipCode', orderBy ?? null))[1]}}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'phone', 'orderBy' : sort(orderedType, 'phone', orderBy ?? null)[0] }) }}">Téléphone <i class="fa fa-arrow-{{ (sort(orderedType, 'phone', orderBy ?? null))[1]}}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'enable', 'orderBy' : sort(orderedType, 'enable', orderBy ?? null)[0] }) }}">Actif <i class="fa fa-arrow-{{ (sort(orderedType, 'enable', orderBy ?? null))[1]}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'name', 'orderBy' : sort(orderedType, 'name', orderBy ?? null) }) }}">Nom <i class="fa fa-arrow-{{ (direction(orderedType, 'name', orderBy ?? null))}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'email', 'orderBy' : sort(orderedType, 'email', orderBy ?? null) }) }}">Email <i class="fa fa-arrow-{{ (direction(orderedType, 'email', orderBy ?? null))}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'address', 'orderBy' : sort(orderedType, 'address', orderBy ?? null) }) }}">Adresse <i class="fa fa-arrow-{{ (direction(orderedType, 'address', orderBy ?? null))}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'city', 'orderBy' : sort(orderedType, 'city', orderBy ?? null) }) }}">Ville <i class="fa fa-arrow-{{ (direction(orderedType, 'city', orderBy ?? null))}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'zipCode', 'orderBy' : sort(orderedType, 'zipCode', orderBy ?? null) }) }}">Code postal <i class="fa fa-arrow-{{ (direction(orderedType, 'zipCode', orderBy ?? null))}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'phone', 'orderBy' : sort(orderedType, 'phone', orderBy ?? null) }) }}">Téléphone <i class="fa fa-arrow-{{ (direction(orderedType, 'phone', orderBy ?? null))}}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'enable', 'orderBy' : sort(orderedType, 'enable', orderBy ?? null) }) }}">Actif <i class="fa fa-arrow-{{ (direction(orderedType, 'enable', orderBy ?? null))}}"></i></a></th>
                     <th>Actions</th>
                 </tr>
                 </thead>

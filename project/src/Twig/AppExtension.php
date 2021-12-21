@@ -14,15 +14,32 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('sort', [$this, 'howIsSorted']),
+            new TwigFunction('direction', [$this, 'howIsDirected']),
         ];
     }
 
+    /**
+     * @param $orderedType
+     * @param $expectedType
+     * @param $orderBy
+     * @return string
+     */
     public function howIsSorted($orderedType, $expectedType, $orderBy = null)
     {
-        $returnArray = [];
-        $returnArray[] = (null === $orderBy || 'ASC' === $orderBy) ? 'ASC' : 'DESC';
-        $returnArray[] = ('ASC' === $returnArray[0]) ? 'down' : 'up';
-        return $orderedType === $expectedType ? $returnArray : ['', 'up'];
+        $sort = (null === $orderBy || 'ASC' === $orderBy) ? 'ASC' : 'DESC';
+        return $orderedType === $expectedType ? $sort : '';
+    }
+
+    /**
+     * @param $orderedType
+     * @param $expectedType
+     * @param $orderBy
+     * @return string
+     */
+    public function howIsDirected($orderedType, $expectedType, $orderBy = null)
+    {
+        $direction = (null === $orderBy || 'ASC' === $orderBy) ? 'down' : 'up';
+        return $orderedType === $expectedType ? $direction : 'up';
     }
 }
 
