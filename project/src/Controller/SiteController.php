@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\DomainName;
+use App\Entity\Server;
 use App\Entity\Site;
 use App\Form\SiteType;
 use App\Repository\{DomainNameRepository, ServerRepository,SiteRepository};
@@ -109,9 +111,8 @@ class SiteController extends AbstractController
     }
 
     #[Route('/remove-server/{id}', name: 'site_remove_server', methods: ['GET', 'POST'])]
-    public function removeServer(Request $request, Site $site, EntityManagerInterface $entityManager, ServerRepository $serverRepository): Response
+    public function removeServer(Site $site, Server $server, EntityManagerInterface $entityManager): Response
     {
-        $server = $serverRepository->findOneBy(['id' => $request->get('serverId')]);
         $site->removeServer($server);
         $entityManager->flush();
 
@@ -121,9 +122,8 @@ class SiteController extends AbstractController
     }
 
     #[Route('/remove-domain-name/{id}', name: 'site_remove_domain_name', methods: ['GET', 'POST'])]
-    public function removeDomainName(Request $request, Site $site, EntityManagerInterface $entityManager, DomainNameRepository $domainNameRepository): Response
+    public function removeDomainName(Site $site, DomainName $domainName, EntityManagerInterface $entityManager): Response
     {
-        $domainName = $domainNameRepository->findOneBy(['id' => $request->get('domainNameId')]);
         $site->removeDomainName($domainName);
         $entityManager->flush();
 
@@ -131,4 +131,5 @@ class SiteController extends AbstractController
             'site' => $site,
         ]);
     }
+
 }

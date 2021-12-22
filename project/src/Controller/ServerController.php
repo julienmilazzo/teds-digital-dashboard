@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Server;
+use App\Entity\Site;
 use App\Form\ServerType;
 use App\Repository\{ServerRepository, SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
@@ -108,9 +109,8 @@ class ServerController extends AbstractController
     }
 
     #[Route('/remove-site/{id}', name: 'server_remove_site', methods: ['GET', 'POST'])]
-    public function removeSite(Request $request, Server $server, EntityManagerInterface $entityManager, SiteRepository $siteRepository): Response
+    public function removeSite(Server $server, Site $site, EntityManagerInterface $entityManager): Response
     {
-        $site = $siteRepository->findOneBy(['id' => $request->get('siteId')]);
         $server->removeSite($site);
         $entityManager->flush();
 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Client;
+use App\Entity\Site;
 use App\Form\ClientType;
 use App\Repository\{ClientRepository, SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
@@ -97,9 +98,8 @@ class ClientController extends AbstractController
     }
 
     #[Route('/remove-site/{id}', name: 'client_remove_site', methods: ['GET', 'POST'])]
-    public function removeSite(Request $request, Client $client, EntityManagerInterface $entityManager, SiteRepository $siteRepository): Response
+    public function removeSite(Client $client, Site $site, EntityManagerInterface $entityManager): Response
     {
-        $site = $siteRepository->findOneBy(['id' => $request->get('siteId')]);
         $client->removeSite($site);
         $entityManager->flush();
 

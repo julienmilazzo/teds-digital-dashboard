@@ -1,8 +1,19 @@
+@font-face {
+    font-family: 'Futura PT';
+    src: url('./fonts/FuturaPT-Light.eot');
+    src: url('./fonts/FuturaPT-Light.eot?#iefix') format('embedded-opentype'),
+    url('./fonts/FuturaPT-Light.woff2') format('woff2'),
+    url('./fonts/FuturaPT-Light.woff') format('woff'),
+    url('./fonts/FuturaPT-Light.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
 html {
     --tedsColor : rgb(240, 15, 15);
 }
 body{
-    font-family: Avantgarde;
+    font-family: 'Futura PT';
     background-color: white;
     color: var(--tedsColor);
 }
