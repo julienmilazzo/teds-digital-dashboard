@@ -10,9 +10,20 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.table').scrollTableBody();
+        })
         function searchSite() {
-            var url = '{{ path("site_search") }}';
-            window.location.href = url + '?searchName=' + $('#search').val();
+            var search = $('#search').val();
+            if ('rickroll' === search || 'cheesecake' === search) {
+                document.getElementById('rickroll').play();
+                $('.').replaceWith("<div class='div4'><img src='{{ app.request.getSchemeAndHttpHost() }}/images/rick-roll-rick-ashley.gif'></div>")
+            } else if ('joyeux noel' === search) {
+                document.getElementById('noel').play();
+            } else {
+                var url = '{{ path("site_search") }}';
+                window.location.href = url + '?searchName=' + search;
+            }
         }
     </script>
 {% endblock %}
@@ -22,25 +33,31 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-    <div class="container-fluid div3">
-        <div class="div4">
-
-            <h1 style="display: inline-block">Liste des sites : </h1>
-            <div style="float: right">
-                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" onclick="searchSite()" >Rechercher</button>
-            </div>
-            <table class="table">
+    <audio controls id='rickroll' style="display: none"><source src='{{ app.request.getSchemeAndHttpHost() }}/audio/rickroll.mp3' type='audio/mpeg'> </audio>
+    <audio controls id='noel' style="display: none"><source src='{{ app.request.getSchemeAndHttpHost() }}/audio/noel.mp3' type='audio/mpeg'> </audio>
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Sites :</h1>
+        </div>
+        <div class="col-sm search-div">
+            <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
+            <button class="btn parme my-2 my-sm-0" onclick="searchSite()" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+        </div>
+    </div>
+    <div class="grid container-fluid div3">
+        <div class="div4 div-list bg-white">
+            <h1 class="c-blue bd-bt">Liste : </h1>
+            <table class="table table-index">
                 <thead>
-                    <tr>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort }) }}">Nom du site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : app.request.get('orderedType') is same as ('onlineDate') ? sort }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('onlineDate')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : app.request.get('orderedType') is same as ('online') ? sort }) }}">En ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('online')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort , 'id' : currentSite.id }) }}">Nom du site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : app.request.get('orderedType') is same as ('onlineDate') ? sort , 'id' : currentSite.id }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('onlineDate')) ? 'down' : 'up' }}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : app.request.get('orderedType') is same as ('online') ? sort , 'id' : currentSite.id }) }}">En ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('online')) ? 'down' : 'up' }}"></i></a></th>
+                    <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort , 'id' : currentSite.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
+                    <th>Voir</th>
+                </tr>
                 </thead>
-                <tbody>
+                <tbody class="body-half-screen">
                 {% for site in sites %}
                     <tr style="vertical-align: middle;">
                         <td>{{ site.name }}</td>
@@ -49,7 +66,6 @@
                         <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
                         <td>
                             <a href="{{ path('site_show', {'id': site.id}) }}" class="btn btn-secondary">Détails</a>
-                            <a href="{{ path('site_edit', {'id': site.id}) }}" class="btn btn-success">Éditer</a>
                         </td>
                     </tr>
                 {% else %}
@@ -59,8 +75,15 @@
                 {% endfor %}
                 </tbody>
             </table>
-
-            <a href="{{ path('site_new') }}" class="btn btn-primary">Ajouter</a>
+        </div>
+        <div class="div-details bg-white">
+            {% include 'site/details.html.twig' %}
+        </div>
+        <div class="div-action bg-white" style="text-align: center">
+            <h1 class="c-yellow bd-bt">Actions : </h1>
+            <a href="{{ path('site_new') }}" class="btn parme" style="margin: 5%">Ajouter</a>
+            <a href="{{ path('site_edit', {'id': currentSite.id}) }}" class="btn blue" style="margin: 5%">Éditer: {{ currentSite.name }}</a>
+            {{ include('site/_delete_form.html.twig') }}
         </div>
     </div>
     {% block footer %}

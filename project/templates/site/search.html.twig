@@ -14,11 +14,13 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-    <div class="container-fluid div3">
-        <div class="div4">
-
-            <h1>Résultats de votre recherche : </h1>
-
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Résultats de votre recherche :</h1>
+        </div>
+    </div>
+    <div class="container-fluid div3 grid">
+        <div class="div-annexe div4">
             <table class="table">
                 <thead>
                 <tr>
@@ -38,7 +40,7 @@
                         <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
                         <td>
                             <a href="{{ path('site_show', {'id': site.id}) }}" class="btn btn-secondary">Détails</a>
-                            <a href="{{ path('site_edit', {'id': site.id}) }}" class="btn btn-success">Éditer</a>
+                            <a href="{{ path('site_edit', {'id': site.id}) }}" class="btn blue">Éditer</a>
                         </td>
                     </tr>
                 {% else %}
@@ -49,7 +51,7 @@
                 </tbody>
             </table>
 
-            <a href="{{ path('site_index') }}" class="btn btn-warning">< Retour liste</a>
+            <a href="{{ path('site_index') }}" class="btn yellow">< Retour liste</a>
         </div>
     </div>
     {% block footer %}

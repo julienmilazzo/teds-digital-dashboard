@@ -22,7 +22,7 @@ class ServerType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom du serveur :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -32,7 +32,7 @@ class ServerType extends AbstractType
             ->add('provider', TextType::class, [
                 'label' => 'Prestataire :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -42,7 +42,7 @@ class ServerType extends AbstractType
             ->add('offer', TextType::class, [
                 'label' => 'Offre :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -52,7 +52,7 @@ class ServerType extends AbstractType
             ->add('price', NumberType::class, [
                 'label' => 'Prix :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -62,7 +62,7 @@ class ServerType extends AbstractType
             ->add('invoicedPrice', NumberType::class, [
                 'label' => 'Prix payé :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -72,7 +72,7 @@ class ServerType extends AbstractType
             ->add('renewalType', TextType::class, [
                 'label' => 'Type de renouvellement :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -82,7 +82,7 @@ class ServerType extends AbstractType
             ->add('renewalDate', DateType::class, [
                 'label' => 'Date de renouvellement :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -93,7 +93,7 @@ class ServerType extends AbstractType
             ->add('site', EntityType::class, [
                 'label' => 'Site :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4'
+                    'class' => 'col-3 mb-4 label-form'
                 ],
                 'attr' => [
                     'class' => 'col-6',
@@ -107,7 +107,7 @@ class ServerType extends AbstractType
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [

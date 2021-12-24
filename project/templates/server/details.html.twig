@@ -1,0 +1,44 @@
+<h1 class="c-parme bd-bt">Détails de {{ currentServer.name }} </h1>
+
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Prestataire</th>
+        <td>{{ currentServer.provider }}</td>
+    </tr>
+    <tr>
+        <th>Offre</th>
+        <td>{{ currentServer.offer }}</td>
+    </tr>
+    <tr>
+        <th>Prix</th>
+        <td>{{ currentServer.price }}</td>
+    </tr>
+    <tr>
+        <th>Prix payé</th>
+        <td>{{ currentServer.invoicedPrice }}</td>
+    </tr>
+    <tr>
+        <th>Type de renouvellement</th>
+        <td>{{ currentServer.renewalType }}</td>
+    </tr>
+    <tr>
+        <th>Date de renouvellement</th>
+        <td>{{ currentServer.renewalDate ? currentServer.renewalDate|date('Y-m-d') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Actif</th>
+        <td>{{ currentServer.enable ? 'Oui' : 'Non' }}</td>
+    </tr>
+    <tr>
+        <th>Sites :</th>
+        <td>
+            {% for site in currentServer.sites %}
+                - {{ site.name }}
+                <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                <a class="a-link btn" href="{{ path('server_remove_site', {'id' : currentServer.id, 'siteId' : site.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+            {% endfor %}
+        </td>
+    </tr>
+    </tbody>
+</table>

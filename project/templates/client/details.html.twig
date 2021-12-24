@@ -1,0 +1,40 @@
+<h1 class="c-parme bd-bt">Détails de {{ currentClient.name }}</h1>
+
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Email</th>
+        <td>{{ currentClient.email }}</td>
+    </tr>
+    <tr>
+        <th>Adresse</th>
+        <td>{{ currentClient.address }}</td>
+    </tr>
+    <tr>
+        <th>Ville</th>
+        <td>{{ currentClient.city }}</td>
+    </tr>
+    <tr>
+        <th>Code postal</th>
+        <td>{{ currentClient.zipCode }}</td>
+    </tr>
+    <tr>
+        <th>téléphone</th>
+        <td>{{ currentClient.phone }}</td>
+    </tr>
+    <tr>
+        <th>Actif</th>
+        <td>{{ currentClient.enable ? 'Oui' : 'Non' }}</td>
+    </tr>
+    <tr>
+        <th>Sites</th>
+        <td>
+            {% for site in currentClient.sites %}
+                - {{ site.name }}
+                <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                <a class="a-link btn" href="{{ path('client_remove_site', {'id' : currentClient.id, 'siteId' : site.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+            {% endfor %}
+        </td>
+    </tr>
+    </tbody>
+</table>

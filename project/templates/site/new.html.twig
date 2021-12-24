@@ -13,13 +13,16 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-    <div class="container-fluid div3">
-        <div class="div4">
-            <h1>Ajouter un site</h1>
-            <a href="{{ path('site_index') }}" class="btn btn-primary" style="float: right">< Retour</a>
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Ajouter un site :</h1>
+        </div>
+    </div>
+    <div class="container-fluid div3 grid">
+        <div class="div-annexe div4">
+            <a href="{{ path('site_index') }}" class="btn yellow" style="float: right">< Retour</a>
             <br><br>
             {{ include('site/_form.html.twig') }}
-
         </div>
     </div>
     {% block footer %}

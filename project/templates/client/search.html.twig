@@ -14,10 +14,14 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-    <div class="container-fluid div3">
-        <div class="div4">
 
-            <h1>Résultats de votre recherche : </h1>
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Résultats de votre recherche :</h1>
+        </div>
+    </div>
+    <div class="container-fluid div3 grid">
+        <div class="div-annexe div4">
             <table class="table">
                 <thead>
                 <tr>
@@ -43,7 +47,7 @@
                         <td>{{ client.enable ? 'Oui' : 'Non' }}</td>
                         <td style="width: 17%">
                             <a href="{{ path('client_show', {'id': client.id}) }}" class="btn btn-secondary">Détails</a>
-                            <a href="{{ path('client_edit', {'id': client.id}) }}" class="btn btn-success">Éditer</a>
+                            <a href="{{ path('client_edit', {'id': client.id}) }}" class="btn blue">Éditer</a>
                         </td>
                     </tr>
                 {% else %}
@@ -53,7 +57,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <a href="{{ path('client_index') }}" class="btn btn-warning">< Retour liste</a>
+            <a href="{{ path('client_index') }}" class="btn yellow">< Retour liste</a>
         </div>
     </div>
     {% block footer %}

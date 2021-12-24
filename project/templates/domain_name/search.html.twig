@@ -14,11 +14,14 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-    <div class="container-fluid div3">
-        <div class="div4">
 
-            <h1>Résultats de votre recherche : </h1>
-
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Résultats de votre recherche :</h1>
+        </div>
+    </div>
+    <div class="container-fluid div3 grid">
+        <div class="div-annexe div4">
             <table class="table">
                 <thead>
                 <tr>
@@ -47,8 +50,8 @@
                         <td>{{ domain_name.site is defined and domain_name.site is not null ? domain_name.site.name : '-' }}</td>
                         <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>
                         <td>
-                            <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary" style="margin-bottom: 5px">Détails</a>
-                            <a href="{{ path('domain_name_edit', {'id': domain_name.id}) }}" class="btn btn-success">Éditer</a>
+                            <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary"      >Détails</a>
+                            <a href="{{ path('domain_name_edit', {'id': domain_name.id}) }}" class="btn blue">Éditer</a>
                         </td>
                     </tr>
                 {% else %}
@@ -58,7 +61,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <a href="{{ path('domain_name_index') }}" class="btn btn-warning">< Retour liste</a>
+            <a href="{{ path('domain_name_index') }}" class="btn yellow">< Retour liste</a>
         </div>
     </div>
     {% block footer %}
