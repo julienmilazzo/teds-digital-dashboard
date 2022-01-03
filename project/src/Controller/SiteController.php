@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\DomainName;
-use App\Entity\Server;
-use App\Entity\Site;
+use App\Entity\{DomainName, Server, Site};
 use App\Form\SiteType;
 use App\Repository\{DomainNameRepository, ServerRepository,SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
@@ -131,5 +129,4 @@ class SiteController extends AbstractController
             'site' => $site,
         ]);
     }
-
 }

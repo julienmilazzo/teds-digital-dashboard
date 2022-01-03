@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Client;
-use App\Entity\Site;
+use App\Entity\{Client, Site};
 use App\Form\ClientType;
 use App\Repository\{ClientRepository, SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,7 +66,6 @@ class ClientController extends AbstractController
             'client' => $client,
         ]);
     }
-
     #[Route('/{id}/edit', name: 'client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {

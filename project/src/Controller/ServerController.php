@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Server;
-use App\Entity\Site;
+use App\Entity\{Server, Site};
 use App\Form\ServerType;
 use App\Repository\{ServerRepository, SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
