@@ -16,8 +16,10 @@ class ClientController extends AbstractController
     #[Route('/', name: 'client_index', methods: ['GET'])]
     public function index(ClientRepository $clientRepository): Response
     {
+        $clients = $clientRepository->findAll();
         return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findAll(),
+            'clients' => $clients,
+            'currentClient' => $clients[0]
         ]);
     }
 
@@ -50,20 +52,22 @@ class ClientController extends AbstractController
             $entityManager->persist($client);
             $entityManager->flush();
 
-            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('client_show', ['id' => $client->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('client/new.html.twig', [
-            'client' => $client,
+            'currentClient' => $client,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'client_show', methods: ['GET'])]
-    public function show(Client $client): Response
+    public function show(Client $client, ClientRepository $clientRepository): Response
     {
-        return $this->render('client/show.html.twig', [
-            'client' => $client,
+        $clients = $clientRepository->findAll();
+        return $this->render('client/index.html.twig', [
+            'clients' => $clients,
+            'currentClient' => $client,
         ]);
     }
     #[Route('/{id}/edit', name: 'client_edit', methods: ['GET', 'POST'])]
@@ -75,11 +79,11 @@ class ClientController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('client_show', ['id' => $client->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('client/edit.html.twig', [
-            'client' => $client,
+            'currentClient' => $client,
             'form' => $form,
         ]);
     }
@@ -102,7 +106,7 @@ class ClientController extends AbstractController
         $entityManager->flush();
 
         return $this->render('client/show.html.twig', [
-            'client' => $client,
+            'currentClient' => $client,
         ]);
     }
 }

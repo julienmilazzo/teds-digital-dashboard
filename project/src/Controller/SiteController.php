@@ -16,8 +16,10 @@ class SiteController extends AbstractController
     #[Route('/', name: 'site_index', methods: ['GET'])]
     public function index(SiteRepository $siteRepository): Response
     {
+        $sites = $siteRepository->findAll();
         return $this->render('site/index.html.twig', [
-            'sites' => $siteRepository->findAll(),
+            'sites' => $sites,
+            'currentSite' => $sites[0],
         ]);
     }
 
@@ -29,13 +31,14 @@ class SiteController extends AbstractController
         ]);
     }
 
-    #[Route('/ordered', name: 'site_ordered', methods: ['GET'])]
-    public function ordered(Request $request, SiteRepository $siteRepository): Response
+    #[Route('/ordered/{id}', name: 'site_ordered', methods: ['GET'])]
+    public function ordered(Request $request, SiteRepository $siteRepository, Site $site): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
         return $this->render('site/index.html.twig', [
             'sites' => $siteRepository->findBy([], [$request->get('orderedType') => $orderBy]),
-            'orderBy' => $orderBy
+            'orderBy' => $orderBy,
+            'currentSite' => $site,
         ]);
     }
 
@@ -59,17 +62,18 @@ class SiteController extends AbstractController
         }
 
         return $this->renderForm('site/new.html.twig', [
-            'site' => $site,
+            'currentSite' => $site,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'site_show', methods: ['GET'])]
-    public function show(Site $site): Response
+    public function show(Site $site, SiteRepository $siteRepository): Response
     {
-
-        return $this->render('site/show.html.twig', [
-            'site' => $site,
+        $sites = $siteRepository->findAll();
+        return $this->render('site/index.html.twig', [
+            'sites' => $sites,
+            'currentSite' => $site
         ]);
     }
 
@@ -92,7 +96,7 @@ class SiteController extends AbstractController
         }
 
         return $this->renderForm('site/edit.html.twig', [
-            'site' => $site,
+            'currentSite' => $site,
             'form' => $form,
         ]);
     }
@@ -115,7 +119,7 @@ class SiteController extends AbstractController
         $entityManager->flush();
 
         return $this->render('site/show.html.twig', [
-            'site' => $site,
+            'currentSite' => $site,
         ]);
     }
 
@@ -126,7 +130,7 @@ class SiteController extends AbstractController
         $entityManager->flush();
 
         return $this->render('site/show.html.twig', [
-            'site' => $site,
+            'currentSite' => $site,
         ]);
     }
 }

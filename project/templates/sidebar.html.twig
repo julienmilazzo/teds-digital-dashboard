@@ -1,0 +1,22 @@
+<div id="mySidenav" class="sidenav open-side-nav">
+    <a href="{{ path('app_logout') }}" class="logout"><i class="fa fa-sign-out icon-title-right sign-out-link" data-toggle="tooltip" aria-hidden="true" title="Déconnexion"></i></a>
+    <div class="admin-menu" id="step-0">
+        <br />
+        <div class="block-menu">
+            <h3 class="titles-sidebar"><i class="fa fa-bars" aria-hidden="true"></i> Menu</h3>
+
+            <div class="home-admin-link">
+                <a href="{{ path('site_index') }}" class="btn btn-link"><i class="fa fa-window-maximize" aria-hidden="true"></i> Sites</a>
+            </div>
+            <div class="home-admin-link">
+                <a href="{{ path('server_index') }}" class="btn btn-link"><i class="fa fa-server" aria-hidden="true"></i> Serveurs</a>
+            </div>
+            <div class="home-admin-link">
+                <a href="{{ path('domain_name_index') }}" class="btn btn-link"><i class="fa fa-id-card" aria-hidden="true"></i> Nom de domaines</a>
+            </div>
+            <div class="home-admin-link" id="step-3">
+                <a href="{{ path('client_index') }}" class="btn btn-link"><i class="fa fa-users" aria-hidden="true"></i> Clients</a>
+            </div>
+        </div>
+    </div>
+</div>

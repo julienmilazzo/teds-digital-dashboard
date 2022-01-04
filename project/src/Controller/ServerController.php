@@ -16,8 +16,10 @@ class ServerController extends AbstractController
     #[Route('/', name: 'server_index', methods: ['GET'])]
     public function index(ServerRepository $serverRepository): Response
     {
+        $servers = $serverRepository->findAll();
         return $this->render('server/index.html.twig', [
-            'servers' => $serverRepository->findAll(),
+            'servers' => $servers,
+            'currentServer' => $servers[0],
         ]);
     }
 
@@ -29,13 +31,14 @@ class ServerController extends AbstractController
         ]);
     }
 
-    #[Route('/ordered', name: 'server_ordered', methods: ['GET'])]
-    public function ordered(Request $request, ServerRepository $serverRepository): Response
+    #[Route('/ordered/{id}', name: 'server_ordered', methods: ['GET'])]
+    public function ordered(Request $request, ServerRepository $serverRepository, Server $server): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
         return $this->render('server/index.html.twig', [
             'servers' => $serverRepository->findBy([], [$request->get('orderedType') => $orderBy]),
-            'orderBy' => $orderBy
+            'orderBy' => $orderBy,
+            'currentServer' => $server,
         ]);
     }
 
@@ -55,20 +58,22 @@ class ServerController extends AbstractController
             $entityManager->persist($server);
             $entityManager->flush();
 
-            return $this->redirectToRoute('server_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('server_show', ['id' => $server->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('server/new.html.twig', [
-            'server' => $server,
+            'currentServer' => $server,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'server_show', methods: ['GET'])]
-    public function show(Server $server): Response
+    public function show(Server $server, ServerRepository $serverRepository): Response
     {
-        return $this->render('server/show.html.twig', [
-            'server' => $server,
+        $servers = $serverRepository->findAll();
+        return $this->render('server/index.html.twig', [
+            'servers' => $servers,
+            'currentServer' => $server,
         ]);
     }
 
@@ -87,11 +92,11 @@ class ServerController extends AbstractController
             $entityManager->persist($server);
             $entityManager->flush();
 
-            return $this->redirectToRoute('server_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('server_show', ['id' => $server->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('server/edit.html.twig', [
-            'server' => $server,
+            'currentServer' => $server,
             'form' => $form,
         ]);
     }
@@ -113,8 +118,8 @@ class ServerController extends AbstractController
         $server->removeSite($site);
         $entityManager->flush();
 
-        return $this->render('server/show.html.twig', [
-            'server' => $server,
+        return $this->redirectToRoute('server_show', [
+            'id' => $server->getId()
         ]);
     }
 }
