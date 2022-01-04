@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set orderedType = app.request.get('orderedType') %}
+{% set sort = orderBy is not defined or orderBy is same as ('ASC') ? 'ASC' : 'DESC' %}
 
 {% block title %}Serveur liste{% endblock %}
 
