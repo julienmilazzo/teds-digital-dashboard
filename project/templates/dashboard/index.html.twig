@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+
+    <div class="container-fluid div3">
+        <div class="div4">
+            <h1>Que souhaitez-vous faire ?</h1>
+        </div>
+    </div>
+
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

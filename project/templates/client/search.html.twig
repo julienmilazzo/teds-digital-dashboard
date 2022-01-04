@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site liste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Résultats de votre recherche :</h1>
+        </div>
+    </div>
+    <div class="container-fluid div3 grid">
+        <div class="div-annexe div4">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Adresse</th>
+                    <th>Ville</th>
+                    <th>Code postal</th>
+                    <th>Téléphone</th>
+                    <th>Actif</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for client in clients %}
+                    <tr style="vertical-align: middle;">
+                        <td>{{ client.name }}</td>
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.address }}</td>
+                        <td>{{ client.city }}</td>
+                        <td>{{ client.zipCode }}</td>
+                        <td>{{ client.phone }}</td>
+                        <td>{{ client.enable ? 'Oui' : 'Non' }}</td>
+                        <td style="width: 17%">
+                            <a href="{{ path('client_show', {'id': client.id}) }}" class="btn btn-secondary">Détails</a>
+                            <a href="{{ path('client_edit', {'id': client.id}) }}" class="btn blue">Éditer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucun client</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('client_index') }}" class="btn yellow">< Retour liste</a>
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

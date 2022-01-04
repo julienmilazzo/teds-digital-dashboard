@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site détails{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container-fluid div3">
+        <div class="div4">
+            <h1>Détails du site : {{ site.name }}</h1>
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Date de mise en ligne</th>
+                        <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>En ligne</th>
+                        <td>{{ site.online ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Actif</th>
+                        <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Serveurs :</th>
+                        <td>
+                            {% for server in site.servers %}
+                                - {{ server.name }}
+                                <a href="{{ path('server_show', {'id': server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                <a class="a-link btn" href="{{ path('site_remove_server', {'id' : site.id, 'serverId' : server.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer ce serveur : ' + '{{ server.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Noms de domaine :</th>
+                        <td>
+                            {% for domainName in site.domainNames %}
+                                - {{ domainName.url }}
+                                <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i> </a>
+                                <a class="a-link btn" href="{{ path('site_remove_domain_name', {'id' : site.id, 'domainNameId' : domainName.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer ce nom de domaine : ' + '{{ domainName.url }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a href="{{ path('site_index') }}" class="btn btn-warning">< Retour</a>
+
+            <a href="{{ path('site_edit', {'id': site.id}) }}" class="btn btn-success">Éditer</a>
+            <br><br>
+            {{ include('site/_delete_form.html.twig') }}
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

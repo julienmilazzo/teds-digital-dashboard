@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client ajout{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Ajouter un client :</h1>
+        </div>
+    </div>
+    <div class="container-fluid div3 grid">
+        <div class="div-annexe div4">
+            <a href="{{ path('client_index') }}" class="btn yellow" style="float: right">< Retour</a>
+            <br><br>
+            {{ include('client/_form.html.twig') }}
+        </div>
+    </div>
+
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
