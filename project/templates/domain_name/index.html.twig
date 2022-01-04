@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set sort = orderBy is not defined or orderBy is same as ('ASC') ? 'ASC' : 'DESC' %}
+{% set orderedType = app.request.get('orderedType') %}
 
 {% block title %}Nom de domaine liste{% endblock %}
 
@@ -35,41 +35,41 @@
             <h1 class="c-blue bd-bt">Liste : </h1>
             <table class="table table-index">
                 <thead>
-                <tr>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'url', 'orderBy' : app.request.get('orderedType') is same as ('url') ? sort, 'id' : currentDomainName.id }) }}">Url <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('url')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'provider', 'orderBy' : app.request.get('orderedType') is same as ('provider') ? sort, 'id' : currentDomainName.id }) }}">Prestataire <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('provider')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'offer', 'orderBy' : app.request.get('orderedType') is same as ('offer') ? sort, 'id' : currentDomainName.id }) }}">Offre <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('offer')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'price', 'orderBy' : app.request.get('orderedType') is same as ('price') ? sort, 'id' : currentDomainName.id }) }}">Prix <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('price')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'invoicedPrice', 'orderBy' : app.request.get('orderedType') is same as ('invoicedPrice') ? sort, 'id' : currentDomainName.id }) }}">Prix payé <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('invoicedPrice')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'renewalType', 'orderBy' : app.request.get('orderedType') is same as ('renewalType') ? sort, 'id' : currentDomainName.id }) }}">Type de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalType')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'renewalDate', 'orderBy' : app.request.get('orderedType') is same as ('renewalDate') ? sort, 'id' : currentDomainName.id }) }}">Date de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalDate')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'site', 'orderBy' : app.request.get('orderedType') is same as ('site') ? sort, 'id' : currentDomainName.id }) }}">Site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('site')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort, 'id' : currentDomainName.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
-                    <th>Voir</th>
-                </tr>
+                  <tr>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'url', 'orderBy' : app.request.get('orderedType') is same as ('url') ? sort, 'id' : currentDomainName.id }) }}">Url <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('url')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'provider', 'orderBy' : app.request.get('orderedType') is same as ('provider') ? sort, 'id' : currentDomainName.id }) }}">Prestataire <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('provider')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'offer', 'orderBy' : app.request.get('orderedType') is same as ('offer') ? sort, 'id' : currentDomainName.id }) }}">Offre <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('offer')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'price', 'orderBy' : app.request.get('orderedType') is same as ('price') ? sort, 'id' : currentDomainName.id }) }}">Prix <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('price')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'invoicedPrice', 'orderBy' : app.request.get('orderedType') is same as ('invoicedPrice') ? sort, 'id' : currentDomainName.id }) }}">Prix payé <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('invoicedPrice')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'renewalType', 'orderBy' : app.request.get('orderedType') is same as ('renewalType') ? sort, 'id' : currentDomainName.id }) }}">Type de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalType')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'renewalDate', 'orderBy' : app.request.get('orderedType') is same as ('renewalDate') ? sort, 'id' : currentDomainName.id }) }}">Date de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalDate')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'site', 'orderBy' : app.request.get('orderedType') is same as ('site') ? sort, 'id' : currentDomainName.id }) }}">Site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('site')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('domain_name_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort, 'id' : currentDomainName.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
+                      <th>Voir</th>
+                  </tr>
                 </thead>
                 <tbody>
-                {% for domain_name in domain_names %}
-                    <tr style="vertical-align: middle;">
-                        <td>{{ domain_name.url }}</td>
-                        <td>{{ domain_name.provider }}</td>
-                        <td>{{ domain_name.offer }}</td>
-                        <td>{{ domain_name.price }}</td>
-                        <td>{{ domain_name.invoicedPrice }}</td>
-                        <td>{{ domain_name.renewalType }}</td>
-                        <td>{{ domain_name.renewalDate ? domain_name.renewalDate|date('Y-m-d') : '' }}</td>
-                        <td>{{ domain_name.site is defined and domain_name.site is not null ? domain_name.site.name : '-' }}</td>
-                        <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>
-                        <td>
-                            <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary">Détails</a>
-                        </td>
+                  {% for domain_name in domain_names %}
+                      <tr style="vertical-align: middle;">
+                          <td>{{ domain_name.url }}</td>
+                          <td>{{ domain_name.provider }}</td>
+                          <td>{{ domain_name.offer }}</td>
+                          <td>{{ domain_name.price }}</td>
+                          <td>{{ domain_name.invoicedPrice }}</td>
+                          <td>{{ domain_name.renewalType }}</td>
+                          <td>{{ domain_name.renewalDate ? domain_name.renewalDate|date('Y-m-d') : '' }}</td>
+                          <td>{{ domain_name.site is defined and domain_name.site is not null ? domain_name.site.name : '-' }}</td>
+                          <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>
+                          <td>
+                              <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary">Détails</a>
+                          </td>
 
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="9">Aucun Nom de domaine</td>
-                    </tr>
-                {% endfor %}
+                      </tr>
+                  {% else %}
+                      <tr>
+                          <td colspan="9">Aucun Nom de domaine</td>
+                      </tr>
+                  {% endfor %}
                 </tbody>
             </table>
         </div>
