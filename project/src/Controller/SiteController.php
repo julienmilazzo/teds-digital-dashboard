@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Site;
+use App\Entity\{DomainName, Server, Site};
 use App\Form\SiteType;
-use App\Repository\SiteRepository;
+use App\Repository\{DomainNameRepository, ServerRepository,SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -16,8 +16,10 @@ class SiteController extends AbstractController
     #[Route('/', name: 'site_index', methods: ['GET'])]
     public function index(SiteRepository $siteRepository): Response
     {
+        $sites = $siteRepository->findAll();
         return $this->render('site/index.html.twig', [
-            'sites' => $siteRepository->findAll(),
+            'sites' => $sites,
+            'currentSite' => $sites[0],
         ]);
     }
 
@@ -29,13 +31,14 @@ class SiteController extends AbstractController
         ]);
     }
 
-    #[Route('/ordered', name: 'site_ordered', methods: ['GET'])]
-    public function ordered(Request $request, SiteRepository $siteRepository): Response
+    #[Route('/ordered/{id}', name: 'site_ordered', methods: ['GET'])]
+    public function ordered(Request $request, SiteRepository $siteRepository, Site $site): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
         return $this->render('site/index.html.twig', [
             'sites' => $siteRepository->findBy([], [$request->get('orderedType') => $orderBy]),
-            'orderBy' => $orderBy
+            'orderBy' => $orderBy,
+            'currentSite' => $site,
         ]);
     }
 
@@ -59,17 +62,18 @@ class SiteController extends AbstractController
         }
 
         return $this->renderForm('site/new.html.twig', [
-            'site' => $site,
+            'currentSite' => $site,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'site_show', methods: ['GET'])]
-    public function show(Site $site): Response
+    public function show(Site $site, SiteRepository $siteRepository): Response
     {
-
-        return $this->render('site/show.html.twig', [
-            'site' => $site,
+        $sites = $siteRepository->findAll();
+        return $this->render('site/index.html.twig', [
+            'sites' => $sites,
+            'currentSite' => $site
         ]);
     }
 
@@ -80,13 +84,19 @@ class SiteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Site $site */
+            $site = $form->getData();
+            foreach ($form->get('server')->getData() as $server) {
+                $site->addServer($server);
+            }
+            $entityManager->persist($site);
             $entityManager->flush();
 
             return $this->redirectToRoute('site_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('site/edit.html.twig', [
-            'site' => $site,
+            'currentSite' => $site,
             'form' => $form,
         ]);
     }
@@ -100,5 +110,27 @@ class SiteController extends AbstractController
         }
 
         return $this->redirectToRoute('site_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/remove-server/{id}', name: 'site_remove_server', methods: ['GET', 'POST'])]
+    public function removeServer(Site $site, Server $server, EntityManagerInterface $entityManager): Response
+    {
+        $site->removeServer($server);
+        $entityManager->flush();
+
+        return $this->render('site/show.html.twig', [
+            'currentSite' => $site,
+        ]);
+    }
+
+    #[Route('/remove-domain-name/{id}', name: 'site_remove_domain_name', methods: ['GET', 'POST'])]
+    public function removeDomainName(Site $site, DomainName $domainName, EntityManagerInterface $entityManager): Response
+    {
+        $site->removeDomainName($domainName);
+        $entityManager->flush();
+
+        return $this->render('site/show.html.twig', [
+            'currentSite' => $site,
+        ]);
     }
 }

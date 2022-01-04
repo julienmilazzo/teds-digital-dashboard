@@ -22,7 +22,7 @@ class SiteType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom du site :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -32,7 +32,7 @@ class SiteType extends AbstractType
             ->add('onlineDate', DateType::class, [
                 'label' => 'Date de mise en ligne :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -43,7 +43,7 @@ class SiteType extends AbstractType
             ->add('online', CheckboxType::class, [
                 'label' => 'En ligne : ',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -54,7 +54,7 @@ class SiteType extends AbstractType
             ->add('client', EntityType::class, [
                 'label' => 'Client :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4'
+                    'class' => 'col-3 mb-4 label-form'
                 ],
                 'attr' => [
                     'class' => 'col-6'
@@ -65,7 +65,7 @@ class SiteType extends AbstractType
             ->add('server', EntityType::class, [
                 'label' => 'Serveur :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4'
+                    'class' => 'col-3 mb-4 label-form'
                 ],
                 'attr' => [
                     'class' => 'col-6'
@@ -73,12 +73,13 @@ class SiteType extends AbstractType
                 'class' => Server::class,
                 'choice_label' => 'provider',
                 'mapped' => false,
-                'multiple' => true
+                'multiple' => true,
+                'required' => false
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [

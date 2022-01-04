@@ -1,0 +1,37 @@
+<h1 class="c-parme bd-bt">Détails de {{ currentSite.name }} : </h1>
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Date de mise en ligne</th>
+        <td>{{ currentSite.onlineDate ? currentSite.onlineDate|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>En ligne</th>
+        <td>{{ currentSite.online ? 'Oui' : 'Non' }}</td>
+    </tr>
+    <tr>
+        <th>Actif</th>
+        <td>{{ currentSite.enable ? 'Oui' : 'Non' }}</td>
+    </tr>
+    <tr>
+        <th>Serveurs :</th>
+        <td>
+            {% for server in currentSite.servers %}
+                - {{ server.name }}
+                <a href="{{ path('server_show', {'id': server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                <a class="a-link btn" href="{{ path('site_remove_server', {'id' : currentSite.id, 'serverId' : server.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer ce serveur : ' + '{{ server.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Noms de domaine :</th>
+        <td>
+            {% for domainName in currentSite.domainNames %}
+                - {{ domainName.url }}
+                <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i> </a>
+                <a class="a-link btn" href="{{ path('site_remove_domain_name', {'id' : currentSite.id, 'domainNameId' : domainName.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer ce nom de domaine : ' + '{{ domainName.url }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+            {% endfor %}
+        </td>
+    </tr>
+    </tbody>
+</table>
