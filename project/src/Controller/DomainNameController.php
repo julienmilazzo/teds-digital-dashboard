@@ -16,8 +16,29 @@ class DomainNameController extends AbstractController
     #[Route('/', name: 'domain_name_index', methods: ['GET'])]
     public function index(DomainNameRepository $domainNameRepository): Response
     {
+        $domainNames = $domainNameRepository->findAll();
         return $this->render('domain_name/index.html.twig', [
-            'domain_names' => $domainNameRepository->findAll(),
+            'domain_names' => $domainNames,
+            'currentDomainName' => $domainNames[0]
+        ]);
+    }
+
+    #[Route('/search', name: 'domain_name_search', methods: ['GET'])]
+    public function search(Request $request, DomainNameRepository $domainNameRepository): Response
+    {
+        return $this->render('domain_name/search.html.twig', [
+            'domain_names' => $domainNameRepository->findBy(['url' => $request->get('searchUrl')]),
+        ]);
+    }
+
+    #[Route('/ordered/{id}', name: 'domain_name_ordered', methods: ['GET'])]
+    public function ordered(Request $request, DomainNameRepository $domainNameRepository, DomainName $domainName): Response
+    {
+        $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+        return $this->render('domain_name/index.html.twig', [
+            'domain_names' => $domainNameRepository->findBy([], [$request->get('orderedType') => $orderBy]),
+            'orderBy' => $orderBy,
+            'currentDomainName' => $domainName
         ]);
     }
 
@@ -37,20 +58,22 @@ class DomainNameController extends AbstractController
             $entityManager->persist($domainName);
             $entityManager->flush();
 
-            return $this->redirectToRoute('domain_name_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('domain_name_show', ['id' => $domainName->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('domain_name/new.html.twig', [
-            'domain_name' => $domainName,
+            'currentDomainName' => $domainName,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'domain_name_show', methods: ['GET'])]
-    public function show(DomainName $domainName): Response
+    public function show(DomainName $domainName, DomainNameRepository $domainNameRepository): Response
     {
-        return $this->render('domain_name/show.html.twig', [
-            'domain_name' => $domainName,
+        $domainNames = $domainNameRepository->findAll();
+        return $this->render('domain_name/index.html.twig', [
+            'domain_names' => $domainNames,
+            'currentDomainName' => $domainName,
         ]);
     }
 
@@ -61,13 +84,19 @@ class DomainNameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DomainName $domainName */
+            $domainName = $form->getData();
+            if($form->get('site')->getData()) {
+                $domainName->setSite($form->get('site')->getData());
+            }
+            $entityManager->persist($domainName);
             $entityManager->flush();
 
-            return $this->redirectToRoute('domain_name_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('domain_name_show', ['id' => $domainName->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('domain_name/edit.html.twig', [
-            'domain_name' => $domainName,
+            'currentDomainName' => $domainName,
             'form' => $form,
         ]);
     }

@@ -42,11 +42,21 @@
                     </tr>
                     <tr>
                         <th>Date de renouvellement</th>
-                        <td>{{ server.renawalDate ? server.renawalDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ server.renewalDate ? server.renewalDate|date('Y-m-d') : '' }}</td>
                     </tr>
                     <tr>
                         <th>Actif</th>
                         <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sites :</th>
+                        <td>
+                            {% for site in server.sites %}
+                                - {{ site.name }}
+                                <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                <a class="a-link btn" href="{{ path('server_remove_site', {'id' : server.id, 'siteId' : site.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+                            {% endfor %}
+                        </td>
                     </tr>
                 </tbody>
             </table>

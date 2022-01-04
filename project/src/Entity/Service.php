@@ -35,14 +35,14 @@ class Service
     /**
      * @ORM\Column(type="date")
      */
-     protected $renawalDate;
+     protected $renewalDate;
 
     /**
      * @return mixed
      */
-    public function getRenawalDate()
+    public function getRenewalDate()
     {
-        return $this->renawalDate;
+        return $this->renewalDate;
     }
 
     /**
@@ -133,11 +133,11 @@ class Service
     }
 
     /**
-     * @param mixed $renawalDate
+     * @param mixed $renewalDate
      */
-    public function setRenawalDate($renawalDate): void
+    public function setRenewalDate($renewalDate): void
     {
-        $this->renawalDate = $renawalDate;
+        $this->renewalDate = $renewalDate;
     }
 
     /**

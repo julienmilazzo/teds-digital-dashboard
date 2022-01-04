@@ -20,7 +20,7 @@ class ClientType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -30,7 +30,7 @@ class ClientType extends AbstractType
             ->add('email', TextType::class, [
                 'label' => 'Email :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -40,7 +40,7 @@ class ClientType extends AbstractType
             ->add('address', TextType::class, [
                 'label' => 'Adresse :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -50,7 +50,7 @@ class ClientType extends AbstractType
             ->add('city', TextType::class, [
                 'label' => 'Ville :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -60,7 +60,7 @@ class ClientType extends AbstractType
             ->add('zipCode', TextType::class, [
                 'label' => 'Code Postal :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -70,7 +70,7 @@ class ClientType extends AbstractType
             ->add('phone', TextType::class, [
                 'label' => 'Téléphone :',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
@@ -80,12 +80,13 @@ class ClientType extends AbstractType
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',
                 'label_attr' => [
-                    'class' => 'col-3 mb-4',
+                    'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
                     'class' => 'col-1 mb-4',
                 ],
+                'required' => false
             ])
         ;
     }
