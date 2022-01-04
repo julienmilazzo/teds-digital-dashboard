@@ -14,6 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/user')]
 class UserController extends AbstractController
 {
+    /**
+     * @param UserPasswordHasherInterface $passwordHasher
+     */
     public function __construct(private UserPasswordHasherInterface $passwordHasher) {
     }
 

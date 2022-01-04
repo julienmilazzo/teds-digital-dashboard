@@ -39,9 +39,6 @@ class Server extends Service
      */
     private $name;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->sites = new ArrayCollection();

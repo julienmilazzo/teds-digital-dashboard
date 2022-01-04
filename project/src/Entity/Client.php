@@ -64,9 +64,6 @@ class Client
      */
     private $enable;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->sites = new ArrayCollection();
