@@ -11,16 +11,20 @@
         <td>{{ currentDomainName.offer }}</td>
     </tr>
     <tr>
-        <th>Prix</th>
-        <td>{{ currentDomainName.price }}</td>
+        <th>Coût</th>
+        <td>{{ currentDomainName.cost }}</td>
     </tr>
     <tr>
-        <th>Prix payé</th>
+        <th>Prix facturé</th>
         <td>{{ currentDomainName.invoicedPrice }}</td>
     </tr>
     <tr>
         <th>Type de renouvellement</th>
         <td>{{ currentDomainName.renewalType }}</td>
+    </tr>
+    <tr>
+        <th>Date de début</th>
+        <td>{{ currentDomainName.startDate ? currentDomainName.startDate|date('d-m-Y') : '' }}</td>
     </tr>
     <tr>
         <th>Date de renouvellement</th>

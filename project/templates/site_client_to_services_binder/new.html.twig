@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SiteClientToServicesBinder{% endblock %}
+
+{% block body %}
+    <h1>Create new SiteClientToServicesBinder</h1>
+
+    {{ include('site_client_to_services_binder/_form.html.twig') }}
+
+    <a href="{{ path('site_client_to_services_binder_index') }}">back to list</a>
+{% endblock %}

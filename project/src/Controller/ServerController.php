@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Server;
+use App\Entity\Service;
 use App\Entity\Site;
+use App\Entity\SiteClientToServicesBinder;
 use App\Form\ServerType;
 use App\Repository\{ServerRepository, SiteRepository};
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,8 +58,16 @@ class ServerController extends AbstractController
             foreach ($form->get('site')->getData() as $site) {
                 $server->addSite($site);
             }
+            if($form->get('client')->getData()) {
+                $domainName->setClient($form->get('client')->getData());
+            }
+
+            $domainName->setSiteClientToServicesBinderId(1);
+
             $entityManager->persist($server);
             $entityManager->flush();
+
+            $this->setBinder($domainName, $entityManager);
 
             return $this->redirectToRoute('server_show', ['id' => $server->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -122,5 +132,22 @@ class ServerController extends AbstractController
         return $this->redirectToRoute('server_show', [
             'id' => $server->getId()
         ]);
+    }
+
+    private function setBinder(Server $server, EntityManagerInterface $entityManager)
+    {
+        $siteClientToServicesBinder = new SiteClientToServicesBinder();
+        $siteClientToServicesBinder
+            ->setClient($server->getClient())
+            ->setSite($server->getSite() ?: null)
+            ->setType(Service::SERVER)
+            ->setServiceId($server->getId());
+
+        $entityManager->persist($siteClientToServicesBinder);
+        $entityManager->flush();
+        $server->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
+
+        $entityManager->persist($server);
+        $entityManager->flush();
     }
 }

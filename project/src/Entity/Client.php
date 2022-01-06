@@ -56,8 +56,19 @@ class Client
 
     /**
      * @ORM\OneToMany(targetEntity=Site::class, mappedBy="client")
+     * @ORM\JoinColumn(nullable=true)
+     *
+     * @var Collection|null
      */
     private $sites;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SiteClientToServicesBinder::class, mappedBy="site")
+     * @ORM\JoinColumn(nullable=true)
+     *
+     * @var Collection|null
+     */
+    private $siteClientToServicesBinders;
 
     /**
      * @ORM\Column(type="boolean")
@@ -247,6 +258,44 @@ class Client
     public function setEnable(bool $enable): self
     {
         $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getSiteClientToServicesBinders(): ?Collection
+    {
+        return $this->siteClientToServicesBinders;
+    }
+
+    /**
+     * @param SiteClientToServicesBinder $siteClientToServicesBinder
+     * @return $this
+     */
+    public function addSiteClientToServicesBinder(SiteClientToServicesBinder $siteClientToServicesBinder): self
+    {
+        if (!$this->siteClientToServicesBinders->contains($siteClientToServicesBinder)) {
+            $this->siteClientToServicesBinders[] = $siteClientToServicesBinder;
+            $siteClientToServicesBinder->setClient($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SiteClientToServicesBinder $siteClientToServicesBinder
+     * @return $this
+     */
+    public function removeSiteClientToServicesBinder(SiteClientToServicesBinder $siteClientToServicesBinder): self
+    {
+        if ($this->siteClientToServicesBinders->removeElement($siteClientToServicesBinder)) {
+            // set the owning side to null (unless already changed)
+            if ($siteClientToServicesBinder->getClient() === $this) {
+                $siteClientToServicesBinder->setClient(null);
+            }
+        }
 
         return $this;
     }

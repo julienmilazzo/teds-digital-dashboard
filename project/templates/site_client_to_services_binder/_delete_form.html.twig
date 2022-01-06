@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('site_client_to_services_binder_delete', {'id': site_client_to_services_binder.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ site_client_to_services_binder.id) }}">
+    <button class="btn">Delete</button>
+</form>

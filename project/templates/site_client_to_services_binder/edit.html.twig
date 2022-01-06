@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SiteClientToServicesBinder{% endblock %}
+
+{% block body %}
+    <h1>Edit SiteClientToServicesBinder</h1>
+
+    {{ include('site_client_to_services_binder/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('site_client_to_services_binder_index') }}">back to list</a>
+
+    {{ include('site_client_to_services_binder/_delete_form.html.twig') }}
+{% endblock %}

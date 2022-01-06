@@ -41,14 +41,12 @@ class Site
     private $client;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Server::class, mappedBy="sites")
+     * @ORM\OneToMany(targetEntity=SiteClientToServicesBinder::class, mappedBy="site")
+     * @ORM\JoinColumn(nullable=true)
+     *
+     * @var Collection|null
      */
-    private $servers;
-
-    /**
-     * @ORM\OneToMany(targetEntity=DomainName::class, mappedBy="site")
-     */
-    private $domainNames;
+    private $siteClientToServicesBinders;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -135,79 +133,6 @@ class Site
     }
 
     /**
-     * @return Collection|Server[]
-     */
-    public function getServers(): Collection
-    {
-        return $this->servers;
-    }
-
-    /**
-     * @param Server $server
-     * @return $this
-     */
-    public function addServer(Server $server): self
-    {
-        if (!$this->servers->contains($server)) {
-            $this->servers[] = $server;
-            $server->addSite($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Server $server
-     * @return $this
-     */
-    public function removeServer(Server $server): self
-    {
-        if ($this->servers->removeElement($server)) {
-            $server->removeSite($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|DomainName[]
-     */
-    public function getDomainNames(): Collection
-    {
-        return $this->domainNames;
-    }
-
-    /**
-     * @param DomainName $domainName
-     * @return $this
-     */
-    public function addDomainName(DomainName $domainName): self
-    {
-        if (!$this->domainNames->contains($domainName)) {
-            $this->domainNames[] = $domainName;
-            $domainName->setSite($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param DomainName $domainName
-     * @return $this
-     */
-    public function removeDomainName(DomainName $domainName): self
-    {
-        if ($this->domainNames->removeElement($domainName)) {
-            // set the owning side to null (unless already changed)
-            if ($domainName->getSite() === $this) {
-                $domainName->setSite(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getName(): ?string
@@ -241,6 +166,44 @@ class Site
     public function setEnable(bool $enable): self
     {
         $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getSiteClientToServicesBinders(): ?Collection
+    {
+        return $this->siteClientToServicesBinders;
+    }
+
+    /**
+     * @param SiteClientToServicesBinder $siteClientToServicesBinder
+     * @return $this
+     */
+    public function addSiteClientToServicesBinder(SiteClientToServicesBinder $siteClientToServicesBinder): self
+    {
+        if (!$this->siteClientToServicesBinders->contains($siteClientToServicesBinder)) {
+            $this->siteClientToServicesBinders[] = $siteClientToServicesBinder;
+            $siteClientToServicesBinder->setSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SiteClientToServicesBinder $siteClientToServicesBinder
+     * @return $this
+     */
+    public function removeSiteClientToServicesBinder(SiteClientToServicesBinder $siteClientToServicesBinder): self
+    {
+        if ($this->siteClientToServicesBinders->removeElement($siteClientToServicesBinder)) {
+            // set the owning side to null (unless already changed)
+            if ($siteClientToServicesBinder->getSite() === $this) {
+                $siteClientToServicesBinder->setSite(null);
+            }
+        }
 
         return $this;
     }

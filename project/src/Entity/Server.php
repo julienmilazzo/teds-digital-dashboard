@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServerRepository;
-use Doctrine\Common\Collections\{ArrayCollection, Collection};
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -25,11 +26,6 @@ class Server extends Service
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Site::class, inversedBy="servers")
-     */
-    private $sites;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $enable;
@@ -40,12 +36,20 @@ class Server extends Service
     private $name;
 
     /**
-     *
+     * @ORM\ManyToMany(targetEntity=Site::class)
+     * @ORM\JoinColumn(nullable=true)
      */
+    private $sites;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $client;
+
     public function __construct()
     {
         $this->sites = new ArrayCollection();
-        $this->domainNames = new ArrayCollection();
     }
 
     /**
@@ -54,76 +58,6 @@ class Server extends Service
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|DomainName[]
-     */
-    public function getDomainNames(): Collection
-    {
-        return $this->domainNames;
-    }
-
-    /**
-     * @param DomainName $domainName
-     * @return $this
-     */
-    public function addDomainName(DomainName $domainName): self
-    {
-        if (!$this->domainNames->contains($domainName)) {
-            $this->domainNames[] = $domainName;
-            $domainName->setServer($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param DomainName $domainName
-     * @return $this
-     */
-    public function removeDomainName(DomainName $domainName): self
-    {
-        if ($this->domainNames->removeElement($domainName)) {
-            // set the owning side to null (unless already changed)
-            if ($domainName->getServer() === $this) {
-                $domainName->setServer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Site[]
-     */
-    public function getSites(): Collection
-    {
-        return $this->sites;
-    }
-
-    /**
-     * @param Site $site
-     * @return $this
-     */
-    public function addSite(Site $site): self
-    {
-        if (!$this->sites->contains($site)) {
-            $this->sites[] = $site;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Site $site
-     * @return $this
-     */
-    public function removeSite(Site $site): self
-    {
-        $this->sites->removeElement($site);
-
-        return $this;
     }
 
     /**
@@ -160,6 +94,57 @@ class Server extends Service
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getSites(): ?Collection
+    {
+        return $this->sites;
+    }
+
+    /**
+     * @param Site|null $site
+     * @return $this
+     */
+    public function addSite(?Site $site): self
+    {
+        if (!$this->sites->contains($site)) {
+            $this->sites[] = $site;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Site $site
+     * @return $this
+     */
+    public function removeSite(Site $site): self
+    {
+        $this->sites->removeElement($site);
+
+        return $this;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client $client
+     * @return $this
+     */
+    public function setClient(Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }

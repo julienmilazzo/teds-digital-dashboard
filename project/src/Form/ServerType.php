@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Client;
 use App\Entity\Server;
 use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -49,8 +50,8 @@ class ServerType extends AbstractType
                     'class' => 'col-7 mb-4',
                 ],
             ])
-            ->add('price', NumberType::class, [
-                'label' => 'Prix :',
+            ->add('cost', NumberType::class, [
+                'label' => 'Coût :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
@@ -60,7 +61,7 @@ class ServerType extends AbstractType
                 ],
             ])
             ->add('invoicedPrice', NumberType::class, [
-                'label' => 'Prix payé :',
+                'label' => 'Prix facturé :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
@@ -90,6 +91,17 @@ class ServerType extends AbstractType
                     'style' => 'display: inline'
                 ],
             ])
+            ->add('startDate', DateType::class, [
+                'label' => 'Date de début :',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4 label-form',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-7 mb-4',
+                    'style' => 'display: inline'
+                ],
+            ])
             ->add('site', EntityType::class, [
                 'label' => 'Site :',
                 'label_attr' => [
@@ -103,6 +115,19 @@ class ServerType extends AbstractType
                 'mapped' => false,
                 'multiple' => true,
                 'required' => false
+            ])
+            ->add('client', EntityType::class, [
+                'label' => 'Client :',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4 label-form'
+                ],
+                'attr' => [
+                    'class' => 'col-6'
+                ],
+                'class' => Client::class,
+                'choice_label' => 'name',
+                'mapped' => false,
+                'required' => true
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',

@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\DomainName;
+use App\Entity\Service;
+use App\Entity\SiteClientToServicesBinder;
 use App\Form\DomainNameType;
 use App\Repository\DomainNameRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -55,8 +58,16 @@ class DomainNameController extends AbstractController
             if($form->get('site')->getData()) {
                 $domainName->setSite($form->get('site')->getData());
             }
+            if($form->get('client')->getData()) {
+                $domainName->setClient($form->get('client')->getData());
+            }
+
+            $domainName->setSiteClientToServicesBinderId(1);
+
             $entityManager->persist($domainName);
             $entityManager->flush();
+
+            $this->setBinder($domainName, $entityManager);
 
             return $this->redirectToRoute('domain_name_show', ['id' => $domainName->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -110,5 +121,22 @@ class DomainNameController extends AbstractController
         }
 
         return $this->redirectToRoute('domain_name_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function setBinder(DomainName $domainName, EntityManagerInterface $entityManager)
+    {
+        $siteClientToServicesBinder = new SiteClientToServicesBinder();
+        $siteClientToServicesBinder
+            ->setClient($domainName->getClient())
+            ->setSite($domainName->getSite() ?: null)
+            ->setType(Service::DOMAIN_NAME)
+            ->setServiceId($domainName->getId());
+
+        $entityManager->persist($siteClientToServicesBinder);
+        $entityManager->flush();
+        $domainName->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
+
+        $entityManager->persist($domainName);
+        $entityManager->flush();
     }
 }
