@@ -40,5 +40,23 @@
             {% endfor %}
         </td>
     </tr>
+    <tr>
+        <th>Click & Collects :</th>
+        <td>
+            {% for clickAndCollect in currentServer.clickAndCollects %}
+                - {{ clickAndCollect.id }}
+                <a href="{{ path('click_and_collect_show', {'id': clickAndCollect.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Nom de domaines :</th>
+        <td>
+            {% for domainName in currentServer.domainNames %}
+                - {{ domainName.url }}
+                <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+            {% endfor %}
+        </td>
+    </tr>
     </tbody>
 </table>

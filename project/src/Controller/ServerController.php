@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Server;
-use App\Entity\Service;
-use App\Entity\Site;
-use App\Entity\SiteClientToServicesBinder;
+use App\Entity\{Server, Site};
 use App\Form\ServerType;
-use App\Repository\{ServerRepository, SiteRepository};
+use App\Repository\ServerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -20,6 +17,7 @@ class ServerController extends AbstractController
     public function index(ServerRepository $serverRepository): Response
     {
         $servers = $serverRepository->findAll();
+
         return $this->render('server/index.html.twig', [
             'servers' => $servers,
             'currentServer' => $servers[0],
@@ -38,6 +36,7 @@ class ServerController extends AbstractController
     public function ordered(Request $request, ServerRepository $serverRepository, Server $server): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+
         return $this->render('server/index.html.twig', [
             'servers' => $serverRepository->findBy([], [$request->get('orderedType') => $orderBy]),
             'orderBy' => $orderBy,
@@ -51,23 +50,20 @@ class ServerController extends AbstractController
         $server = new Server();
         $form = $this->createForm(ServerType::class, $server);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Server $server */
             $server = $form->getData();
             foreach ($form->get('site')->getData() as $site) {
                 $server->addSite($site);
             }
-            if($form->get('client')->getData()) {
-                $domainName->setClient($form->get('client')->getData());
+            foreach ($form->get('domainName')->getData() as $domainName) {
+                $server->addDomainName($domainName);
             }
-
-            $domainName->setSiteClientToServicesBinderId(1);
-
+            foreach ($form->get('clickAndCollect')->getData() as $clickAndCollect) {
+                $server->addClickAndCollect($clickAndCollect);
+            }
             $entityManager->persist($server);
             $entityManager->flush();
-
-            $this->setBinder($domainName, $entityManager);
 
             return $this->redirectToRoute('server_show', ['id' => $server->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -82,6 +78,7 @@ class ServerController extends AbstractController
     public function show(Server $server, ServerRepository $serverRepository): Response
     {
         $servers = $serverRepository->findAll();
+
         return $this->render('server/index.html.twig', [
             'servers' => $servers,
             'currentServer' => $server,
@@ -99,6 +96,12 @@ class ServerController extends AbstractController
             $server = $form->getData();
             foreach ($form->get('site')->getData() as $site) {
                 $server->addSite($site);
+            }
+            foreach ($form->get('domainName')->getData() as $domainName) {
+                $server->addDomainName($domainName);
+            }
+            foreach ($form->get('clickAndCollect')->getData() as $clickAndCollect) {
+                $server->addClickAndCollect($clickAndCollect);
             }
             $entityManager->persist($server);
             $entityManager->flush();
@@ -132,22 +135,5 @@ class ServerController extends AbstractController
         return $this->redirectToRoute('server_show', [
             'id' => $server->getId()
         ]);
-    }
-
-    private function setBinder(Server $server, EntityManagerInterface $entityManager)
-    {
-        $siteClientToServicesBinder = new SiteClientToServicesBinder();
-        $siteClientToServicesBinder
-            ->setClient($server->getClient())
-            ->setSite($server->getSite() ?: null)
-            ->setType(Service::SERVER)
-            ->setServiceId($server->getId());
-
-        $entityManager->persist($siteClientToServicesBinder);
-        $entityManager->flush();
-        $server->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
-
-        $entityManager->persist($server);
-        $entityManager->flush();
     }
 }

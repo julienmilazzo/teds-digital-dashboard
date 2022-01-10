@@ -19,18 +19,16 @@ class SiteClientToServicesBinder
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="siteClientToServicesBinders")
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="siteClientToServicesBinders", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Site::class, mappedBy="siteClientToServicesBinders")
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="siteClientToServicesBinders", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @var Collection|null
      */
-    private $sites;
+    private $site;
 
     /**
      * @ORM\Column(type="integer")

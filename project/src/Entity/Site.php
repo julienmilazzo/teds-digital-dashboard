@@ -35,13 +35,13 @@ class Site
     private $online;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="sites")
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="sites", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;
 
     /**
-     * @ORM\OneToMany(targetEntity=SiteClientToServicesBinder::class, mappedBy="site")
+     * @ORM\OneToMany(targetEntity=SiteClientToServicesBinder::class, mappedBy="site", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      *
      * @var Collection|null
@@ -59,12 +59,18 @@ class Site
     private $enable;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Server::class, mappedBy="sites",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $servers;
+
+    /**
      *
      */
     public function __construct()
     {
         $this->servers = new ArrayCollection();
-        $this->domainNames = new ArrayCollection();
+        $this->siteClientToServicesBinders = new ArrayCollection();
     }
 
     /**
@@ -122,10 +128,10 @@ class Site
     }
 
     /**
-     * @param Client|null $client
+     * @param Client $client
      * @return $this
      */
-    public function setClient(?Client $client): self
+    public function setClient(Client $client): self
     {
         $this->client = $client;
 
@@ -179,10 +185,10 @@ class Site
     }
 
     /**
-     * @param SiteClientToServicesBinder $siteClientToServicesBinder
+     * @param SiteClientToServicesBinder|null $siteClientToServicesBinder
      * @return $this
      */
-    public function addSiteClientToServicesBinder(SiteClientToServicesBinder $siteClientToServicesBinder): self
+    public function addSiteClientToServicesBinder(?SiteClientToServicesBinder $siteClientToServicesBinder): self
     {
         if (!$this->siteClientToServicesBinders->contains($siteClientToServicesBinder)) {
             $this->siteClientToServicesBinders[] = $siteClientToServicesBinder;
@@ -199,10 +205,44 @@ class Site
     public function removeSiteClientToServicesBinder(SiteClientToServicesBinder $siteClientToServicesBinder): self
     {
         if ($this->siteClientToServicesBinders->removeElement($siteClientToServicesBinder)) {
-            // set the owning side to null (unless already changed)
             if ($siteClientToServicesBinder->getSite() === $this) {
                 $siteClientToServicesBinder->setSite(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getServers(): ?Collection
+    {
+        return $this->servers;
+    }
+
+    /**
+     * @param Server|null $server
+     * @return $this
+     */
+    public function addServer(?Server $server): self
+    {
+        if (!$this->servers->contains($server)) {
+            $this->servers[] = $server;
+            $server->addSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Server $server
+     * @return $this
+     */
+    public function removeServer(Server $server): self
+    {
+        if ($this->servers->removeElement($server)) {
+            $server->removeSite($this);
         }
 
         return $this;

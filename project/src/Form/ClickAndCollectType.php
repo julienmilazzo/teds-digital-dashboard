@@ -4,33 +4,42 @@ namespace App\Form;
 
 use App\Entity\ClickAndCollect;
 use App\Entity\Client;
-use App\Entity\DomainName;
-use App\Entity\Server;
 use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
-use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, NumberType, TextType};
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ServerType extends AbstractType
+class ClickAndCollectType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     * @return void
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'label' => 'Nom du serveur :',
+            ->add('onlineDate', DateType::class, [
+                'label' => 'Date de mise en ligne :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
                     'class' => 'col-7 mb-4',
+                    'style' => 'display: inline'
                 ],
+            ])
+            ->add('online', CheckboxType::class, [
+                'label' => 'En ligne : ',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4 label-form',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-1 mb-4',
+                ],
+                'required' => false
             ])
             ->add('provider', TextType::class, [
                 'label' => 'Prestataire :',
@@ -41,6 +50,7 @@ class ServerType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false
             ])
             ->add('offer', TextType::class, [
                 'label' => 'Offre :',
@@ -51,6 +61,7 @@ class ServerType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false
             ])
             ->add('cost', NumberType::class, [
                 'label' => 'Coût :',
@@ -81,9 +92,10 @@ class ServerType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false
             ])
-            ->add('renewalDate', DateType::class, [
-                'label' => 'Date de renouvellement :',
+            ->add('startDate', DateType::class, [
+                'label' => 'Date de début :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
@@ -93,8 +105,8 @@ class ServerType extends AbstractType
                     'style' => 'display: inline'
                 ],
             ])
-            ->add('startDate', DateType::class, [
-                'label' => 'Date de début :',
+            ->add('renewalDate', DateType::class, [
+                'label' => 'Date de renouvellement :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
@@ -110,40 +122,10 @@ class ServerType extends AbstractType
                     'class' => 'col-3 mb-4 label-form'
                 ],
                 'attr' => [
-                    'class' => 'col-6',
+                    'class' => 'col-6'
                 ],
                 'class' => Site::class,
                 'choice_label' => 'name',
-                'mapped' => false,
-                'multiple' => true,
-                'required' => false
-            ])
-            ->add('domainName', EntityType::class, [
-                'label' => 'Nom de domaine :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form'
-                ],
-                'attr' => [
-                    'class' => 'col-6',
-                ],
-                'class' => DomainName::class,
-                'choice_label' => 'url',
-                'mapped' => false,
-                'multiple' => true,
-                'required' => false
-            ])
-            ->add('clickAndCollect', EntityType::class, [
-                'label' => 'Click & Collect :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form'
-                ],
-                'attr' => [
-                    'class' => 'col-6',
-                ],
-                'class' => ClickAndCollect::class,
-                'choice_label' => 'id',
-                'mapped' => false,
-                'multiple' => true,
                 'required' => false
             ])
             ->add('client', EntityType::class, [
@@ -168,18 +150,14 @@ class ServerType extends AbstractType
                     'class' => 'col-1 mb-4',
                 ],
                 'required' => false
-            ])
+            ]);
         ;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Server::class,
+            'data_class' => ClickAndCollect::class,
         ]);
     }
 }

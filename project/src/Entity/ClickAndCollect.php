@@ -39,9 +39,16 @@ class ClickAndCollect extends Service
     private $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Site::class)
+     * @ORM\ManyToOne(targetEntity=Site::class, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="clickAndCollects" ,cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $server;
 
     /**
      * @return int|null
@@ -137,4 +144,22 @@ class ClickAndCollect extends Service
         return $this;
     }
 
+    /**
+     * @return Server|null
+     */
+    public function getServer(): ?Server
+    {
+        return $this->server;
+    }
+
+    /**
+     * @param Server|null $server
+     * @return $this
+     */
+    public function setServer(?Server $server): self
+    {
+        $this->server = $server;
+
+        return $this;
+    }
 }

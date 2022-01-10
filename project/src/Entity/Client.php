@@ -55,7 +55,7 @@ class Client
     private $phone;
 
     /**
-     * @ORM\OneToMany(targetEntity=Site::class, mappedBy="client")
+     * @ORM\OneToMany(targetEntity=Site::class, mappedBy="client", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      *
      * @var Collection|null
@@ -63,7 +63,7 @@ class Client
     private $sites;
 
     /**
-     * @ORM\OneToMany(targetEntity=SiteClientToServicesBinder::class, mappedBy="site")
+     * @ORM\OneToMany(targetEntity=SiteClientToServicesBinder::class, mappedBy="client", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      *
      * @var Collection|null
@@ -76,11 +76,21 @@ class Client
     private $enable;
 
     /**
+     * @ORM\OneToMany(targetEntity=Server::class, mappedBy="client", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     *
+     * @var Collection|null
+     */
+    private $servers;
+
+    /**
      *
      */
     public function __construct()
     {
         $this->sites = new ArrayCollection();
+        $this->siteClientToServicesBinders = new ArrayCollection();
+        $this->servers = new ArrayCollection();
     }
 
     /**
@@ -206,18 +216,18 @@ class Client
     }
 
     /**
-     * @return Collection|Site[]
+     * @return Collection|null
      */
-    public function getSites(): Collection
+    public function getSites(): ?Collection
     {
         return $this->sites;
     }
 
     /**
-     * @param Site $site
+     * @param Site|null $site
      * @return $this
      */
-    public function addSite(Site $site): self
+    public function addSite(?Site $site): self
     {
         if (!$this->sites->contains($site)) {
             $this->sites[] = $site;
@@ -271,10 +281,10 @@ class Client
     }
 
     /**
-     * @param SiteClientToServicesBinder $siteClientToServicesBinder
+     * @param SiteClientToServicesBinder|null $siteClientToServicesBinder
      * @return $this
      */
-    public function addSiteClientToServicesBinder(SiteClientToServicesBinder $siteClientToServicesBinder): self
+    public function addSiteClientToServicesBinder(?SiteClientToServicesBinder $siteClientToServicesBinder): self
     {
         if (!$this->siteClientToServicesBinders->contains($siteClientToServicesBinder)) {
             $this->siteClientToServicesBinders[] = $siteClientToServicesBinder;
@@ -294,6 +304,44 @@ class Client
             // set the owning side to null (unless already changed)
             if ($siteClientToServicesBinder->getClient() === $this) {
                 $siteClientToServicesBinder->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getServers(): ?Collection
+    {
+        return $this->servers;
+    }
+
+    /**
+     * @param Server|null $server
+     * @return $this
+     */
+    public function addServer(?Server $server): self
+    {
+        if (!$this->servers->contains($server)) {
+            $this->servers[] = $server;
+            $server->setClient($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Server $server
+     * @return $this
+     */
+    public function removeServer(Server $server): self
+    {
+        if ($this->servers->removeElement($server)) {
+            // set the owning side to null (unless already changed)
+            if ($server->getClient() === $this) {
+                $server->setClient(null);
             }
         }
 

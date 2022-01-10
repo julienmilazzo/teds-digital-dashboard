@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nom de domain éditeur{% endblock %}
+{% block title %}Edit ClickAndCollect{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,19 +13,18 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-
     <div class="yellow row div-title">
         <div class="col-sm">
-            <h1 class="title-index bd-bt" style="display: inline-block">Éditer Nom de Domaine :</h1>
+            <h1 class="title-index bd-bt" style="display: inline-block">Éditer Click&Collect :</h1>
         </div>
     </div>
     <div class="container-fluid div3 grid">
         <div class="div-annexe div4">
-            <a href="{{ path('domain_name_index') }}" class="btn yellow" style="float: right">< Retour</a>
+            <a href="{{ path('click_and_collect_index') }}" class="btn yellow" style="float: right">< Retour</a>
             <br><br>
-            {{ include('domain_name/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            {{ include('click_and_collect/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-            {{ include('domain_name/_delete_form.html.twig') }}
+            {{ include('click_and_collect/_delete_form.html.twig') }}
         </div>
     </div>
     {% block footer %}

@@ -3,35 +3,49 @@
 <table class="table">
     <tbody>
     <tr>
-        <th>Prestataire</th>
+        <th>Prestataire :</th>
         <td>{{ currentDomainName.provider }}</td>
     </tr>
     <tr>
-        <th>Offre</th>
+        <th>Offre :</th>
         <td>{{ currentDomainName.offer }}</td>
     </tr>
     <tr>
-        <th>Coût</th>
+        <th>Coût :</th>
         <td>{{ currentDomainName.cost }}</td>
     </tr>
     <tr>
-        <th>Prix facturé</th>
+        <th>Prix facturé :</th>
         <td>{{ currentDomainName.invoicedPrice }}</td>
     </tr>
     <tr>
-        <th>Type de renouvellement</th>
+        <th>Type de renouvellement :</th>
         <td>{{ currentDomainName.renewalType }}</td>
     </tr>
     <tr>
-        <th>Date de début</th>
+        <th>Date de début :</th>
         <td>{{ currentDomainName.startDate ? currentDomainName.startDate|date('d-m-Y') : '' }}</td>
     </tr>
     <tr>
-        <th>Date de renouvellement</th>
+        <th>Date de renouvellement :</th>
         <td>{{ currentDomainName.renewalDate ? currentDomainName.renewalDate|date('d-m-Y') : '' }}</td>
     </tr>
     <tr>
-        <th>Site</th>
+        <th>Client :</th>
+        <td>{{ currentDomainName.client.name }}
+            <a href="{{ path('client_show', {'id': currentDomainName.client.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+        </td>
+    </tr>
+    <tr>
+        <th>Serveur :</th>
+        {% if currentDomainName.server is defined and currentDomainName.server is not null %}
+            <td>{{ currentDomainName.server.name }}
+                <a href="{{ path('server_show', {'id': currentDomainName.server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+            </td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>Site :</th>
         {% if currentDomainName.site is defined and currentDomainName.site is not null %}
             <td>
                 - {{ currentDomainName.site.name }}
@@ -40,7 +54,7 @@
         {% endif %}
     </tr>
     <tr>
-        <th>Actif</th>
+        <th>Actif :</th>
         <td>{{ currentDomainName.enable ? 'Oui' : 'Non' }}</td>
     </tr>
     </tbody>

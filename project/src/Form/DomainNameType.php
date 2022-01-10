@@ -115,7 +115,6 @@ class DomainNameType extends AbstractType
                 ],
                 'class' => Site::class,
                 'choice_label' => 'name',
-                'mapped' => false,
                 'required' => false
             ])
             ->add('client', EntityType::class, [
@@ -128,7 +127,6 @@ class DomainNameType extends AbstractType
                 ],
                 'class' => Client::class,
                 'choice_label' => 'name',
-                'mapped' => false,
                 'required' => true
             ])
             ->add('enable', CheckboxType::class, [

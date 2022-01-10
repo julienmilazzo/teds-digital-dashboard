@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Client;
-use App\Entity\Site;
+use App\Entity\{ClickAndCollect, Client, DomainName, Service, SiteClientToServicesBinder, Site};
 use App\Form\ClientType;
-use App\Repository\{ClientRepository, SiteRepository};
+use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -15,12 +15,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClientController extends AbstractController
 {
     #[Route('/', name: 'client_index', methods: ['GET'])]
-    public function index(ClientRepository $clientRepository): Response
+    public function index(ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
+        $currentClient = $clients[0];
+        $services = $this->getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
+
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
-            'currentClient' => $clients[0]
+            'currentClient' => $clients[0],
+            'domainNames' => $services[0],
+            'clickAndCollects' => $services[1]
         ]);
     }
 
@@ -36,6 +41,7 @@ class ClientController extends AbstractController
     public function ordered(Request $request, ClientRepository $clientRepository): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+
         return $this->render('client/index.html.twig', [
             'clients' => $clientRepository->findBy([], [$request->get('orderedType') => $orderBy]),
             'orderBy' => $orderBy
@@ -63,13 +69,18 @@ class ClientController extends AbstractController
     }
 
     #[Route('/{id}', name: 'client_show', methods: ['GET'])]
-    public function show(Client $client, ClientRepository $clientRepository): Response
+    public function show(Client $currentClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
+        $services = $this->getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
+
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
-            'currentClient' => $client,
+            'currentClient' => $currentClient,
+            'domainNames' => $services[0],
+            'clickAndCollects' => $services[1]
         ]);
+
     }
 
     #[Route('/{id}/edit', name: 'client_edit', methods: ['GET', 'POST'])]
@@ -110,5 +121,24 @@ class ClientController extends AbstractController
         return $this->render('client/show.html.twig', [
             'currentClient' => $client,
         ]);
+    }
+
+    /**
+     * @param Collection $siteClientToServicesBinders
+     * @param EntityManagerInterface $entityManager
+     * @return array[]
+     */
+    private function getServices(Collection $siteClientToServicesBinders, EntityManagerInterface $entityManager): array
+    {
+        $domainNames =  [];
+        $clickAndCollects =  [];
+        /** @var SiteClientToServicesBinder $siteClientToServicesBinder */
+        foreach ($siteClientToServicesBinders as $siteClientToServicesBinder) {
+            match ($siteClientToServicesBinder->getType()){
+                Service::DOMAIN_NAME => $domainNames[] = $entityManager->getRepository(DomainName::class)->findOneBy(['id' => $siteClientToServicesBinder->getServiceId()]),
+                Service::CLICK_AND_COLLECT => $clickAndCollects[] = $entityManager->getRepository(ClickAndCollect::class)->findOneBy(['id' => $siteClientToServicesBinder->getServiceId()]),
+            };
+        }
+        return [$domainNames, $clickAndCollects];
     }
 }

@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Service
 {
-    const DOMAIN_NAME = 'domainName';
-    const SERVER = 'server';
-    const CLICK_AND_COLLECT = 'clickAndCollect';
+    const DOMAIN_NAME = 'DomainName';
+    const SERVER = 'Server';
+    const CLICK_AND_COLLECT = 'ClickAndCollect';
 
     /**
      * @ORM\Column(type="string", length=255)

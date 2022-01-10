@@ -34,15 +34,22 @@ class DomainName extends Service
     private $enable;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class)
+     * @ORM\ManyToOne(targetEntity=Client::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Site::class)
+     * @ORM\ManyToOne(targetEntity=Site::class, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="domainNames", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $server;
 
     /**
      * @return int|null
@@ -91,9 +98,9 @@ class DomainName extends Service
     }
 
     /**
-     * @return Client
+     * @return Client|null
      */
-    public function getClient(): Client
+    public function getClient(): ?Client
     {
         return $this->client;
     }
@@ -124,6 +131,25 @@ class DomainName extends Service
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Server|null
+     */
+    public function getServer(): ?Server
+    {
+        return $this->server;
+    }
+
+    /**
+     * @param Server|null $server
+     * @return $this
+     */
+    public function setServer(?Server $server): self
+    {
+        $this->server = $server;
 
         return $this;
     }

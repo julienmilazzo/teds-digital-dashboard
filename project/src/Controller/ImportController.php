@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DomainName;
-use App\Form\DomainNameType;
-use App\Form\ImportCSVType;
+use App\Form\{DomainNameType, ImportCSVType};
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,18 +25,26 @@ class ImportController extends AbstractController
             $csvFile = $form->get('csv')->getData();
 
             match ($form->get('choiceEntity')->getData()) {
-                'client' => $this->importClient($csvFile),
+                'client' => $this->importClient($csvFile, $entityManager),
                 'nomDeDomaine' => $this->importDomainName($csvFile, $entityManager),
-                'serveur' => $this->importServer($csvFile),
-                'site' => $this->importSite($csvFile),
+                'serveur' => $this->importServer($csvFile, $entityManager),
+                'site' => $this->importSite($csvFile, $entityManager),
             };
         }
+
         return $this->render('Import/import-csv.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    private function importDomainName(UploadedFile $csvFile, EntityManagerInterface $entityManager) {
+    /**
+     * @param UploadedFile $csvFile
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     * @throws \Exception
+     */
+    private function importDomainName(UploadedFile $csvFile, EntityManagerInterface $entityManager)
+    {
         if ($csvFile && false !== ($fps = fopen($csvFile->getPath() . '/' . $csvFile->getFilename(), "r"))) {
             $indexCSV = 0;
             while (false !== ($sRow = fgetcsv($fps, 1000, ';'))) {
