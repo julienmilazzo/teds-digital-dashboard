@@ -2,11 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\ClickAndCollect;
-use App\Entity\Client;
-use App\Entity\DomainName;
-use App\Entity\Server;
-use App\Entity\Site;
+use App\Entity\{ClickAndCollect, Client, DomainName, Server, Site};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, NumberType, TextType};

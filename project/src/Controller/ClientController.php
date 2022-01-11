@@ -139,6 +139,7 @@ class ClientController extends AbstractController
                 Service::CLICK_AND_COLLECT => $clickAndCollects[] = $entityManager->getRepository(ClickAndCollect::class)->findOneBy(['id' => $siteClientToServicesBinder->getServiceId()]),
             };
         }
+
         return [$domainNames, $clickAndCollects];
     }
 }

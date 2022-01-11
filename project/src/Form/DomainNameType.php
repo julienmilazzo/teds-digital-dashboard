@@ -2,11 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Client;
-use App\Entity\DomainName;
-use App\Entity\Site;
+use App\Entity\{Client, DomainName, Site};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\{AbstractType, FormBuilderInterface, FormEvent, FormEvents};
+use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, NumberType, TextType};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
