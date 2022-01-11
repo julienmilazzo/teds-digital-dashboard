@@ -56,8 +56,6 @@ class ClickAndCollectController extends AbstractController
             /** @var ClickAndCollect $clickAndCollect */
             $clickAndCollect = $form->getData();
 
-            $clickAndCollect->setSiteClientToServicesBinderId(1);
-
             $entityManager->persist($clickAndCollect);
             $entityManager->flush();
 

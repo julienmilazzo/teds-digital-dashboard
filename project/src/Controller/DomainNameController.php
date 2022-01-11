@@ -55,8 +55,6 @@ class DomainNameController extends AbstractController
             /** @var DomainName $domainName */
             $domainName = $form->getData();
 
-            $domainName->setSiteClientToServicesBinderId(1);
-
             $entityManager->persist($domainName);
             $entityManager->flush();
 
