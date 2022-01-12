@@ -72,12 +72,18 @@
                 </table>
             </div>
             <div class="div-details bg-white">
-                {% include 'click_and_collect/details.html.twig' %}
+                {% if currentClickAndCollect is defined and currentClickAndCollect is not null %}
+                    {% include 'click_and_collect/details.html.twig' %}
+                {% else %}
+                    <h1 class="c-parme bd-bt">Détails :</h1>
+                {% endif %}
             </div>
             <div class="div-action bg-white" style="text-align: center">
                 <h1 class="c-yellow bd-bt">Actions : </h1>
                 <a href="{{ path('click_and_collect_new') }}" class="btn parme" style="margin: 7%">Ajouter</a>
-                <a href="{{ path('click_and_collect_edit', {'id': currentClickAndCollect.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
+                {% if currentClickAndCollect is defined and currentClickAndCollect is not null %}
+                    <a href="{{ path('click_and_collect_edit', {'id': currentClickAndCollect.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
+                {% endif %}
             </div>
         </div>
     </div>

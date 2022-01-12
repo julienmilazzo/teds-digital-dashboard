@@ -270,3 +270,8 @@ body{
     margin-top: 10px;
     margin-bottom: 15px;
 }
+.sub-title-menu {
+    color: #E7C01F;
+    border-bottom: 1px solid #E7C01F;
+    width: 80%;
+}

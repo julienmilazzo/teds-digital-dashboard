@@ -20,7 +20,7 @@ class ClickAndCollectController extends AbstractController
 
         return $this->render('click_and_collect/index.html.twig', [
             'click_and_collects' => $clickAndCollects,
-            'currentClickAndCollect' => $clickAndCollects[0]
+            'currentClickAndCollect' => $clickAndCollects[0] ?? null
         ]);
     }
 

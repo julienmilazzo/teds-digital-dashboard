@@ -20,7 +20,7 @@ class ServerController extends AbstractController
 
         return $this->render('server/index.html.twig', [
             'servers' => $servers,
-            'currentServer' => $servers[0],
+            'currentServer' => $servers[0] ?? null,
         ]);
     }
 
