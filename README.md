@@ -1,15 +1,15 @@
 # teds-digital-dashboard
 
 ## - Ordre d'ajout :
-1/ Clients
-2/ Sites
-3/ Nom de Domaine / Click&Collect
-4/ Serveurs
+- 1/ Clients
+- 2/ Sites
+- 3/ Domain Names / Click&Collect
+- 4/ Servers
 
 
 ## - TO DO :
-- [ ] Ajout des nouvelles entitées (Mail, Réseaux sociaux, Adwords, French-échoppe)
-- [ ] Lors de la toute première mise en place rediriger vers le formulaire ou permettre la vision de index.html.twig vide
-- [ ] Trié le menu en sous menu
-- [ ] Finir l'import de CSV pour toutes les entitées
-- [ ] Mutualiser les vues
+- [ ] Add new entities (Mail, Social network, Adwords, French-échoppe)
+- [ ] Went it's the first time using this project redirect to a form or find a way to display the index empty
+- [ ] Sort the menu with sub menus
+- [ ] Finish import CSV for all entities
+- [ ] Merge the view so you only have one for many entities
