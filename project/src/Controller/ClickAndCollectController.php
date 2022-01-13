@@ -125,7 +125,7 @@ class ClickAndCollectController extends AbstractController
         $siteClientToServicesBinder = new SiteClientToServicesBinder();
         $siteClientToServicesBinder
             ->setClient($clickAndCollect->getClient())
-            ->setSite($clickAndCollect->getSite() ?: null)
+            ->setSite($clickAndCollect->getSite())
             ->setType(Service::CLICK_AND_COLLECT)
             ->setServiceId($clickAndCollect->getId());
 

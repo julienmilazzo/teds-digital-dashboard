@@ -122,7 +122,7 @@ class DomainNameController extends AbstractController
         $siteClientToServicesBinder = new SiteClientToServicesBinder();
         $siteClientToServicesBinder
             ->setClient($domainName->getClient())
-            ->setSite($domainName->getSite() ?: null)
+            ->setSite($domainName->getSite())
             ->setType(Service::DOMAIN_NAME)
             ->setServiceId($domainName->getId());
 

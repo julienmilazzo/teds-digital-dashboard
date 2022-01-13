@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\{ClickAndCollect, Client, DomainName, Service, SiteClientToServicesBinder, Site};
+use App\Entity\{Client,Site};
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Util\GetterServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +19,7 @@ class ClientController extends AbstractController
     {
         $clients = $clientRepository->findAll();
         $currentClient = $clients[0] ?? null;
-        $services = $currentClient ? $this->getServices($currentClient->getSiteClientToServicesBinders(), $entityManager) :  null;
+        $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
@@ -72,7 +72,7 @@ class ClientController extends AbstractController
     public function show(Client $currentClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
-        $services = $this->getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
+        $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
@@ -82,7 +82,6 @@ class ClientController extends AbstractController
         ]);
 
     }
-
     #[Route('/{id}/edit', name: 'client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
@@ -121,25 +120,5 @@ class ClientController extends AbstractController
         return $this->render('client/show.html.twig', [
             'currentClient' => $client,
         ]);
-    }
-
-    /**
-     * @param Collection $siteClientToServicesBinders
-     * @param EntityManagerInterface $entityManager
-     * @return array[]
-     */
-    private function getServices(Collection $siteClientToServicesBinders, EntityManagerInterface $entityManager): array
-    {
-        $domainNames =  [];
-        $clickAndCollects =  [];
-        /** @var SiteClientToServicesBinder $siteClientToServicesBinder */
-        foreach ($siteClientToServicesBinders as $siteClientToServicesBinder) {
-            match ($siteClientToServicesBinder->getType()){
-                Service::DOMAIN_NAME => $domainNames[] = $entityManager->getRepository(DomainName::class)->findOneBy(['id' => $siteClientToServicesBinder->getServiceId()]),
-                Service::CLICK_AND_COLLECT => $clickAndCollects[] = $entityManager->getRepository(ClickAndCollect::class)->findOneBy(['id' => $siteClientToServicesBinder->getServiceId()]),
-            };
-        }
-
-        return [$domainNames, $clickAndCollects];
     }
 }
