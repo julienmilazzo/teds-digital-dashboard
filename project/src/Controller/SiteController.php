@@ -7,6 +7,7 @@ use App\Form\SiteType;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use GetterServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ class SiteController extends AbstractController
     {
         $sites = $siteRepository->findAll();
         $currentSite = $sites[0];
-        $services = $this->getServices($currentSite->getSiteClientToServicesBinders(), $entityManager);
+        $services = GetterServices::getSiteServices($currentSite->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('site/index.html.twig', [
             'sites' => $sites,
@@ -75,7 +76,7 @@ class SiteController extends AbstractController
     public function show(Site $site, SiteRepository $siteRepository, EntityManagerInterface $entityManager): Response
     {
         $sites = $siteRepository->findAll();
-        $services = $this->getServices($site->getSiteClientToServicesBinders(), $entityManager);
+        $services = GetterServices::getSiteServices($site->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('site/index.html.twig', [
             'sites' => $sites,
@@ -139,24 +140,4 @@ class SiteController extends AbstractController
             'currentSite' => $site,
         ]);
     }
-
-    /**
-     * @param Collection $siteClientToServicesBinders
-     * @param EntityManagerInterface $entityManager
-     * @return array[]
-     */
-    private function getServices(Collection $siteClientToServicesBinders, EntityManagerInterface $entityManager): array
-    {
-        $domainNames =  [];
-        $clickAndCollects =  [];
-        /** @var SiteClientToServicesBinder $siteClientToServicesBinder */
-        foreach ($siteClientToServicesBinders as $siteClientToServicesBinder) {
-            match ($siteClientToServicesBinder->getType()){
-                Service::DOMAIN_NAME => $domainNames[] = $entityManager->getRepository(DomainName::class)->findOneBy(['id' => $siteClientToServicesBinder->getServiceId()]),
-                Service::CLICK_AND_COLLECT => $clickAndCollects[] = $entityManager->getRepository(ClickAndCollect::class)->findOneBy(['id' => $siteClientToServicesBinder->getServiceId()]),
-            };
-        }
-        return [$domainNames, $clickAndCollects];
-    }
-
 }
