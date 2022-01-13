@@ -51,23 +51,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for domain_name in domain_names %}
-                        <tr style="vertical-align: middle;">
-                            <td>{{ domain_name.url }}</td>
-                            <td>{{ domain_name.provider }}</td>
-                            <td>{{ domain_name.offer }}</td>
-                            <td>{{ domain_name.cost }}</td>
-                            <td>{{ domain_name.invoicedPrice }}</td>
-                            <td>{{ domain_name.renewalType }}</td>
-                            <td>{{ domain_name.startDate ? domain_name.startDate|date('Y-m-d') : '' }}</td>
-                            <td>{{ domain_name.renewalDate ? domain_name.renewalDate|date('Y-m-d') : '' }}</td>
-                            <td>{{ domain_name.site is defined and domain_name.site is not null ? domain_name.site.name : '-' }}</td>
-                            <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>
-                            <td>
-                                <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary">Détails</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for domain_name in domain_names %}
+                            <tr style="vertical-align: middle;">
+                                <td>{{ domain_name.url }}</td>
+                                <td>{{ domain_name.provider }}</td>
+                                <td>{{ domain_name.offer }}</td>
+                                <td>{{ domain_name.cost }}</td>
+                                <td>{{ domain_name.invoicedPrice }}</td>
+                                <td>{{ domain_name.renewalType }}</td>
+                                <td>{{ domain_name.startDate ? domain_name.startDate|date('Y-m-d') : '' }}</td>
+                                <td>{{ domain_name.renewalDate ? domain_name.renewalDate|date('Y-m-d') : '' }}</td>
+                                <td>{{ domain_name.site is defined and domain_name.site is not null ? domain_name.site.name : '-' }}</td>
+                                <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>
+                                <td>
+                                    <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary">Détails</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             {% else %}

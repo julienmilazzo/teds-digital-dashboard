@@ -59,17 +59,17 @@
                     </tr>
                     </thead>
                     <tbody class="body-half-screen">
-                    {% for site in sites %}
-                        <tr style="vertical-align: middle;">
-                            <td>{{ site.name }}</td>
-                            <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
-                            <td>{{ site.online ? 'Oui' : 'Non' }}</td>
-                            <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
-                            <td>
-                                <a href="{{ path('site_show', {'id': site.id}) }}" class="btn btn-secondary">Détails</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for site in sites %}
+                            <tr style="vertical-align: middle;">
+                                <td>{{ site.name }}</td>
+                                <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
+                                <td>{{ site.online ? 'Oui' : 'Non' }}</td>
+                                <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
+                                <td>
+                                    <a href="{{ path('site_show', {'id': site.id}) }}" class="btn btn-secondary">Détails</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             {% else %}

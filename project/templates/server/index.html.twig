@@ -50,21 +50,21 @@
                     </tr>
                     </thead>
                     <tbody class="body-half-screen">
-                    {% for server in servers %}
-                        <tr style="vertical-align: middle;">
-                            <td>{{ server.name }}</td>
-                            <td>{{ server.provider }}</td>
-                            <td>{{ server.offer }}</td>
-                            <td>{{ server.cost }}</td>
-                            <td>{{ server.invoicedPrice }}</td>
-                            <td>{{ server.renewalType }}</td>
-                            <td>{{ server.renewalDate ? server.renewalDate|date('d-m-Y') : '' }}</td>
-                            <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
-                            <td>
-                                <a href="{{ path('server_show', {'id': server.id}) }}" class="btn btn-secondary" >Détails</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for server in servers %}
+                            <tr style="vertical-align: middle;">
+                                <td>{{ server.name }}</td>
+                                <td>{{ server.provider }}</td>
+                                <td>{{ server.offer }}</td>
+                                <td>{{ server.cost }}</td>
+                                <td>{{ server.invoicedPrice }}</td>
+                                <td>{{ server.renewalType }}</td>
+                                <td>{{ server.renewalDate ? server.renewalDate|date('d-m-Y') : '' }}</td>
+                                <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
+                                <td>
+                                    <a href="{{ path('server_show', {'id': server.id}) }}" class="btn btn-secondary" >Détails</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             {% else %}
