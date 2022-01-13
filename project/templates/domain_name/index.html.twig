@@ -65,13 +65,12 @@
                         <td>
                             <a href="{{ path('domain_name_show', {'id': domain_name.id}) }}" class="btn btn-secondary">Détails</a>
                         </td>
-
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="9">Aucun Nom de domaine</td>
-                    </tr>
-                {% endfor %}
+                      </tr>
+                  {% else %}
+                      <tr>
+                          <td colspan="9">Aucun Nom de domaine</td>
+                      </tr>
+                  {% endfor %}
                 </tbody>
             </table>
         </div>

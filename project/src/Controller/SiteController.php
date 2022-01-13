@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ClickAndCollect, DomainName, Service, Server, Site, SiteClientToServicesBinder};
+use App\Entity\{DomainName, Server, Site};
 use App\Form\SiteType;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\SiteRepository;

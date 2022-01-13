@@ -82,7 +82,6 @@ class ClientController extends AbstractController
         ]);
 
     }
-
     #[Route('/{id}/edit', name: 'client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {

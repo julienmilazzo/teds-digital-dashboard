@@ -49,30 +49,30 @@
             <h1 class="c-blue bd-bt">Liste : </h1>
             <table class="table table-index">
                 <thead>
-                <tr>
-                    <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort , 'id' : currentSite.id }) }}">Nom du site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : app.request.get('orderedType') is same as ('onlineDate') ? sort , 'id' : currentSite.id }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('onlineDate')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : app.request.get('orderedType') is same as ('online') ? sort , 'id' : currentSite.id }) }}">En ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('online')) ? 'down' : 'up' }}"></i></a></th>
-                    <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort , 'id' : currentSite.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
-                    <th>Voir</th>
-                </tr>
+                  <tr>
+                      <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort , 'id' : currentSite.id }) }}">Nom du site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : app.request.get('orderedType') is same as ('onlineDate') ? sort , 'id' : currentSite.id }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('onlineDate')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : app.request.get('orderedType') is same as ('online') ? sort , 'id' : currentSite.id }) }}">En ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('online')) ? 'down' : 'up' }}"></i></a></th>
+                      <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort , 'id' : currentSite.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
+                      <th>Voir</th>
+                  </tr>
                 </thead>
                 <tbody class="body-half-screen">
-                {% for site in sites %}
-                    <tr style="vertical-align: middle;">
-                        <td>{{ site.name }}</td>
-                        <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
-                        <td>{{ site.online ? 'Oui' : 'Non' }}</td>
-                        <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
-                        <td>
-                            <a href="{{ path('site_show', {'id': site.id}) }}" class="btn btn-secondary">Détails</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="4">Aucun site trouvé</td>
-                    </tr>
-                {% endfor %}
+                  {% for site in sites %}
+                      <tr style="vertical-align: middle;">
+                          <td>{{ site.name }}</td>
+                          <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
+                          <td>{{ site.online ? 'Oui' : 'Non' }}</td>
+                          <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
+                          <td>
+                              <a href="{{ path('site_show', {'id': site.id}) }}" class="btn btn-secondary">Détails</a>
+                          </td>
+                      </tr>
+                  {% else %}
+                      <tr>
+                          <td colspan="4">Aucun site trouvé</td>
+                      </tr>
+                  {% endfor %}
                 </tbody>
             </table>
         </div>
