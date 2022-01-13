@@ -7,7 +7,7 @@ use App\Form\SiteType;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use GetterServices;
+use App\Util\GetterServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +20,7 @@ class SiteController extends AbstractController
     {
         $sites = $siteRepository->findAll();
         $currentSite = $sites[0];
-        $services = GetterServices::getSiteServices($currentSite->getSiteClientToServicesBinders(), $entityManager);
+        $services = GetterServices::getServices($currentSite->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('site/index.html.twig', [
             'sites' => $sites,
@@ -76,7 +76,7 @@ class SiteController extends AbstractController
     public function show(Site $site, SiteRepository $siteRepository, EntityManagerInterface $entityManager): Response
     {
         $sites = $siteRepository->findAll();
-        $services = GetterServices::getSiteServices($site->getSiteClientToServicesBinders(), $entityManager);
+        $services = GetterServices::getServices($site->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('site/index.html.twig', [
             'sites' => $sites,

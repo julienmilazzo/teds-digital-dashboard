@@ -6,7 +6,7 @@ use App\Entity\{Client,Site};
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use GetterServices;
+use App\Util\GetterServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +19,7 @@ class ClientController extends AbstractController
     {
         $clients = $clientRepository->findAll();
         $currentClient = $clients[0];
-        $services = GetterServices::getClientServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
+        $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
@@ -72,7 +72,7 @@ class ClientController extends AbstractController
     public function show(Client $currentClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
-        $services = GetterServices::getClientServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
+        $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
