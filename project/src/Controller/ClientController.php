@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\{Client, Site};
+use App\Entity\{Client,Site};
 use App\Form\ClientType;
-use App\Repository\{ClientRepository, SiteRepository};
+use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Util\GetterServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,12 +15,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClientController extends AbstractController
 {
     #[Route('/', name: 'client_index', methods: ['GET'])]
-    public function index(ClientRepository $clientRepository): Response
+    public function index(ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
+        $currentClient = $clients[0];
+        $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
+
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
-            'currentClient' => $clients[0]
+            'currentClient' => $clients[0],
+            'domainNames' => $services[0],
+            'clickAndCollects' => $services[1]
         ]);
     }
 
@@ -35,6 +41,7 @@ class ClientController extends AbstractController
     public function ordered(Request $request, ClientRepository $clientRepository): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+
         return $this->render('client/index.html.twig', [
             'clients' => $clientRepository->findBy([], [$request->get('orderedType') => $orderBy]),
             'orderBy' => $orderBy
@@ -62,13 +69,18 @@ class ClientController extends AbstractController
     }
 
     #[Route('/{id}', name: 'client_show', methods: ['GET'])]
-    public function show(Client $client, ClientRepository $clientRepository): Response
+    public function show(Client $currentClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
+        $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
+
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
-            'currentClient' => $client,
+            'currentClient' => $currentClient,
+            'domainNames' => $services[0],
+            'clickAndCollects' => $services[1]
         ]);
+
     }
     #[Route('/{id}/edit', name: 'client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response

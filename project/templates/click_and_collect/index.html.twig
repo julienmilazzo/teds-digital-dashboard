@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ClickAndCollect index{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function searchClickAndCollect() {
+            var url = '{{ path("domain_name_search") }}';
+            window.location.href = url + '?searchUrl=' + $('#search').val();
+        }
+    </script>
+{% endblock %}
+
+{% block body %}
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Click & Collect :</h1>
+        </div>
+        <div class="col-sm search-div">
+            <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
+            <button class="btn parme my-2 my-sm-0" onclick="searchClickAndCollect()" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+        </div>
+    </div>
+    <div class="grid container-fluid div3">
+        <div class="div4 div-list bg-white">
+            <h1 class="c-blue bd-bt">Liste : </h1>
+                <table class="table table-index">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Date de mise en ligne</th>
+                            <th>En ligne</th>
+                            <th>Actif</th>
+                            <th>Prestataire</th>
+                            <th>Offre</th>
+                            <th>Coût</th>
+                            <th>Prix facturé</th>
+                            <th>Type de renouvellement</th>
+                            <th>Date de début</th>
+                            <th>Date de renouvellement</th>
+                            <th>Voir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for click_and_collect in click_and_collects %}
+                        <tr style="vertical-align: middle">
+                            <td>{{ click_and_collect.id }}</td>
+                            <td>{{ click_and_collect.onlineDate ? click_and_collect.onlineDate|date('Y-m-d') : '' }}</td>
+                            <td>{{ click_and_collect.online ? 'Yes' : 'No' }}</td>
+                            <td>{{ click_and_collect.enable ? 'Yes' : 'No' }}</td>
+                            <td>{{ click_and_collect.provider }}</td>
+                            <td>{{ click_and_collect.offer }}</td>
+                            <td>{{ click_and_collect.cost }}</td>
+                            <td>{{ click_and_collect.invoicedPrice }}</td>
+                            <td>{{ click_and_collect.renewalType }}</td>
+                            <td>{{ click_and_collect.startDate ? click_and_collect.startDate|date('Y-m-d') : '' }}</td>
+                            <td>{{ click_and_collect.renewalDate ? click_and_collect.renewalDate|date('Y-m-d') : '' }}</td>
+                            <td>
+                                <a href="{{ path('click_and_collect_show', {'id': click_and_collect.id}) }}" class="btn btn-secondary">Détails</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="13">Aucun Click & Collect</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="div-details bg-white">
+                {% include 'click_and_collect/details.html.twig' %}
+            </div>
+            <div class="div-action bg-white" style="text-align: center">
+                <h1 class="c-yellow bd-bt">Actions : </h1>
+                <a href="{{ path('click_and_collect_new') }}" class="btn parme" style="margin: 7%">Ajouter</a>
+                <a href="{{ path('click_and_collect_edit', {'id': currentClickAndCollect.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
+            </div>
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

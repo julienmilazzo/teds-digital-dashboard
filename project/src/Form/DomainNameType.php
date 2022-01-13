@@ -2,8 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\DomainName;
-use App\Entity\Site;
+use App\Entity\{Client, DomainName, Site};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, NumberType, TextType};
@@ -38,6 +37,7 @@ class DomainNameType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false
             ])
             ->add('offer', TextType::class, [
                 'label' => 'Offre :',
@@ -48,9 +48,10 @@ class DomainNameType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false
             ])
-            ->add('price', NumberType::class, [
-                'label' => 'Prix :',
+            ->add('cost', NumberType::class, [
+                'label' => 'Coût :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
@@ -60,7 +61,7 @@ class DomainNameType extends AbstractType
                 ],
             ])
             ->add('invoicedPrice', NumberType::class, [
-                'label' => 'Prix payé :',
+                'label' => 'Prix facturé :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
@@ -77,6 +78,18 @@ class DomainNameType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'col-7 mb-4',
+                ],
+                'required' => false
+            ])
+            ->add('startDate', DateType::class, [
+                'label' => 'Date de début :',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4 label-form',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-7 mb-4',
+                    'style' => 'display: inline'
                 ],
             ])
             ->add('renewalDate', DateType::class, [
@@ -100,8 +113,19 @@ class DomainNameType extends AbstractType
                 ],
                 'class' => Site::class,
                 'choice_label' => 'name',
-                'mapped' => false,
                 'required' => false
+            ])
+            ->add('client', EntityType::class, [
+                'label' => 'Client :',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4 label-form'
+                ],
+                'attr' => [
+                    'class' => 'col-6'
+                ],
+                'class' => Client::class,
+                'choice_label' => 'name',
+                'required' => true
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',
@@ -113,8 +137,7 @@ class DomainNameType extends AbstractType
                     'class' => 'col-1 mb-4',
                 ],
                 'required' => false
-            ])
-        ;
+            ]);
     }
 
     /**

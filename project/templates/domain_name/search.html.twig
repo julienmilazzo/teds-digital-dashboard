@@ -28,9 +28,10 @@
                     <th>Url</th>
                     <th>Prestataire</th>
                     <th>Offre</th>
-                    <th>Prix</th>
-                    <th>Prix payé</th>
+                    <th>Coût</th>
+                    <th>Prix facturé</th>
                     <th>Type de renouvellement</th>
+                    <th>Date de début</th>
                     <th>Date de renouvellement</th>
                     <th>Site</th>
                     <th>Actif</th>
@@ -43,9 +44,10 @@
                         <td>{{ domain_name.url }}</td>
                         <td>{{ domain_name.provider }}</td>
                         <td>{{ domain_name.offer }}</td>
-                        <td>{{ domain_name.price }}</td>
+                        <td>{{ domain_name.cost }}</td>
                         <td>{{ domain_name.invoicedPrice }}</td>
                         <td>{{ domain_name.renewalType }}</td>
+                        <td>{{ domain_name.startDate ? domain_name.startDate|date('Y-m-d') : '' }}</td>
                         <td>{{ domain_name.renewalDate ? domain_name.renewalDate|date('Y-m-d') : '' }}</td>
                         <td>{{ domain_name.site is defined and domain_name.site is not null ? domain_name.site.name : '-' }}</td>
                         <td>{{ domain_name.enable ? 'Oui' : 'Non' }}</td>

@@ -2,39 +2,70 @@
 
 <table class="table">
     <tbody>
-    <tr>
-        <th>Email</th>
-        <td>{{ currentClient.email }}</td>
-    </tr>
-    <tr>
-        <th>Adresse</th>
-        <td>{{ currentClient.address }}</td>
-    </tr>
-    <tr>
-        <th>Ville</th>
-        <td>{{ currentClient.city }}</td>
-    </tr>
-    <tr>
-        <th>Code postal</th>
-        <td>{{ currentClient.zipCode }}</td>
-    </tr>
-    <tr>
-        <th>téléphone</th>
-        <td>{{ currentClient.phone }}</td>
-    </tr>
-    <tr>
-        <th>Actif</th>
-        <td>{{ currentClient.enable ? 'Oui' : 'Non' }}</td>
-    </tr>
-    <tr>
-        <th>Sites</th>
-        <td>
-            {% for site in currentClient.sites %}
-                - {{ site.name }}
-                <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                <a class="a-link btn" href="{{ path('client_remove_site', {'id' : currentClient.id, 'siteId' : site.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
-            {% endfor %}
-        </td>
-    </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ currentClient.email }}</td>
+        </tr>
+        <tr>
+            <th>Adresse</th>
+            <td>{{ currentClient.address }}</td>
+        </tr>
+        <tr>
+            <th>Ville</th>
+            <td>{{ currentClient.city }}</td>
+        </tr>
+        <tr>
+            <th>Code postal</th>
+            <td>{{ currentClient.zipCode }}</td>
+        </tr>
+        <tr>
+            <th>téléphone</th>
+            <td>{{ currentClient.phone }}</td>
+        </tr>
+        <tr>
+            <th>Actif</th>
+            <td>{{ currentClient.enable ? 'Oui' : 'Non' }}</td>
+        </tr>
+        <tr>
+            <th>Sites</th>
+            <td>
+                {% for site in currentClient.sites %}
+                    - {{ site.name }}
+                    <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    <a class="a-link btn" href="{{ path('client_remove_site', {'id' : currentClient.id, 'siteId' : site.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Serveurs</th>
+            <td>
+                {% for server in currentClient.servers %}
+                    - {{ server.name }}
+                    <a href="{{ path('server_show', {'id': server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Nom de domaines :</th>
+            <td>
+                {% for domainName in domainNames %}
+                    {% if domainName is defined and domainName is not null %}
+                        - {{ domainName.url }}
+                        <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Click & Collects :</th>
+            <td>
+                {% for clickAndCollect in clickAndCollects %}
+                    {% if clickAndCollect is defined and clickAndCollect is not null %}
+                        - {{ clickAndCollect.id }}
+                        <a href="{{ path('click_and_collect_show', {'id': clickAndCollect.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
     </tbody>
 </table>

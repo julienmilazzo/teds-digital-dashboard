@@ -61,20 +61,7 @@ class SiteType extends AbstractType
                 ],
                 'class' => Client::class,
                 'choice_label' => 'name',
-            ])
-            ->add('server', EntityType::class, [
-                'label' => 'Serveur :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form'
-                ],
-                'attr' => [
-                    'class' => 'col-6'
-                ],
-                'class' => Server::class,
-                'choice_label' => 'provider',
-                'mapped' => false,
-                'multiple' => true,
-                'required' => false
+                'required' => true
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',

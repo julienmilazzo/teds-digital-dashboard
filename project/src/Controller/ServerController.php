@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\{Server, Site};
 use App\Form\ServerType;
-use App\Repository\{ServerRepository, SiteRepository};
+use App\Repository\ServerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -17,6 +17,7 @@ class ServerController extends AbstractController
     public function index(ServerRepository $serverRepository): Response
     {
         $servers = $serverRepository->findAll();
+
         return $this->render('server/index.html.twig', [
             'servers' => $servers,
             'currentServer' => $servers[0],
@@ -35,6 +36,7 @@ class ServerController extends AbstractController
     public function ordered(Request $request, ServerRepository $serverRepository, Server $server): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+
         return $this->render('server/index.html.twig', [
             'servers' => $serverRepository->findBy([], [$request->get('orderedType') => $orderBy]),
             'orderBy' => $orderBy,
@@ -48,12 +50,17 @@ class ServerController extends AbstractController
         $server = new Server();
         $form = $this->createForm(ServerType::class, $server);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Server $server */
             $server = $form->getData();
             foreach ($form->get('site')->getData() as $site) {
                 $server->addSite($site);
+            }
+            foreach ($form->get('domainName')->getData() as $domainName) {
+                $server->addDomainName($domainName);
+            }
+            foreach ($form->get('clickAndCollect')->getData() as $clickAndCollect) {
+                $server->addClickAndCollect($clickAndCollect);
             }
             $entityManager->persist($server);
             $entityManager->flush();
@@ -71,6 +78,7 @@ class ServerController extends AbstractController
     public function show(Server $server, ServerRepository $serverRepository): Response
     {
         $servers = $serverRepository->findAll();
+
         return $this->render('server/index.html.twig', [
             'servers' => $servers,
             'currentServer' => $server,
@@ -88,6 +96,12 @@ class ServerController extends AbstractController
             $server = $form->getData();
             foreach ($form->get('site')->getData() as $site) {
                 $server->addSite($site);
+            }
+            foreach ($form->get('domainName')->getData() as $domainName) {
+                $server->addDomainName($domainName);
+            }
+            foreach ($form->get('clickAndCollect')->getData() as $clickAndCollect) {
+                $server->addClickAndCollect($clickAndCollect);
             }
             $entityManager->persist($server);
             $entityManager->flush();

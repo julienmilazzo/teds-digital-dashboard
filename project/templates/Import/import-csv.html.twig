@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Importer CSV{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+<div class="yellow row div-title">
+    <div class="col-sm">
+        <h1 class="title-index bd-bt" style="display: inline-block">Importer CSV</h1>
+    </div>
+</div>
+
+<div class="container-fluid div3 grid">
+    <div class="div-annexe div4">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

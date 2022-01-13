@@ -2,19 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\DomainNameRepository;
+use App\Repository\ClickAndCollectRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass=DomainNameRepository::class)
- * @UniqueEntity(
- *     fields= {"url"},
- *     errorPath="url",
- *     message= "Ce nom de domaine est déjà enregistré"
- *     )
+ * @ORM\Entity(repositoryClass=ClickAndCollectRepository::class)
  */
-class DomainName extends Service
+class ClickAndCollect extends Service
 {
     /**
      * @ORM\Id
@@ -24,9 +18,14 @@ class DomainName extends Service
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="date")
      */
-    private $url;
+    private $onlineDate;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $online;
 
     /**
      * @ORM\Column(type="boolean")
@@ -34,7 +33,7 @@ class DomainName extends Service
     private $enable;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Client::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;
@@ -46,7 +45,7 @@ class DomainName extends Service
     private $site;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="domainNames", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="clickAndCollects" ,cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $server;
@@ -60,47 +59,57 @@ class DomainName extends Service
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getUrl(): ?string
+    public function getOnlineDate()
     {
-        return $this->url;
+        return $this->onlineDate;
     }
 
     /**
-     * @param string $url
-     * @return $this
+     * @param mixed $onlineDate
      */
-    public function setUrl(string $url): self
+    public function setOnlineDate($onlineDate): void
     {
-        $this->url = $url;
-
-        return $this;
+        $this->onlineDate = $onlineDate;
     }
 
     /**
-     * @return bool|null
+     * @return mixed
      */
-    public function getEnable(): ?bool
+    public function getOnline()
+    {
+        return $this->online;
+    }
+
+    /**
+     * @param mixed $online
+     */
+    public function setOnline($online): void
+    {
+        $this->online = $online;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnable()
     {
         return $this->enable;
     }
 
     /**
-     * @param bool $enable
-     * @return $this
+     * @param mixed $enable
      */
-    public function setEnable(bool $enable): self
+    public function setEnable($enable): void
     {
         $this->enable = $enable;
-
-        return $this;
     }
 
     /**
-     * @return Client|null
+     * @return Client
      */
-    public function getClient(): ?Client
+    public function getClient(): Client
     {
         return $this->client;
     }

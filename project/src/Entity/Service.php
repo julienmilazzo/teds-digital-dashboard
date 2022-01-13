@@ -7,6 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Service
 {
+    const DOMAIN_NAME = 'DomainName';
+    const SERVER = 'Server';
+    const CLICK_AND_COLLECT = 'ClickAndCollect';
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -20,7 +24,7 @@ class Service
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-     protected $price;
+     protected $cost;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -38,23 +42,15 @@ class Service
      protected $renewalDate;
 
     /**
-     * @return mixed
+     * @ORM\Column(type="date")
      */
-    public function getRenewalDate()
-    {
-        return $this->renewalDate;
-    }
+    protected $startDate;
 
     /**
-     * @param string $provider
-     * @return $this
+     * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(nullable=true)
      */
-    public function setProvider(string $provider): self
-    {
-        $this->provider = $provider;
-
-        return $this;
-    }
+    protected int $siteClientToServicesBinderId;
 
     /**
      * @return string|null
@@ -78,18 +74,18 @@ class Service
     /**
      * @return float|null
      */
-    public function getPrice(): ?float
+    public function getCost(): ?float
     {
-        return $this->price;
+        return $this->cost;
     }
 
     /**
-     * @param float|null $price
+     * @param float|null $cost
      * @return $this
      */
-    public function setPrice(?float $price): self
+    public function setCost(?float $cost): self
     {
-        $this->price = $price;
+        $this->cost = $cost;
 
         return $this;
     }
@@ -133,6 +129,14 @@ class Service
     }
 
     /**
+     * @return mixed
+     */
+    public function getRenewalDate()
+    {
+        return $this->renewalDate;
+    }
+
+    /**
      * @param mixed $renewalDate
      */
     public function setRenewalDate($renewalDate): void
@@ -141,10 +145,53 @@ class Service
     }
 
     /**
+     * @param string $provider
+     * @return $this
+     */
+    public function setProvider(string $provider): self
+    {
+        $this->provider = $provider;
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getProvider(): ?string
     {
         return $this->provider;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate): void
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSiteClientToServicesBinderId(): int
+    {
+        return $this->siteClientToServicesBinderId;
+    }
+
+    /**
+     * @param int|null $siteClientToServicesBinderId
+     */
+    public function setSiteClientToServicesBinderId(?int $siteClientToServicesBinderId): void
+    {
+        $this->siteClientToServicesBinderId = $siteClientToServicesBinderId;
     }
 }

@@ -1,0 +1,67 @@
+<h1 class="c-parme bd-bt">Détails de {{ currentClickAndCollect.id }} </h1>
+
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Date de mise en ligne</th>
+        <td>{{ currentClickAndCollect.onlineDate ? currentClickAndCollect.onlineDate|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>En ligne</th>
+        <td>{{ currentClickAndCollect.online ? 'Oui' : 'Non' }}</td>
+    </tr>
+    <tr>
+        <th>Prestataire</th>
+        <td>{{ currentClickAndCollect.provider }}</td>
+    </tr>
+    <tr>
+        <th>Offre</th>
+        <td>{{ currentClickAndCollect.offer }}</td>
+    </tr>
+    <tr>
+        <th>Coût</th>
+        <td>{{ currentClickAndCollect.cost }}</td>
+    </tr>
+    <tr>
+        <th>Prix facturé</th>
+        <td>{{ currentClickAndCollect.invoicedPrice }}</td>
+    </tr>
+    <tr>
+        <th>Type de renouvellement</th>
+        <td>{{ currentClickAndCollect.renewalType }}</td>
+    </tr>
+    <tr>
+        <th>Date de début</th>
+        <td>{{ currentClickAndCollect.startDate ? currentClickAndCollect.startDate|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Date de renouvellement</th>
+        <td>{{ currentClickAndCollect.renewalDate ? currentClickAndCollect.renewalDate|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Client</th>
+        <td>{{ currentClickAndCollect.client.name }}
+            <a href="{{ path('client_show', {'id': currentClickAndCollect.client.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+        </td>
+    </tr>
+    <tr>
+        <th>Server</th>
+        <td>{{ currentClickAndCollect.server.name }}
+            <a href="{{ path('server_show', {'id': currentClickAndCollect.server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+        </td>
+    </tr>
+    <tr>
+        <th>Site</th>
+        {% if currentClickAndCollect.site is defined and currentClickAndCollect.site is not null %}
+            <td>
+                - {{ currentClickAndCollect.site.name }}
+                <a href="{{ path('site_show', {'id': currentClickAndCollect.site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+            </td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>Actif</th>
+        <td>{{ currentClickAndCollect.enable ? 'Oui' : 'Non' }}</td>
+    </tr>
+    </tbody>
+</table>

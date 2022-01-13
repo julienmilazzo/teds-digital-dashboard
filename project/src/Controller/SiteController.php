@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\{DomainName, Server, Site};
 use App\Form\SiteType;
-use App\Repository\{DomainNameRepository, ServerRepository,SiteRepository};
+use Doctrine\Common\Collections\Collection;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Util\GetterServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,12 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class SiteController extends AbstractController
 {
     #[Route('/', name: 'site_index', methods: ['GET'])]
-    public function index(SiteRepository $siteRepository): Response
+    public function index(SiteRepository $siteRepository, EntityManagerInterface $entityManager): Response
     {
         $sites = $siteRepository->findAll();
+        $currentSite = $sites[0];
+        $services = GetterServices::getServices($currentSite->getSiteClientToServicesBinders(), $entityManager);
+
         return $this->render('site/index.html.twig', [
             'sites' => $sites,
-            'currentSite' => $sites[0],
+            'currentSite' => $currentSite,
+            'domainNames' => $services[0],
+            'clickAndCollects' => $services[1],
         ]);
     }
 
@@ -35,6 +42,7 @@ class SiteController extends AbstractController
     public function ordered(Request $request, SiteRepository $siteRepository, Site $site): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+
         return $this->render('site/index.html.twig', [
             'sites' => $siteRepository->findBy([], [$request->get('orderedType') => $orderBy]),
             'orderBy' => $orderBy,
@@ -52,9 +60,6 @@ class SiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Site $site */
             $site = $form->getData();
-            foreach ($form->get('server')->getData() as $server) {
-                $site->addServer($server);
-            }
             $entityManager->persist($site);
             $entityManager->flush();
 
@@ -68,12 +73,16 @@ class SiteController extends AbstractController
     }
 
     #[Route('/{id}', name: 'site_show', methods: ['GET'])]
-    public function show(Site $site, SiteRepository $siteRepository): Response
+    public function show(Site $site, SiteRepository $siteRepository, EntityManagerInterface $entityManager): Response
     {
         $sites = $siteRepository->findAll();
+        $services = GetterServices::getServices($site->getSiteClientToServicesBinders(), $entityManager);
+
         return $this->render('site/index.html.twig', [
             'sites' => $sites,
-            'currentSite' => $site
+            'currentSite' => $site,
+            'domainNames' => $services[0],
+            'clickAndCollects' => $services[1]
         ]);
     }
 
@@ -86,9 +95,7 @@ class SiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Site $site */
             $site = $form->getData();
-            foreach ($form->get('server')->getData() as $server) {
-                $site->addServer($server);
-            }
+
             $entityManager->persist($site);
             $entityManager->flush();
 

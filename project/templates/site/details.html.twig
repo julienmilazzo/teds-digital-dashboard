@@ -14,22 +14,33 @@
         <td>{{ currentSite.enable ? 'Oui' : 'Non' }}</td>
     </tr>
     <tr>
-        <th>Serveurs :</th>
+        <th>Serveurs</th>
         <td>
             {% for server in currentSite.servers %}
                 - {{ server.name }}
-                <a href="{{ path('server_show', {'id': server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
-                <a class="a-link btn" href="{{ path('site_remove_server', {'id' : currentSite.id, 'serverId' : server.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer ce serveur : ' + '{{ server.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+                <a href="{{ path('server_show', {'id': server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
             {% endfor %}
         </td>
     </tr>
     <tr>
         <th>Noms de domaine :</th>
         <td>
-            {% for domainName in currentSite.domainNames %}
-                - {{ domainName.url }}
-                <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i> </a>
-                <a class="a-link btn" href="{{ path('site_remove_domain_name', {'id' : currentSite.id, 'domainNameId' : domainName.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer ce nom de domaine : ' + '{{ domainName.url }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
+            {% for domainName in domainNames %}
+                {% if domainName is defined and domainName is not null %}
+                    - {{ domainName.url }}
+                    <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i> </a>
+                {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Click & Collects :</th>
+        <td>
+            {% for clickAndCollect in clickAndCollects %}
+                {% if clickAndCollect is defined and clickAndCollect is not null %}
+                    - {{ clickAndCollect.id }}
+                    <a href="{{ path('click_and_collect_show', {'id': clickAndCollect.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                {% endif %}
             {% endfor %}
         </td>
     </tr>
