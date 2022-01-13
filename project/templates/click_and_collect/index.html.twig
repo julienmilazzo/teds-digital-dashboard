@@ -28,56 +28,62 @@
     <div class="grid container-fluid div3">
         <div class="div4 div-list bg-white">
             <h1 class="c-blue bd-bt">Liste : </h1>
+            {% if currentClickAndCollect is defined and currentClickAndCollect is not null %}
                 <table class="table table-index">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Date de mise en ligne</th>
-                            <th>En ligne</th>
-                            <th>Actif</th>
-                            <th>Prestataire</th>
-                            <th>Offre</th>
-                            <th>Coût</th>
-                            <th>Prix facturé</th>
-                            <th>Type de renouvellement</th>
-                            <th>Date de début</th>
-                            <th>Date de renouvellement</th>
-                            <th>Voir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for click_and_collect in click_and_collects %}
-                        <tr style="vertical-align: middle">
-                            <td>{{ click_and_collect.id }}</td>
-                            <td>{{ click_and_collect.onlineDate ? click_and_collect.onlineDate|date('Y-m-d') : '' }}</td>
-                            <td>{{ click_and_collect.online ? 'Yes' : 'No' }}</td>
-                            <td>{{ click_and_collect.enable ? 'Yes' : 'No' }}</td>
-                            <td>{{ click_and_collect.provider }}</td>
-                            <td>{{ click_and_collect.offer }}</td>
-                            <td>{{ click_and_collect.cost }}</td>
-                            <td>{{ click_and_collect.invoicedPrice }}</td>
-                            <td>{{ click_and_collect.renewalType }}</td>
-                            <td>{{ click_and_collect.startDate ? click_and_collect.startDate|date('Y-m-d') : '' }}</td>
-                            <td>{{ click_and_collect.renewalDate ? click_and_collect.renewalDate|date('Y-m-d') : '' }}</td>
-                            <td>
-                                <a href="{{ path('click_and_collect_show', {'id': click_and_collect.id}) }}" class="btn btn-secondary">Détails</a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="13">Aucun Click & Collect</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Date de mise en ligne</th>
+                                <th>En ligne</th>
+                                <th>Actif</th>
+                                <th>Prestataire</th>
+                                <th>Offre</th>
+                                <th>Coût</th>
+                                <th>Prix facturé</th>
+                                <th>Type de renouvellement</th>
+                                <th>Date de début</th>
+                                <th>Date de renouvellement</th>
+                                <th>Voir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for click_and_collect in click_and_collects %}
+                                <tr style="vertical-align: middle">
+                                    <td>{{ click_and_collect.id }}</td>
+                                    <td>{{ click_and_collect.onlineDate ? click_and_collect.onlineDate|date('Y-m-d') : '' }}</td>
+                                    <td>{{ click_and_collect.online ? 'Yes' : 'No' }}</td>
+                                    <td>{{ click_and_collect.enable ? 'Yes' : 'No' }}</td>
+                                    <td>{{ click_and_collect.provider }}</td>
+                                    <td>{{ click_and_collect.offer }}</td>
+                                    <td>{{ click_and_collect.cost }}</td>
+                                    <td>{{ click_and_collect.invoicedPrice }}</td>
+                                    <td>{{ click_and_collect.renewalType }}</td>
+                                    <td>{{ click_and_collect.startDate ? click_and_collect.startDate|date('Y-m-d') : '' }}</td>
+                                    <td>{{ click_and_collect.renewalDate ? click_and_collect.renewalDate|date('Y-m-d') : '' }}</td>
+                                    <td>
+                                        <a href="{{ path('click_and_collect_show', {'id': click_and_collect.id}) }}" class="btn btn-secondary">Détails</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p> Aucun Click & Collect </p>
+                {% endif %}
             </div>
             <div class="div-details bg-white">
-                {% include 'click_and_collect/details.html.twig' %}
+                {% if currentClickAndCollect is defined and currentClickAndCollect is not null %}
+                    {% include 'click_and_collect/details.html.twig' %}
+                {% else %}
+                    <h1 class="c-parme bd-bt">Détails :</h1>
+                {% endif %}
             </div>
             <div class="div-action bg-white" style="text-align: center">
                 <h1 class="c-yellow bd-bt">Actions : </h1>
                 <a href="{{ path('click_and_collect_new') }}" class="btn parme" style="margin: 7%">Ajouter</a>
-                <a href="{{ path('click_and_collect_edit', {'id': currentClickAndCollect.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
+                {% if currentClickAndCollect is defined and currentClickAndCollect is not null %}
+                    <a href="{{ path('click_and_collect_edit', {'id': currentClickAndCollect.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
+                {% endif %}
             </div>
         </div>
     </div>

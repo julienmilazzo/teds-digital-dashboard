@@ -20,7 +20,7 @@ class DomainNameController extends AbstractController
 
         return $this->render('domain_name/index.html.twig', [
             'domain_names' => $domainNames,
-            'currentDomainName' => $domainNames[0]
+            'currentDomainName' => $domainNames[0] ?? null
         ]);
     }
 

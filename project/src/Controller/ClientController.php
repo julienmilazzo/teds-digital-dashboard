@@ -18,14 +18,14 @@ class ClientController extends AbstractController
     public function index(ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
-        $currentClient = $clients[0];
+        $currentClient = $clients[0] ?? null;
         $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
-            'currentClient' => $clients[0],
-            'domainNames' => $services[0],
-            'clickAndCollects' => $services[1]
+            'currentClient' => $currentClient,
+            'domainNames' => $services[0] ?? null,
+            'clickAndCollects' => $services[1] ?? null
         ]);
     }
 
