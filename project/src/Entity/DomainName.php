@@ -29,11 +29,6 @@ class DomainName extends Service
     private $url;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $enable;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Client::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -50,6 +45,11 @@ class DomainName extends Service
      * @ORM\JoinColumn(nullable=true)
      */
     private $server;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Mail::class, mappedBy="domainName", cascade={"persist", "remove"})
+     */
+    private $mail;
 
     /**
      * @return int|null
@@ -74,25 +74,6 @@ class DomainName extends Service
     public function setUrl(string $url): self
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getEnable(): ?bool
-    {
-        return $this->enable;
-    }
-
-    /**
-     * @param bool $enable
-     * @return $this
-     */
-    public function setEnable(bool $enable): self
-    {
-        $this->enable = $enable;
 
         return $this;
     }
@@ -150,6 +131,23 @@ class DomainName extends Service
     public function setServer(?Server $server): self
     {
         $this->server = $server;
+
+        return $this;
+    }
+
+    public function getMail(): ?Mail
+    {
+        return $this->mail;
+    }
+
+    public function setMail(Mail $mail): self
+    {
+        // set the owning side of the relation if necessary
+        if ($mail->getDomainName() !== $this) {
+            $mail->setDomainName($this);
+        }
+
+        $this->mail = $mail;
 
         return $this;
     }

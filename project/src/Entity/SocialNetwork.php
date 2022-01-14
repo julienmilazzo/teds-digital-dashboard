@@ -3,13 +3,20 @@
 namespace App\Entity;
 
 use App\Repository\SocialNetworkRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SocialNetworkRepository::class)
  */
-class SocialNetwork
+class SocialNetwork extends Service
 {
+    const FACEBOOK = "Facebook";
+    const INSTAGRAM = "Instagram";
+    const LINKEDIN = "Linkedin";
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -23,19 +30,28 @@ class SocialNetwork
     private $postByWeek;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="array")
      */
-    private $facebook;
+    private $whichSocialNetwork = [];
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Client::class, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $instagram;
+    private $client;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\OneToMany(targetEntity=Ad::class, mappedBy="socialNetwork", cascade={"persist"})
      */
-    private $linkedin;
+    private $ad;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->ad = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -65,58 +81,77 @@ class SocialNetwork
     }
 
     /**
-     * @return bool|null
+     * @return array|null
      */
-    public function getFacebook(): ?bool
+    public function getWhichSocialNetwork(): ?array
     {
-        return $this->facebook;
+        return $this->whichSocialNetwork;
     }
 
     /**
-     * @param bool|null $facebook
+     * @param array $whichSocialNetwork
      * @return $this
      */
-    public function setFacebook(?bool $facebook): self
+    public function setWhichSocialNetwork(array $whichSocialNetwork): self
     {
-        $this->facebook = $facebook;
+        $this->whichSocialNetwork = $whichSocialNetwork;
 
         return $this;
     }
 
     /**
-     * @return bool|null
+     * @return Client|null
      */
-    public function getInstagram(): ?bool
+    public function getClient(): ?Client
     {
-        return $this->instagram;
+        return $this->client;
     }
 
     /**
-     * @param bool|null $instagram
+     * @param Client|null $client
      * @return $this
      */
-    public function setInstagram(?bool $instagram): self
+    public function setClient(?Client $client): self
     {
-        $this->instagram = $instagram;
+        $this->client = $client;
 
         return $this;
     }
 
     /**
-     * @return bool|null
+     * @return Collection|Ad[]
      */
-    public function getLinkedin(): ?bool
+    public function getAd(): Collection
     {
-        return $this->linkedin;
+        return $this->ad;
     }
 
     /**
-     * @param bool|null $linkedin
+     * @param Ad $ad
      * @return $this
      */
-    public function setLinkedin(?bool $linkedin): self
+    public function addAd(Ad $ad): self
     {
-        $this->linkedin = $linkedin;
+        if (!$this->ad->contains($ad)) {
+            $this->ad[] = $ad;
+            $ad->setSocialNetwork($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Ad $ad
+     * @return $this
+     */
+    public function removeAd(Ad $ad): self
+    {
+        if ($this->ad->removeElement($ad)) {
+            // set the owning side to null (unless already changed)
+            if ($ad->getSocialNetwork() === $this) {
+                $ad->setSocialNetwork(null);
+            }
+        }
 
         return $this;
     }

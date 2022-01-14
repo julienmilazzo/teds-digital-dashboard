@@ -54,7 +54,7 @@ body{
     color: var(--tedsColor);
 }
 .img-teds {
-    height: 158px;
+    height: 172px;
     width: 140px;
     /* for the img inside your div */
     display: block;
@@ -246,6 +246,7 @@ body{
     display: block;
     text-align:left;
     overflow-x: auto;
+    max-height: 120px;
 }
 .body-half-screen{
     max-height: 480px;

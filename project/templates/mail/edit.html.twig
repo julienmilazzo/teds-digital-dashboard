@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editeur Mail{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Éditer Mail :</h1>
+        </div>
+    </div>
+    <div class="container-fluid div3 grid">
+        <div class="div-annexe div4">
+            <a href="{{ path('mail_index') }}" class="btn yellow" style="float: right">< Retour</a>
+            <br><br>
+            {{ include('mail/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+            {{ include('mail/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

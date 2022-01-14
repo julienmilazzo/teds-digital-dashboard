@@ -28,11 +28,6 @@ class ClickAndCollect extends Service
     private $online;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $enable;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Client::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -91,25 +86,9 @@ class ClickAndCollect extends Service
     }
 
     /**
-     * @return mixed
+     * @return Client|null
      */
-    public function getEnable()
-    {
-        return $this->enable;
-    }
-
-    /**
-     * @param mixed $enable
-     */
-    public function setEnable($enable): void
-    {
-        $this->enable = $enable;
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
+    public function getClient(): ?Client
     {
         return $this->client;
     }
