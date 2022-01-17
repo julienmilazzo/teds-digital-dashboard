@@ -15,7 +15,7 @@
     <tr>
         <th>Quel Réseaux ? </th>
         <td>
-            {% for i in 0..currentSocialNetwork.whichSocialNetwork.length %}
+            {% for i in 0..((currentSocialNetwork.whichSocialNetwork|length)-1) %}
                 - {{ currentSocialNetwork.whichSocialNetwork[i] }} <br>
             {% endfor %}
         </td>

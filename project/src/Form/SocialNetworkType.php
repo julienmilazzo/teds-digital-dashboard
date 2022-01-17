@@ -2,29 +2,62 @@
 
 namespace App\Form;
 
+use App\Entity\Client;
 use App\Entity\SocialNetwork;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SocialNetworkType extends AbstractType
+class SocialNetworkType extends ServiceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
+
         $builder
-            ->add('postByWeek')
-            ->add('whichSocialNetwork')
-            ->add('provider')
-            ->add('offer')
-            ->add('cost')
-            ->add('invoicedPrice')
-            ->add('renewalType')
-            ->add('renewalDate')
-            ->add('startDate')
-            ->add('commentary')
-            ->add('enable')
-            ->add('siteClientToServicesBinderId')
-            ->add('client')
+            ->add('postByWeek', NumberType::class, [
+                'label' => 'Nombre de post par semaine :',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4 label-form',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-7 mb-4',
+                ],
+            ])
+            ->add('whichSocialNetworks', ChoiceType::class, [
+                'label' => 'Quels réseaux sociaux :',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4 label-form',
+                    'style' => 'vertical-align: top;'
+                ],
+                'attr' => [
+                    'class' => 'col-7 mb-4',
+                ],
+                'choices' => [
+                    'Facebook' => SocialNetwork::FACEBOOK,
+                    'Instagram' => SocialNetwork::INSTAGRAM,
+                    'Linkedin' => SocialNetwork::LINKEDIN,
+                ],
+                'mapped' => false,
+                'multiple' => true
+            ])
+            ->add('client', EntityType::class, [
+                'label' => 'Client :',
+                'label_attr' => [
+                    'class' => 'col-3 mb-4 label-form'
+                ],
+                'attr' => [
+                    'class' => 'col-6'
+                ],
+                'class' => Client::class,
+                'choice_label' => 'name',
+                'required' => true
+            ])
+        ;
         ;
     }
 

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FrenchEchoppe index{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">French-echoppe :</h1>
+        </div>
+    </div>
+    <div class="grid container-fluid div3">
+        <div class="div4 div-list bg-white">
+            <h1 class="c-blue bd-bt">Liste : </h1>
+            {% if currentFrenchEchoppe is defined and currentFrenchEchoppe is not null %}
+
+                <table class="table table-index">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Date de mise en ligne</th>
+                        <th>En ligne</th>
+                        <th>Actif</th>
+                        <th>Prestataire</th>
+                        <th>Offre</th>
+                        <th>Coût</th>
+                        <th>Prix facturé</th>
+                        <th>Type de renouvellement</th>
+                        <th>Date de début</th>
+                        <th>Date de renouvellement</th>
+                        <th>Commentaire</th>
+                        <th>Voir</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for french_echoppe in french_echoppes %}
+                        <tr style="vertical-align: middle">
+                            <td>{{ french_echoppe.id }}</td>
+                            <td>{{ french_echoppe.onlineDate ? french_echoppe.onlineDate|date('Y-m-d') : '' }}</td>
+                            <td>{{ french_echoppe.online ? 'Oui' : 'Non' }}</td>
+                            <td>{{ french_echoppe.enable ? 'Oui' : 'Non' }}</td>
+                            <td>{{ french_echoppe.provider }}</td>
+                            <td>{{ french_echoppe.offer }}</td>
+                            <td>{{ french_echoppe.cost }}</td>
+                            <td>{{ french_echoppe.invoicedPrice }}</td>
+                            <td>{{ french_echoppe.renewalType }}</td>
+                            <td>{{ french_echoppe.startDate ? french_echoppe.startDate|date('Y-m-d') : '' }}</td>
+                            <td>{{ french_echoppe.renewalDate ? french_echoppe.renewalDate|date('Y-m-d') : '' }}</td>
+                            <td>{{ french_echoppe.commentary ? french_echoppe.commentary : '-' }}</td>
+                            <td>
+                                <a href="{{ path('french_echoppe_show', {'id': french_echoppe.id}) }}" class="btn btn-secondary">Détails</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun French echoppe</p>
+            {% endif %}
+        </div>
+        <div class="div-details bg-white">
+            {% if currentFrenchEchoppe is defined and currentFrenchEchoppe is not null %}
+                {% include 'french_echoppe/details.html.twig' %}
+            {% else %}
+                <h1 class="c-parme bd-bt">Détails :</h1>
+            {% endif %}
+        </div>
+        <div class="div-action bg-white" style="text-align: center">
+            <h1 class="c-yellow bd-bt">Actions : </h1>
+            <a href="{{ path('french_echoppe_new') }}" class="btn parme" style="margin: 7%">Ajouter</a>
+            {% if currentFrenchEchoppe is defined and currentFrenchEchoppe is not null %}
+                <a href="{{ path('french_echoppe_edit', {'id': currentFrenchEchoppe.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
+            {% endif %}
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

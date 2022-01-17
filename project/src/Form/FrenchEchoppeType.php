@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\{ClickAndCollect, Client, Site};
+use App\Entity\{Client, FrenchEchoppe};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType};
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ClickAndCollectType extends ServiceType
+class FrenchEchoppeType extends ServiceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -37,18 +37,6 @@ class ClickAndCollectType extends ServiceType
                 ],
                 'required' => false
             ])
-            ->add('site', EntityType::class, [
-                'label' => 'Site :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form'
-                ],
-                'attr' => [
-                    'class' => 'col-6'
-                ],
-                'class' => Site::class,
-                'choice_label' => 'name',
-                'required' => false
-            ])
             ->add('client', EntityType::class, [
                 'label' => 'Client :',
                 'label_attr' => [
@@ -60,14 +48,13 @@ class ClickAndCollectType extends ServiceType
                 'class' => Client::class,
                 'choice_label' => 'name',
                 'required' => true
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ClickAndCollect::class,
+            'data_class' => FrenchEchoppe::class,
         ]);
     }
 }

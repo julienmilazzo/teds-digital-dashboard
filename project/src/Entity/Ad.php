@@ -6,7 +6,7 @@ use App\Repository\AdRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AdsRepository::class)
+ * @ORM\Entity(repositoryClass=AdRepository::class)
  */
 class Ad extends Service
 {
@@ -37,6 +37,22 @@ class Ad extends Service
      * @ORM\ManyToOne(targetEntity=SocialNetwork::class, inversedBy="ad", cascade={"persist"})
      */
     private $socialNetwork;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return \DateTimeInterface|null

@@ -2,13 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\SocialNetwork;
+use App\Entity\{Service, SocialNetwork, SiteClientToServicesBinder};
 use App\Form\SocialNetworkType;
 use App\Repository\SocialNetworkRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/social/network')]
@@ -30,7 +29,7 @@ class SocialNetworkController extends AbstractController
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
 
-        return $this->render('domain_name/index.html.twig', [
+        return $this->render('social_network/index.html.twig', [
             'social_networks' => $socialNetworkRepository->findBy([], [$request->get('orderedType') => $orderBy]),
             'orderBy' => $orderBy,
             'currentSocialNetwork' => $socialNetwork
@@ -45,23 +44,35 @@ class SocialNetworkController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var SocialNetwork $socialNetwork */
+            $socialNetwork = $form->getData();
+            $futurSocialNetworks = [];
+            foreach ($form->get('whichSocialNetworks')->getData() as $whichSocialNetwork) {
+                $futurSocialNetworks[] = $whichSocialNetwork;
+            }
+            $socialNetwork->setWhichSocialNetwork($futurSocialNetworks);
             $entityManager->persist($socialNetwork);
             $entityManager->flush();
 
-            return $this->redirectToRoute('social_network_index', [], Response::HTTP_SEE_OTHER);
+            $this->setBinder($socialNetwork, $entityManager);
+
+            return $this->redirectToRoute('social_network_show', ['id' => $socialNetwork->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('social_network/new.html.twig', [
-            'social_network' => $socialNetwork,
+            'currentSocialNetwork' => $socialNetwork,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'social_network_show', methods: ['GET'])]
-    public function show(SocialNetwork $socialNetwork): Response
+    public function show(SocialNetwork $socialNetwork, SocialNetworkRepository $socialNetworkRepository): Response
     {
-        return $this->render('social_network/show.html.twig', [
-            'social_network' => $socialNetwork,
+        $socialNetworks = $socialNetworkRepository->findAll();
+
+        return $this->render('social_network/index.html.twig', [
+            'currentSocialNetwork' => $socialNetwork,
+            'social_networks' => $socialNetworks,
         ]);
     }
 
@@ -74,11 +85,11 @@ class SocialNetworkController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('social_network_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('social_network_show', ['id' => $socialNetwork->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('social_network/edit.html.twig', [
-            'social_network' => $socialNetwork,
+            'currentSocialNetwork' => $socialNetwork,
             'form' => $form,
         ]);
     }
@@ -92,5 +103,26 @@ class SocialNetworkController extends AbstractController
         }
 
         return $this->redirectToRoute('social_network_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @param SocialNetwork $socialNetwork
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
+    private function setBinder(SocialNetwork $socialNetwork, EntityManagerInterface $entityManager)
+    {
+        $siteClientToServicesBinder = new SiteClientToServicesBinder();
+        $siteClientToServicesBinder
+            ->setClient($socialNetwork->getClient())
+            ->setType(Service::SOCIAL_NETWORK)
+            ->setServiceId($socialNetwork->getId());
+
+        $entityManager->persist($siteClientToServicesBinder);
+        $entityManager->flush();
+        $socialNetwork->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
+
+        $entityManager->persist($socialNetwork);
+        $entityManager->flush();
     }
 }
