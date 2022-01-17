@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\{DomainName, Service, SiteClientToServicesBinder};
+use App\Util\Binder;
+use App\Entity\DomainName;
 use App\Form\DomainNameType;
 use App\Repository\DomainNameRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -58,7 +59,7 @@ class DomainNameController extends AbstractController
             $entityManager->persist($domainName);
             $entityManager->flush();
 
-            $this->setBinder($domainName, $entityManager);
+            Binder::set($domainName, $entityManager);
 
             return $this->redirectToRoute('domain_name_show', ['id' => $domainName->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -110,27 +111,5 @@ class DomainNameController extends AbstractController
         }
 
         return $this->redirectToRoute('domain_name_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    /**
-     * @param DomainName $domainName
-     * @param EntityManagerInterface $entityManager
-     * @return void
-     */
-    private function setBinder(DomainName $domainName, EntityManagerInterface $entityManager)
-    {
-        $siteClientToServicesBinder = new SiteClientToServicesBinder();
-        $siteClientToServicesBinder
-            ->setClient($domainName->getClient())
-            ->setSite($domainName->getSite())
-            ->setType(Service::DOMAIN_NAME)
-            ->setServiceId($domainName->getId());
-
-        $entityManager->persist($siteClientToServicesBinder);
-        $entityManager->flush();
-        $domainName->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
-
-        $entityManager->persist($domainName);
-        $entityManager->flush();
     }
 }

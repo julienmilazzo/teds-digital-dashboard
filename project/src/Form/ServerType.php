@@ -4,11 +4,11 @@ namespace App\Form;
 
 use App\Entity\{ClickAndCollect, Client, DomainName, Server, Site};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
-use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType, NumberType, TextType};
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, TextType};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ServerType extends AbstractType
+class ServerType extends ServiceType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,6 +17,8 @@ class ServerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom du serveur :',
@@ -26,78 +28,6 @@ class ServerType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'col-7 mb-4',
-                ],
-            ])
-            ->add('provider', TextType::class, [
-                'label' => 'Prestataire :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form',
-                    'style' => 'vertical-align: top;'
-                ],
-                'attr' => [
-                    'class' => 'col-7 mb-4',
-                ],
-            ])
-            ->add('offer', TextType::class, [
-                'label' => 'Offre :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form',
-                    'style' => 'vertical-align: top;'
-                ],
-                'attr' => [
-                    'class' => 'col-7 mb-4',
-                ],
-            ])
-            ->add('cost', NumberType::class, [
-                'label' => 'Coût :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form',
-                    'style' => 'vertical-align: top;'
-                ],
-                'attr' => [
-                    'class' => 'col-7 mb-4',
-                ],
-            ])
-            ->add('invoicedPrice', NumberType::class, [
-                'label' => 'Prix facturé :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form',
-                    'style' => 'vertical-align: top;'
-                ],
-                'attr' => [
-                    'class' => 'col-7 mb-4',
-                ],
-            ])
-            ->add('renewalType', TextType::class, [
-                'label' => 'Type de renouvellement :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form',
-                    'style' => 'vertical-align: top;'
-                ],
-                'attr' => [
-                    'class' => 'col-7 mb-4',
-                ],
-            ])
-            ->add('renewalDate', DateType::class, [
-                'label' => 'Date de renouvellement :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form',
-                    'style' => 'vertical-align: top;'
-                ],
-                'attr' => [
-                    'class' => 'col-7 mb-4',
-                    'style' => 'display: inline'
-                ],
-            ])
-            ->add('startDate', DateType::class, [
-                'label' => 'Date de début :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form',
-                    'style' => 'vertical-align: top;'
-                ],
-                'attr' => [
-                    'class' => 'col-7 mb-4',
-                    'style' => 'display: inline'
                 ],
             ])
             ->add('site', EntityType::class, [
@@ -153,17 +83,6 @@ class ServerType extends AbstractType
                 'class' => Client::class,
                 'choice_label' => 'name',
                 'required' => true
-            ])
-            ->add('enable', CheckboxType::class, [
-                'label' => 'Actif : ',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form',
-                    'style' => 'vertical-align: top;'
-                ],
-                'attr' => [
-                    'class' => 'col-1 mb-4',
-                ],
-                'required' => false
             ])
         ;
     }

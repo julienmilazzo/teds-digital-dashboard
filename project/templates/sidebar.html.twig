@@ -1,4 +1,7 @@
 <div id="mySidenav" class="sidenav open-side-nav">
+    <div style="text-align: center">
+        <img src="{{ app.request.getSchemeAndHttpHost() }}/images/teds-blanc.png" class="img-teds" alt="teds">
+    </div>
     <a href="{{ path('app_logout') }}" class="logout"><i class="fa fa-sign-out icon-title-right sign-out-link" data-toggle="tooltip" aria-hidden="true" title="Déconnexion"></i></a>
     <div class="admin-menu" id="step-0">
         <br />
@@ -21,12 +24,18 @@
             <div class="home-admin-link">
                 <a href="{{ path('click_and_collect_index') }}" class="btn btn-link"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Click & Collect</a>
             </div>
-            <h4 class="sub-title-menu"><i class="fa fa-comments-o" aria-hidden="true"></i> Services Com'</h4>
             <div class="home-admin-link">
-                <a href="/" class="btn btn-link"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Réseaux sociaux</a>
+                <a href="{{ path('french_echoppe_index') }}" class="btn btn-link"><i class="fa fa-shopping-basket" aria-hidden="true"></i> French Echoppe</a>
             </div>
             <div class="home-admin-link">
-                <a href="/" class="btn btn-link"><i class="fa fa-map-signs" aria-hidden="true"></i> Adwords</a>
+                <a href="{{ path('mail_index') }}" class="btn btn-link"><i class="fa fa-envelope-o" aria-hidden="true"></i> Email</a>
+            </div>
+            <h4 class="sub-title-menu"><i class="fa fa-comments-o" aria-hidden="true"></i> Services Com'</h4>
+            <div class="home-admin-link">
+                <a href="{{ path('social_network_index') }}" class="btn btn-link"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Réseaux sociaux</a>
+            </div>
+            <div class="home-admin-link">
+                <a href="{{ path('ad_index') }}" class="btn btn-link"><i class="fa fa-map-signs" aria-hidden="true"></i> Ads</a>
             </div>
         </div>
     </div>

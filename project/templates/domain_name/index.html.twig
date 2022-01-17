@@ -30,6 +30,7 @@
             <button class="btn parme my-2 my-sm-0" onclick="searchDomainName()" style="margin-bottom: 0.5rem!important;">Rechercher</button>
         </div>
     </div>
+
     <div class="grid container-fluid div3">
         <div class="div4 div-list bg-white">
             <h1 class="c-blue bd-bt">Liste : </h1>
@@ -88,7 +89,6 @@
             {% if currentDomainName is defined and currentDomainName is not null %}
                 <a href="{{ path('domain_name_edit', {'id': currentDomainName.id}) }}" class="btn blue" style="margin: 5%">Éditer: {{ currentDomainName.url }}</a>
             {% endif %}
-        </div>
         </div>
     </div>
     {% block footer %}

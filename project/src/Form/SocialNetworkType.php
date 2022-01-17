@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\{ClickAndCollect, Client, Site};
+use App\Entity\{Client, SocialNetwork};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, DateType};
+use Symfony\Component\Form\Extension\Core\Type\{ChoiceType, NumberType};
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ClickAndCollectType extends ServiceType
+class SocialNetworkType extends ServiceType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -20,39 +20,32 @@ class ClickAndCollectType extends ServiceType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('onlineDate', DateType::class, [
-                'label' => 'Date de mise en ligne :',
+            ->add('postByWeek', NumberType::class, [
+                'label' => 'Nombre de post par semaine :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
                     'class' => 'col-7 mb-4',
-                    'style' => 'display: inline'
                 ],
             ])
-            ->add('online', CheckboxType::class, [
-                'label' => 'En ligne : ',
+            ->add('whichSocialNetworks', ChoiceType::class, [
+                'label' => 'Quels réseaux sociaux :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
                 ],
                 'attr' => [
-                    'class' => 'col-1 mb-4',
+                    'class' => 'col-7 mb-4',
                 ],
-                'required' => false
-            ])
-            ->add('site', EntityType::class, [
-                'label' => 'Site :',
-                'label_attr' => [
-                    'class' => 'col-3 mb-4 label-form'
+                'choices' => [
+                    'Facebook' => SocialNetwork::FACEBOOK,
+                    'Instagram' => SocialNetwork::INSTAGRAM,
+                    'Linkedin' => SocialNetwork::LINKEDIN,
                 ],
-                'attr' => [
-                    'class' => 'col-6'
-                ],
-                'class' => Site::class,
-                'choice_label' => 'name',
-                'required' => false
+                'mapped' => false,
+                'multiple' => true
             ])
             ->add('client', EntityType::class, [
                 'label' => 'Client :',
@@ -67,6 +60,7 @@ class ClickAndCollectType extends ServiceType
                 'required' => true
             ])
         ;
+        ;
     }
 
     /**
@@ -76,7 +70,7 @@ class ClickAndCollectType extends ServiceType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ClickAndCollect::class,
+            'data_class' => SocialNetwork::class,
         ]);
     }
 }

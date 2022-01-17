@@ -1,0 +1,58 @@
+<h1 class="c-parme bd-bt">Détails de {{ currentFrenchEchoppe.id }} </h1>
+
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Date de mise en ligne</th>
+        <td>{{ currentFrenchEchoppe.onlineDate ? currentFrenchEchoppe.onlineDate|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>En ligne</th>
+        <td>{{ currentFrenchEchoppe.online ? 'Oui' : 'Non' }}</td>
+    </tr>
+    <tr>
+        <th>Prestataire</th>
+        <td>{{ currentFrenchEchoppe.provider }}</td>
+    </tr>
+    <tr>
+        <th>Offre</th>
+        <td>{{ currentFrenchEchoppe.offer }}</td>
+    </tr>
+    <tr>
+        <th>Coût</th>
+        <td>{{ currentFrenchEchoppe.cost }}</td>
+    </tr>
+    <tr>
+        <th>Prix facturé</th>
+        <td>{{ currentFrenchEchoppe.invoicedPrice }}</td>
+    </tr>
+    <tr>
+        <th>Type de renouvellement</th>
+        <td>{{ currentFrenchEchoppe.renewalType }}</td>
+    </tr>
+    <tr>
+        <th>Date de début</th>
+        <td>{{ currentFrenchEchoppe.startDate ? currentFrenchEchoppe.startDate|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Date de renouvellement</th>
+        <td>{{ currentFrenchEchoppe.renewalDate ? currentFrenchEchoppe.renewalDate|date('d-m-Y') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Client</th>
+        <td>{{ currentFrenchEchoppe.client.name }}
+            <a href="{{ path('client_show', {'id': currentFrenchEchoppe.client.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+        </td>
+    </tr>
+    <tr>
+        <th>Commentaire</th>
+        <td>
+            {{ currentFrenchEchoppe.commentary }}
+        </td>
+    </tr>
+    <tr>
+        <th>Actif</th>
+        <td>{{ currentFrenchEchoppe.enable ? 'Oui' : 'Non' }}</td>
+    </tr>
+    </tbody>
+</table>

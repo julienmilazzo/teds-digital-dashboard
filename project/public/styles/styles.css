@@ -54,12 +54,8 @@ body{
     color: var(--tedsColor);
 }
 .img-teds {
-    height: 158px;
+    height: 190px;
     width: 140px;
-    /* for the img inside your div */
-    display: block;
-    margin-left: auto;
-    margin-right: 9%;
 }
 .yellow {
     background-color: #E7C01F;
@@ -149,11 +145,9 @@ body{
 }
 .div-title {
     padding-left: 13%;
-    padding-bottom: 40px;
 }
 .title-index {
     display: inline-block;
-    margin-left: 14%;
     color: #2E2A37;
 }
 .search-div {
@@ -246,6 +240,7 @@ body{
     display: block;
     text-align:left;
     overflow-x: auto;
+    max-height: 120px;
 }
 .body-half-screen{
     max-height: 480px;

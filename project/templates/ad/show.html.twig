@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ad{% endblock %}
+
+{% block body %}
+    <h1>Ad</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ad.id }}</td>
+            </tr>
+            <tr>
+                <th>EndDate</th>
+                <td>{{ ad.endDate ? ad.endDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Provider</th>
+                <td>{{ ad.provider }}</td>
+            </tr>
+            <tr>
+                <th>Offer</th>
+                <td>{{ ad.offer }}</td>
+            </tr>
+            <tr>
+                <th>Cost</th>
+                <td>{{ ad.cost }}</td>
+            </tr>
+            <tr>
+                <th>InvoicedPrice</th>
+                <td>{{ ad.invoicedPrice }}</td>
+            </tr>
+            <tr>
+                <th>RenewalType</th>
+                <td>{{ ad.renewalType }}</td>
+            </tr>
+            <tr>
+                <th>RenewalDate</th>
+                <td>{{ ad.renewalDate ? ad.renewalDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>StartDate</th>
+                <td>{{ ad.startDate ? ad.startDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Commentary</th>
+                <td>{{ ad.commentary }}</td>
+            </tr>
+            <tr>
+                <th>Enable</th>
+                <td>{{ ad.enable ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>SiteClientToServicesBinderId</th>
+                <td>{{ ad.siteClientToServicesBinderId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('ad_index') }}">back to list</a>
+
+    <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
+
+    {{ include('ad/_delete_form.html.twig') }}
+{% endblock %}

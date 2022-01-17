@@ -25,11 +25,6 @@ class Server extends Service
     private $id;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $enable;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -77,25 +72,6 @@ class Server extends Service
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getEnable(): ?bool
-    {
-        return $this->enable;
-    }
-
-    /**
-     * @param bool $enable
-     * @return $this
-     */
-    public function setEnable(bool $enable): self
-    {
-        $this->enable = $enable;
-
-        return $this;
     }
 
     /**

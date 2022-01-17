@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Editer ClickAndCollect{% endblock %}
+{% block title %}Ajout Réseaux Sociaux{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,20 +13,20 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
+
     <div class="yellow row div-title">
         <div class="col-sm">
-            <h1 class="title-index bd-bt" style="display: inline-block">Éditer Click&Collect :</h1>
+            <h1 class="title-index bd-bt" style="display: inline-block">Ajouter un réseau social :</h1>
         </div>
     </div>
     <div class="container-fluid div3 grid">
         <div class="div-annexe div4">
-            <a href="{{ path('click_and_collect_index') }}" class="btn yellow" style="float: right">< Retour</a>
+            <a href="{{ path('social_network_index') }}" class="btn yellow" style="float: right">< Retour</a>
             <br><br>
-            {{ include('click_and_collect/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-            {{ include('click_and_collect/_delete_form.html.twig') }}
+            {{ include('social_network/_form.html.twig') }}
         </div>
     </div>
+
     {% block footer %}
         {{ parent() }}
     {% endblock %}

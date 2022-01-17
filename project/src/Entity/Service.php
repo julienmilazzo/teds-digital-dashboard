@@ -10,6 +10,10 @@ class Service
     const DOMAIN_NAME = 'DomainName';
     const SERVER = 'Server';
     const CLICK_AND_COLLECT = 'ClickAndCollect';
+    const MAIL = 'Mail';
+    const SOCIAL_NETWORK = 'SocialNetwork';
+    const AD = 'Ad';
+    const FRENCH_ECHOPPE = 'FrenchEchoppe';
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -47,8 +51,17 @@ class Service
     protected $startDate;
 
     /**
+     * @ORM\Column(type="string", length=10000)
+     */
+    protected $commentary;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $enable;
+
+    /**
      * @ORM\Column(type="integer")
-     * @ORM\JoinColumn(nullable=true)
      */
     protected int $siteClientToServicesBinderId;
 
@@ -193,5 +206,37 @@ class Service
     public function setSiteClientToServicesBinderId(?int $siteClientToServicesBinderId): void
     {
         $this->siteClientToServicesBinderId = $siteClientToServicesBinderId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentary()
+    {
+        return $this->commentary;
+    }
+
+    /**
+     * @param mixed $commentary
+     */
+    public function setCommentary($commentary): void
+    {
+        $this->commentary = $commentary;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnable()
+    {
+        return $this->enable;
+    }
+
+    /**
+     * @param mixed $enable
+     */
+    public function setEnable($enable): void
+    {
+        $this->enable = $enable;
     }
 }

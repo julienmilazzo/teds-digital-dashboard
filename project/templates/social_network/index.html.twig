@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SocialNetwork liste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Réseaux sociaux :</h1>
+        </div>
+    </div>
+
+    <div class="grid container-fluid div3">
+        <div class="div4 div-list bg-white">
+            <h1 class="c-blue bd-bt">Liste : </h1>
+            {% if currentSocialNetwork is defined and currentSocialNetwork is not null %}
+                <table class="table table-index">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Post par semaine</th>
+                            <th>Quel Réseaux ?</th>
+                            <th>Prestataire</th>
+                            <th>Offre</th>
+                            <th>Coût</th>
+                            <th>Prix Facturé</th>
+                            <th>Type de renouvellement</th>
+                            <th>Date de début</th>
+                            <th>Date de renouvellement</th>
+                            <th>Commentaire</th>
+                            <th>Actif</th>
+                            <th>Voir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for social_network in social_networks %}
+                            <tr>
+                                <td>{{ social_network.id }}</td>
+                                <td>{{ social_network.postByWeek }}</td>
+                                <td>{{ social_network.whichSocialNetwork ? social_network.whichSocialNetwork|join(', ') : '' }}</td>
+                                <td>{{ social_network.provider }}</td>
+                                <td>{{ social_network.offer }}</td>
+                                <td>{{ social_network.cost }}</td>
+                                <td>{{ social_network.invoicedPrice }}</td>
+                                <td>{{ social_network.renewalType }}</td>
+                                <td>{{ social_network.startDate ? social_network.startDate|date('Y-m-d') : '' }}</td>
+                                <td>{{ social_network.renewalDate ? social_network.renewalDate|date('Y-m-d') : '' }}</td>
+                                <td>{{ social_network.commentary }}</td>
+                                <td>{{ social_network.enable ? 'Oui' : 'Non' }}</td>
+                                <td>
+                                    <a href="{{ path('social_network_show', {'id': social_network.id}) }}" class="btn btn-secondary">Détails</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun réseau social</p>
+            {% endif %}
+        </div>
+        <div class="div-details bg-white">
+            {% if currentSocialNetwork is defined and currentSocialNetwork is not null %}
+                {% include 'social_network/details.html.twig' %}
+            {% else %}
+                <h1 class="c-parme bd-bt">Détails </h1>
+            {% endif %}
+        </div>
+        <div class="div-action bg-white" style="text-align: center">
+            <h1 class="c-yellow bd-bt">Actions : </h1>
+            <a href="{{ path('social_network_new') }}" class="btn parme" style="margin: 7%">Ajouter</a>
+            {% if currentSocialNetwork is defined and currentSocialNetwork is not null %}
+                <a href="{{ path('social_network_edit', {'id': currentSocialNetwork.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
+            {% endif %}
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
