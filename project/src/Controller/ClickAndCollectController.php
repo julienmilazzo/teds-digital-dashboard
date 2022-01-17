@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Util\Binder;
-use App\Entity\{ClickAndCollect, Service, SiteClientToServicesBinder};
+use App\Entity\ClickAndCollect;
 use App\Form\ClickAndCollectType;
 use App\Repository\ClickAndCollectRepository;
 use Doctrine\ORM\EntityManagerInterface;

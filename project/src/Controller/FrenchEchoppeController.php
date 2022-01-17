@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Util\Binder;
-use App\Entity\{FrenchEchoppe, Service, SiteClientToServicesBinder};
+use App\Entity\FrenchEchoppe;
 use App\Form\FrenchEchoppeType;
 use App\Repository\FrenchEchoppeRepository;
 use Doctrine\ORM\EntityManagerInterface;

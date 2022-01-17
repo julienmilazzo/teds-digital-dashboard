@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Util\Binder;
-use App\Entity\{Service, SocialNetwork, SiteClientToServicesBinder};
+use App\Entity\SocialNetwork;
 use App\Form\SocialNetworkType;
 use App\Repository\SocialNetworkRepository;
 use Doctrine\ORM\EntityManagerInterface;

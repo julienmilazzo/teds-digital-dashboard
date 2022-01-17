@@ -2,8 +2,7 @@
 
 namespace App\Util;
 
-use App\Entity\Service;
-use App\Entity\SiteClientToServicesBinder;
+use App\Entity\{Service, SiteClientToServicesBinder};
 use Doctrine\ORM\EntityManagerInterface;
 
 class Binder

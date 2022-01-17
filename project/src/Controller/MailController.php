@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Util\Binder;
-use App\Entity\{Mail, Service, SiteClientToServicesBinder};
+use App\Entity\Mail;
 use App\Form\MailType;
 use App\Repository\MailRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -97,27 +97,5 @@ class MailController extends AbstractController
         }
 
         return $this->redirectToRoute('mail_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    /**
-     * @param Mail $mail
-     * @param EntityManagerInterface $entityManager
-     * @return void
-     */
-    private function setBinder(Mail $mail, EntityManagerInterface $entityManager)
-    {
-        $siteClientToServicesBinder = new SiteClientToServicesBinder();
-        $siteClientToServicesBinder
-            ->setClient($mail->getClient())
-            ->setSite(null)
-            ->setType(Service::MAIL)
-            ->setServiceId($mail->getId());
-
-        $entityManager->persist($siteClientToServicesBinder);
-        $entityManager->flush();
-        $mail->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
-
-        $entityManager->persist($mail);
-        $entityManager->flush();
     }
 }
