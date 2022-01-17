@@ -2,7 +2,14 @@
 
 namespace App\Util;
 
-use App\Entity\{Service, SiteClientToServicesBinder};
+use App\Entity\{Ad,
+    ClickAndCollect,
+    DomainName,
+    FrenchEchoppe,
+    Mail,
+    Service,
+    SiteClientToServicesBinder,
+    SocialNetwork};
 use Doctrine\ORM\EntityManagerInterface;
 
 class Binder
@@ -19,18 +26,20 @@ class Binder
             ->setClient($service->getClient())
             ->setServiceId($service->getId());
 
-        if ('App\Entity\Ad' === get_class($service) || 'App\Entity\ClickAndCollect' === get_class($service) || 'App\Entity\DomainName' === get_class($service)) {
+        $classes = [Ad::class, ClickAndCollect::class, DomainName::class];
+        if (count(array_filter($classes, function ($class) use($service) { return !($service instanceof $class); }))) {
             $siteClientToServicesBinder->setSite($service->getSite() ?: null);
         }
 
-        match (get_class($service)) {
-            'App\Entity\Ad' => $siteClientToServicesBinder->setType(Service::AD),
-            'App\Entity\SocialNetwork' => $siteClientToServicesBinder->setType(Service::SOCIAL_NETWORK),
-            'App\Entity\ClickAndCollect' => $siteClientToServicesBinder->setType(Service::CLICK_AND_COLLECT),
-            'App\Entity\FrenchEchoppe' => $siteClientToServicesBinder->setType(Service::FRENCH_ECHOPPE),
-            'App\Entity\DomainName' => $siteClientToServicesBinder->setType(Service::DOMAIN_NAME),
-            'App\Entity\Mail' => $siteClientToServicesBinder->setType(Service::MAIL),
-        };
+        $serviceRepositoryMapping = [
+            Ad::class => Service::AD,
+            SocialNetwork::class => Service::SOCIAL_NETWORK,
+            ClickAndCollect::class => Service::CLICK_AND_COLLECT,
+            FrenchEchoppe::class => Service::FRENCH_ECHOPPE,
+            DomainName::class => Service::DOMAIN_NAME,
+            Mail::class => Service::MAIL,
+        ];
+        $siteClientToServicesBinder->setType($serviceRepositoryMapping[get_class($service)]);
 
         $entityManager->persist($siteClientToServicesBinder);
         $entityManager->flush();
