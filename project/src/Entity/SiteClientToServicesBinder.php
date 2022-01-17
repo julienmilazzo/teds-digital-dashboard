@@ -40,6 +40,9 @@ class SiteClientToServicesBinder
      */
     private $type;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -99,11 +102,18 @@ class SiteClientToServicesBinder
         $this->serviceId = $serviceId;
     }
 
+    /**
+     * @return string|null
+     */
     public function getType(): ?string
     {
         return $this->type;
     }
 
+    /**
+     * @param string $type
+     * @return $this
+     */
     public function setType(string $type): self
     {
         $this->type = $type;

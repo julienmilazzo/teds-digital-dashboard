@@ -48,25 +48,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for click_and_collect in click_and_collects %}
-                        <tr style="vertical-align: middle">
-                            <td>{{ click_and_collect.id }}</td>
-                            <td>{{ click_and_collect.onlineDate ? click_and_collect.onlineDate|date('Y-m-d') : '' }}</td>
-                            <td>{{ click_and_collect.online ? 'Oui' : 'Non' }}</td>
-                            <td>{{ click_and_collect.enable ? 'Oui' : 'Non' }}</td>
-                            <td>{{ click_and_collect.provider }}</td>
-                            <td>{{ click_and_collect.offer }}</td>
-                            <td>{{ click_and_collect.cost }}</td>
-                            <td>{{ click_and_collect.invoicedPrice }}</td>
-                            <td>{{ click_and_collect.renewalType }}</td>
-                            <td>{{ click_and_collect.startDate ? click_and_collect.startDate|date('Y-m-d') : '' }}</td>
-                            <td>{{ click_and_collect.renewalDate ? click_and_collect.renewalDate|date('Y-m-d') : '' }}</td>
-                            <td>{{ click_and_collect.commentary ? click_and_collect.commentary : '-' }}</td>
-                            <td>
-                                <a href="{{ path('click_and_collect_show', {'id': click_and_collect.id}) }}" class="btn btn-secondary">Détails</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                      {% for click_and_collect in click_and_collects %}
+                          <tr style="vertical-align: middle">
+                              <td>{{ click_and_collect.id }}</td>
+                              <td>{{ click_and_collect.onlineDate ? click_and_collect.onlineDate|date('Y-m-d') : '' }}</td>
+                              <td>{{ click_and_collect.online ? 'Oui' : 'Non' }}</td>
+                              <td>{{ click_and_collect.enable ? 'Oui' : 'Non' }}</td>
+                              <td>{{ click_and_collect.provider }}</td>
+                              <td>{{ click_and_collect.offer }}</td>
+                              <td>{{ click_and_collect.cost }}</td>
+                              <td>{{ click_and_collect.invoicedPrice }}</td>
+                              <td>{{ click_and_collect.renewalType }}</td>
+                              <td>{{ click_and_collect.startDate ? click_and_collect.startDate|date('Y-m-d') : '' }}</td>
+                              <td>{{ click_and_collect.renewalDate ? click_and_collect.renewalDate|date('Y-m-d') : '' }}</td>
+                              <td>{{ click_and_collect.commentary ? click_and_collect.commentary : '-' }}</td>
+                              <td>
+                                  <a href="{{ path('click_and_collect_show', {'id': click_and_collect.id}) }}" class="btn btn-secondary">Détails</a>
+                              </td>
+                          </tr>
+                      {% endfor %}
                     </tbody>
                 </table>
             {% else %}
