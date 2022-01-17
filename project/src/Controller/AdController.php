@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Ad;
+use App\Entity\{Ad, Service, SiteClientToServicesBinder};
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,6 +46,8 @@ class AdController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($ad);
             $entityManager->flush();
+
+            $this->setBinder($ad, $entityManager);
 
             return $this->redirectToRoute('ad_index', ['id' => $ad->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -94,5 +96,28 @@ class AdController extends AbstractController
         }
 
         return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    /**
+     * @param Ad $ad
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
+    private function setBinder(Ad $ad, EntityManagerInterface $entityManager)
+    {
+        $siteClientToServicesBinder = new SiteClientToServicesBinder();
+        $siteClientToServicesBinder
+            ->setClient($ad->getClient())
+            ->setSite($ad->getSite() ?: null)
+            ->setType(Service::AD)
+            ->setServiceId($ad->getId());
+
+        $entityManager->persist($siteClientToServicesBinder);
+        $entityManager->flush();
+        $ad->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
+
+        $entityManager->persist($ad);
+        $entityManager->flush();
     }
 }

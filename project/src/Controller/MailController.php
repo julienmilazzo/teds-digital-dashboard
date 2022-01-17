@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Mail;
-use App\Entity\Service;
-use App\Entity\SiteClientToServicesBinder;
+use App\Entity\{Mail, Service, SiteClientToServicesBinder};
 use App\Form\MailType;
 use App\Repository\MailRepository;
 use Doctrine\ORM\EntityManagerInterface;
