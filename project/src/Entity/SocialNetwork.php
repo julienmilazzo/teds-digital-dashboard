@@ -44,9 +44,6 @@ class SocialNetwork extends Service
      */
     private $ad;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->ad = new ArrayCollection();

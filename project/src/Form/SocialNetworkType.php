@@ -10,6 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SocialNetworkType extends ServiceType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
@@ -58,6 +63,10 @@ class SocialNetworkType extends ServiceType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

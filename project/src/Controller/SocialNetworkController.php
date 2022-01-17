@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Util\Binder;
 use App\Entity\{Service, SocialNetwork, SiteClientToServicesBinder};
 use App\Form\SocialNetworkType;
 use App\Repository\SocialNetworkRepository;
@@ -54,7 +55,7 @@ class SocialNetworkController extends AbstractController
             $entityManager->persist($socialNetwork);
             $entityManager->flush();
 
-            $this->setBinder($socialNetwork, $entityManager);
+            Binder::set($socialNetwork, $entityManager);
 
             return $this->redirectToRoute('social_network_show', ['id' => $socialNetwork->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -103,26 +104,5 @@ class SocialNetworkController extends AbstractController
         }
 
         return $this->redirectToRoute('social_network_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    /**
-     * @param SocialNetwork $socialNetwork
-     * @param EntityManagerInterface $entityManager
-     * @return void
-     */
-    private function setBinder(SocialNetwork $socialNetwork, EntityManagerInterface $entityManager)
-    {
-        $siteClientToServicesBinder = new SiteClientToServicesBinder();
-        $siteClientToServicesBinder
-            ->setClient($socialNetwork->getClient())
-            ->setType(Service::SOCIAL_NETWORK)
-            ->setServiceId($socialNetwork->getId());
-
-        $entityManager->persist($siteClientToServicesBinder);
-        $entityManager->flush();
-        $socialNetwork->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
-
-        $entityManager->persist($socialNetwork);
-        $entityManager->flush();
     }
 }

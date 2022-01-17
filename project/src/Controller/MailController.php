@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Util\Binder;
 use App\Entity\{Mail, Service, SiteClientToServicesBinder};
 use App\Form\MailType;
 use App\Repository\MailRepository;
@@ -47,7 +48,7 @@ class MailController extends AbstractController
             $entityManager->persist($mail);
             $entityManager->flush();
 
-            $this->setBinder($mail, $entityManager);
+            Binder::set($mail, $entityManager);
 
             return $this->redirectToRoute('mail_show', ['id' => $mail->getId()], Response::HTTP_SEE_OTHER);
         }

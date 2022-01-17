@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\{Ad, Service, SiteClientToServicesBinder};
+use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
+use App\Util\Binder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -47,7 +48,7 @@ class AdController extends AbstractController
             $entityManager->persist($ad);
             $entityManager->flush();
 
-            $this->setBinder($ad, $entityManager);
+            Binder::set($ad, $entityManager);
 
             return $this->redirectToRoute('ad_index', ['id' => $ad->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -96,28 +97,5 @@ class AdController extends AbstractController
         }
 
         return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-
-    /**
-     * @param Ad $ad
-     * @param EntityManagerInterface $entityManager
-     * @return void
-     */
-    private function setBinder(Ad $ad, EntityManagerInterface $entityManager)
-    {
-        $siteClientToServicesBinder = new SiteClientToServicesBinder();
-        $siteClientToServicesBinder
-            ->setClient($ad->getClient())
-            ->setSite($ad->getSite() ?: null)
-            ->setType(Service::AD)
-            ->setServiceId($ad->getId());
-
-        $entityManager->persist($siteClientToServicesBinder);
-        $entityManager->flush();
-        $ad->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
-
-        $entityManager->persist($ad);
-        $entityManager->flush();
     }
 }

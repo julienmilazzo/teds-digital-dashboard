@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Util\Binder;
 use App\Entity\{FrenchEchoppe, Service, SiteClientToServicesBinder};
 use App\Form\FrenchEchoppeType;
 use App\Repository\FrenchEchoppeRepository;
@@ -59,7 +60,7 @@ class FrenchEchoppeController extends AbstractController
             $entityManager->persist($frenchEchoppe);
             $entityManager->flush();
 
-            $this->setBinder($frenchEchoppe, $entityManager);
+            Binder::set($frenchEchoppe, $entityManager);
 
             return $this->redirectToRoute('french_echoppe_show', ['id' => $frenchEchoppe->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -113,27 +114,5 @@ class FrenchEchoppeController extends AbstractController
         }
 
         return $this->redirectToRoute('french_echoppe_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    /**
-     * @param FrenchEchoppe $frenchEchoppe
-     * @param EntityManagerInterface $entityManager
-     * @return void
-     */
-    private function setBinder(FrenchEchoppe $frenchEchoppe, EntityManagerInterface $entityManager)
-    {
-        $siteClientToServicesBinder = new SiteClientToServicesBinder();
-        $siteClientToServicesBinder
-            ->setClient($frenchEchoppe->getClient())
-            ->setSite(null)
-            ->setType(Service::FRENCH_ECHOPPE)
-            ->setServiceId($frenchEchoppe->getId());
-
-        $entityManager->persist($siteClientToServicesBinder);
-        $entityManager->flush();
-        $frenchEchoppe->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
-
-        $entityManager->persist($frenchEchoppe);
-        $entityManager->flush();
     }
 }

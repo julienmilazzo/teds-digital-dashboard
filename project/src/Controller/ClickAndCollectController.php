@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Util\Binder;
 use App\Entity\{ClickAndCollect, Service, SiteClientToServicesBinder};
 use App\Form\ClickAndCollectType;
 use App\Repository\ClickAndCollectRepository;
@@ -59,7 +60,7 @@ class ClickAndCollectController extends AbstractController
             $entityManager->persist($clickAndCollect);
             $entityManager->flush();
 
-            $this->setBinder($clickAndCollect, $entityManager);
+            Binder::set($clickAndCollect, $entityManager);
 
             return $this->redirectToRoute('click_and_collect_show', ['id' => $clickAndCollect->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -113,27 +114,5 @@ class ClickAndCollectController extends AbstractController
         }
 
         return $this->redirectToRoute('click_and_collect_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    /**
-     * @param ClickAndCollect $clickAndCollect
-     * @param EntityManagerInterface $entityManager
-     * @return void
-     */
-    private function setBinder(ClickAndCollect $clickAndCollect, EntityManagerInterface $entityManager)
-    {
-        $siteClientToServicesBinder = new SiteClientToServicesBinder();
-        $siteClientToServicesBinder
-            ->setClient($clickAndCollect->getClient())
-            ->setSite($clickAndCollect->getSite() ?: null)
-            ->setType(Service::CLICK_AND_COLLECT)
-            ->setServiceId($clickAndCollect->getId());
-
-        $entityManager->persist($siteClientToServicesBinder);
-        $entityManager->flush();
-        $clickAndCollect->setSiteClientToServicesBinderId($siteClientToServicesBinder->getId());
-
-        $entityManager->persist($clickAndCollect);
-        $entityManager->flush();
     }
 }
