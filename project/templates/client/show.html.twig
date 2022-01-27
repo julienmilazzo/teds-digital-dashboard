@@ -2,6 +2,8 @@
 
 {% block title %}Client détails{% endblock %}
 
+{% set rowIndex = 0 %}
+
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
@@ -13,56 +15,162 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-
-    <div class="container-fluid div3">
-        <div class="div4">
-            <h1>Détails du client : {{ client.name }}</h1>
-
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th>Email</th>
-                    <td>{{ client.email }}</td>
-                </tr>
-                <tr>
-                    <th>Adresse</th>
-                    <td>{{ client.address }}</td>
-                </tr>
-                <tr>
-                    <th>Ville</th>
-                    <td>{{ client.city }}</td>
-                </tr>
-                <tr>
-                    <th>Code postal</th>
-                    <td>{{ client.zipCode }}</td>
-                </tr>
-                <tr>
-                    <th>téléphone</th>
-                    <td>{{ client.phone }}</td>
-                </tr>
-                <tr>
-                    <th>Actif</th>
-                    <td>{{ client.enable ? 'Oui' : 'Non' }}</td>
-                </tr>
-                <tr>
-                    <th>Sites</th>
-                    <td>
-                        {% for site in client.sites %}
-                            - {{ site.name }}
-                            <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                            <a class="a-link btn" href="{{ path('client_remove_site', {'id' : client.id, 'siteId' : site.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
-                        {% endfor %}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-            <a href="{{ path('client_index') }}" class="btn btn-warning">< Retour</a>
-
-            <a href="{{ path('client_edit', {'id': client.id}) }}" class="btn btn-success">Éditer</a>
-            <br><br>
-            {{ include('client/_delete_form.html.twig') }}
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Client : {{ currentClient.name }}</h1>
         </div>
+    </div>
+
+     <h3 class="title-details">Sites :</h3>
+    <div class="div-add-btn">
+        <a href="{{ path('site_new') }}"class="btn parme">Ajouter un Site</a>
+    </div>
+    <div class="grid-for container-fluid div3">
+        {% for currentSite in currentClient.sites %}
+            {% set rowIndex = rowIndex + 1 %}
+            {% if rowIndex is same as 4  %}
+                {% set rowIndex = 1 %}
+                </div>
+                <div class="grid-for container-fluid div3">
+            {% endif %}
+            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
+                {% include 'site/details.html.twig' %}
+            </div>
+        {% endfor %}
+        {% set rowIndex = 0 %}
+    </div>
+
+     <h3 class="title-details">Serveurs : </h3>
+    <div class="div-add-btn">
+        <a href="{{ path('server_new') }}"class="btn parme" >Ajouter un Serveur</a>
+    </div>
+    <div class="grid-for container-fluid div3">
+        {% for currentServer in currentClient.servers %}
+            {% set rowIndex = rowIndex + 1 %}
+            {% if rowIndex is same as 4  %}
+                {% set rowIndex = 1 %}
+                </div>
+                <div class="grid-for container-fluid div3">
+            {% endif %}
+            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
+                {% include 'server/details.html.twig' %}
+            </div>
+        {% endfor %}
+        {% set rowIndex = 0 %}
+    </div>
+
+     <h3 class="title-details">Noms de domaines : </h3>
+    <div class="div-add-btn">
+        <a href="{{ path('domain_name_new') }}"class="btn parme">Ajouter un Nom de domaine</a>
+    </div>
+    <div class="grid-for container-fluid div3">
+        {% for currentDomainName in domainNames %}
+            {% set rowIndex = rowIndex + 1 %}
+            {% if rowIndex is same as 4  %}
+                {% set rowIndex = 1 %}
+                </div>
+                <div class="grid-for container-fluid div3">
+            {% endif %}
+            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
+                {% include 'domain_name/details.html.twig' %}
+            </div>
+        {% endfor %}
+        {% set rowIndex = 0 %}
+    </div>
+
+     <h3 class="title-details">Email : </h3>
+    <div class="div-add-btn">
+        <a href="{{ path('mail_new') }}"class="btn parme">Ajouter un Mail</a>
+    </div>
+    <div class="grid-for container-fluid div3">
+        {% for currentMail in mails %}
+            {% set rowIndex = rowIndex + 1 %}
+            {% if rowIndex is same as 4  %}
+                {% set rowIndex = 1 %}
+                </div>
+                <div class="grid-for container-fluid div3">
+            {% endif %}
+            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
+                {% include 'mail/details.html.twig' %}
+            </div>
+        {% endfor %}
+        {% set rowIndex = 0 %}
+    </div>
+
+    <h3 class="title-details">French Echoppe : </h3>
+    <div class="div-add-btn">
+        <a href="{{ path('french_echoppe_new') }}"class="btn parme">Ajouter un French Echoppe</a>
+    </div>
+    <div class="grid-for container-fluid div3">
+        {% for currentFrenchEchoppe in frenchEchoppes %}
+            {% set rowIndex = rowIndex + 1 %}
+            {% if rowIndex is same as 4  %}
+                {% set rowIndex = 1 %}
+                </div>
+                <div class="grid-for container-fluid div3">
+            {% endif %}
+            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
+                {% include 'french_echoppe/details.html.twig' %}
+            </div>
+        {% endfor %}
+        {% set rowIndex = 0 %}
+    </div>
+
+    <h3 class="title-details">Réseaux sociaux : </h3>
+    <div class="div-add-btn">
+        <a href="{{ path('social_network_new') }}"class="btn parme">Ajouter un réseau social</a>
+    </div>
+    <div class="grid-for container-fluid div3">
+        {% for currentSocialNetwork in socialNetworks %}
+            {% set rowIndex = rowIndex + 1 %}
+            {% if rowIndex is same as 4  %}
+                {% set rowIndex = 1 %}
+                </div>
+                <div class="grid-for container-fluid div3">
+            {% endif %}
+            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
+                {% include 'social_network/details.html.twig' %}
+            </div>
+        {% endfor %}
+        {% set rowIndex = 0 %}
+    </div>
+
+    <h3 class="title-details">Publicités : </h3>
+    <div class="div-add-btn">
+        <a href="{{ path('ad_new') }}" class="btn parme">Ajouter une publicité</a>
+    </div>
+    <div class="grid-for container-fluid div3">
+        {% for currentAd in ads %}
+            {% set rowIndex = rowIndex + 1 %}
+            {% if rowIndex is same as 4  %}
+                {% set rowIndex = 1 %}
+                </div>
+                <div class="grid-for container-fluid div3">
+            {% endif %}
+            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
+                {% include 'ad/details.html.twig' %}
+            </div>
+        {% endfor %}
+        {% set rowIndex = 0 %}
+    </div>
+
+    <h3 class="title-details">Click and Collect : </h3>
+    <div class="div-add-btn">
+        <a href="{{ path('click_and_collect_new') }}"class="btn parme">Ajouter un Click and Collect</a>
+    </div>
+    <div class="grid-for container-fluid div3">
+        {% for currentClickAndCollect in clickAndCollects %}
+            {% set rowIndex = rowIndex + 1 %}
+            {% if rowIndex is same as 4  %}
+                {% set rowIndex = 1 %}
+                </div>
+                <div class="grid-for container-fluid div3">
+            {% endif %}
+            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
+                {% include 'click_and_collect/details.html.twig' %}
+            </div>
+        {% endfor %}
+        {% set rowIndex = 0 %}
     </div>
 
     {% block footer %}

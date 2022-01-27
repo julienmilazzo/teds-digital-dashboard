@@ -67,5 +67,49 @@
                 {% endfor %}
             </td>
         </tr>
+        <tr>
+            <th>Mail :</th>
+            <td>
+                {% for mail in mails %}
+                    {% if mail is defined and mail is not null %}
+                        - {{ mail.id }}
+                        <a href="{{ path('mail_show', {'id': mail.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Réseaux sociaux :</th>
+            <td>
+                {% for socialNetwork in socialNetworks %}
+                    {% if socialNetwork is defined and socialNetwork is not null %}
+                        - {{ socialNetwork.id }}
+                        <a href="{{ path('social_network_show', {'id': socialNetwork.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Ads :</th>
+            <td>
+                {% for ad in ads %}
+                    {% if ad is defined and ad is not null %}
+                        - {{ ad.id }}
+                        <a href="{{ path('ad_show', {'id': ad.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>French Echoppe :</th>
+            <td>
+                {% for frenchEchoppe in frenchEchoppes %}
+                    {% if frenchEchoppe is defined and frenchEchoppe is not null %}
+                        - {{ frenchEchoppe.id }}
+                        <a href="{{ path('french_echoppe_show', {'id': frenchEchoppe.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
     </tbody>
 </table>

@@ -1,5 +1,7 @@
 <h1 class="c-parme bd-bt">Détails de {{ currentMail.id }}</h1>
-
+<a href="{{ path('mail_edit', {'id': currentMail.id}) }}" class="btn blue">
+    Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+</a>
 <table class="table">
     <tbody>
     <tr>

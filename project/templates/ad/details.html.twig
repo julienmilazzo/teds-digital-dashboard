@@ -1,5 +1,7 @@
 <h1 class="c-parme bd-bt">Détails de {{ currentAd.id }}</h1>
-
+<a href="{{ path('ad_edit', {'id': currentAd.id}) }}" class="btn blue">
+    Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+</a>
 <table class="table">
     <tbody>
     <tr>

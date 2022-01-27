@@ -1,4 +1,7 @@
 <h1 class="c-parme bd-bt">Détails de {{ currentSite.name }} : </h1>
+<a href="{{ path('site_edit', {'id': currentSite.id}) }}" class="btn blue">
+    Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+</a>
 <table class="table">
     <tbody>
     <tr>
