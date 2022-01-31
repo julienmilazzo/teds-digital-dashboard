@@ -36,6 +36,11 @@ body{
     margin-right: 15px;
     padding: 2%;
 }
+.div4.client{
+    margin-left: 5%;
+    margin-right: 15px;
+    padding: 2%;
+}
 .menu {
     background-color: var(--tedsColor);
     color: #393942!important;
@@ -234,6 +239,13 @@ body{
 .div-list {
     border: solid 1px #7FBCBC;
     grid-column: 2 / 9;
+    grid-row: 1 / 13;
+    border-radius: 25px;
+    padding: 3%;
+}
+.div-list.client {
+    border: solid 1px #7FBCBC;
+    grid-column: 2 / 13;
     grid-row: 1 / 13;
     border-radius: 25px;
     padding: 3%;
