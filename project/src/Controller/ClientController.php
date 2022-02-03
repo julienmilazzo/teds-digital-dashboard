@@ -24,12 +24,12 @@ class ClientController extends AbstractController
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
             'currentClient' => $currentClient,
-            'domainNames' => $services[0] ?? null,
-            'clickAndCollects' => $services[1] ?? null,
-            'mails' => $services[2] ?? null,
-            'frenchEchoppes' => $services[3] ?? null,
-            'ads' => $services[4] ?? null,
-            'socialNetworks' => $services[5] ?? null,
+            'domainNames' => $services['domainNames'] ?? null,
+            'clickAndCollects' => $services['clickAndCollects'] ?? null,
+            'mails' => $services['mails'] ?? null,
+            'frenchEchoppes' => $services['frenchEchoppes'] ?? null,
+            'ads' => $services['ads'] ?? null,
+            'socialNetworks' => $services['socialNetworks'] ?? null,
         ]);
     }
 
@@ -81,12 +81,12 @@ class ClientController extends AbstractController
         return $this->render('client/show.html.twig', [
             'clients' => $clients,
             'currentClient' => $currentClient,
-            'domainNames' => $services[0],
-            'clickAndCollects' => $services[1],
-            'mails' => $services[2] ?? null,
-            'frenchEchoppes' => $services[3] ?? null,
-            'ads' => $services[4] ?? null,
-            'socialNetworks' => $services[5] ?? null,
+            'domainNames' => $services['domainNames'] ?? null,
+            'clickAndCollects' => $services['clickAndCollects'] ?? null,
+            'mails' => $services['mails'] ?? null,
+            'frenchEchoppes' => $services['frenchEchoppes'] ?? null,
+            'ads' => $services['ads'] ?? null,
+            'socialNetworks' => $services['socialNetworks'] ?? null,
         ]);
 
     }
