@@ -19,12 +19,11 @@ class SiteController extends AbstractController
     public function index(SiteRepository $siteRepository, EntityManagerInterface $entityManager): Response
     {
         $sites = $siteRepository->findAll();
-        $currentSite = $sites[0] ?? null;
-        $services = GetterServices::getServices($currentSite->getSiteClientToServicesBinders(), $entityManager);
+        $services = isset($sites) ? GetterServices::getServices($sites[0]->getSiteClientToServicesBinders(), $entityManager) : null;
 
         return $this->render('site/index.html.twig', [
             'sites' => $sites,
-            'currentSite' => $currentSite,
+            'currentSite' => $sites[0] ?? null,
             'domainNames' => $services[0] ?? null,
             'clickAndCollects' => $services[1] ?? null,
         ]);
