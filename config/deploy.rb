@@ -65,4 +65,4 @@ end
 # after 'deploy:finished', 'cache:clear'
 before 'deploy:updated', 'deploy:set_permissions:chown'
 after 'deploy:finished', 'deploy:assets'
-after 'deploy:finished', 'deploy:migrate'
+# after 'deploy:finished', 'deploy:migrate'
