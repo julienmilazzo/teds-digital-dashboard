@@ -1,0 +1,121 @@
+# Logfile created on 2022-02-08 11:00:53 +0100 by logger.rb/v1.4.2
+  INFO ---------------------------------------------------------------------------
+  INFO START 2022-02-08 11:00:53 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [650175c8] Running /usr/bin/env mkdir -p /tmp as debian@51.255.79.241
+ DEBUG [650175c8] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /tmp )
+  INFO [650175c8] Finished in 21.238 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-360fe03393ea0f02b732.sh 0.0%
+  INFO Uploading /tmp/git-ssh-360fe03393ea0f02b732.sh 100.0%
+  INFO [c0f6d466] Running /usr/bin/env chmod 700 /tmp/git-ssh-360fe03393ea0f02b732.sh as debian@51.255.79.241
+ DEBUG [c0f6d466] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env chmod 700 /tmp/git-ssh-360fe03393ea0f02b732.sh )
+  INFO [c0f6d466] Finished in 0.320 seconds with exit status 0 (successful).
+  INFO [9182a507] Running /usr/bin/env git ls-remote git@github.com:julienmilazzo/teds-digital-dashboard.git HEAD as debian@51.255.79.241
+ DEBUG [9182a507] Command: ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-360fe03393ea0f02b732.sh" ; /usr/bin/env git ls-remote git@github.com:julienmilazzo/teds-digital-dashboard.git HEAD )
+ DEBUG [9182a507] 	4a675da0c645509503dca9e6e3620fc87f9d761d	HEAD
+  INFO [9182a507] Finished in 2.604 seconds with exit status 0 (successful).
+  INFO [f7a05c45] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/releases as debian@51.255.79.241
+ DEBUG [f7a05c45] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/releases )
+  INFO [f7a05c45] Finished in 0.413 seconds with exit status 0 (successful).
+  INFO [13acb36e] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared/var/log /var/www/sentinelle/shared/log /var/www/sentinelle/shared/vendor /var/www/sentinelle/shared/public/bundles /var/www/sentinelle/shared/public/dtc-done /var/www/sentinelle/shared/public/images /var/www/sentinelle/shared/var/oauth as debian@51.255.79.241
+ DEBUG [13acb36e] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared/var/log /var/www/sentinelle/shared/log /var/www/sentinelle/shared/vendor /var/www/sentinelle/shared/public/bundles /var/www/sentinelle/shared/public/dtc-done /var/www/sentinelle/shared/public/images /var/www/sentinelle/shared/var/oauth )
+  INFO [13acb36e] Finished in 0.415 seconds with exit status 0 (successful).
+  INFO [cfbc3dc4] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/shared/public as debian@51.255.79.241
+ DEBUG [cfbc3dc4] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/shared/public )
+  INFO [cfbc3dc4] Finished in 0.313 seconds with exit status 0 (successful).
+ DEBUG [5727831e] Running [ -f /var/www/sentinelle/shared/.env ] as debian@51.255.79.241
+ DEBUG [5727831e] Command: [ -f /var/www/sentinelle/shared/.env ]
+ DEBUG [5727831e] Finished in 0.311 seconds with exit status 1 (failed).
+ ERROR linked file /var/www/sentinelle/shared/.env does not exist on 51.255.79.241
+  INFO ---------------------------------------------------------------------------
+  INFO START 2022-02-08 11:10:28 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [52f8df62] Running /usr/bin/env mkdir -p /tmp as debian@51.255.79.241
+ DEBUG [52f8df62] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /tmp )
+  INFO [52f8df62] Finished in 18.490 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-885080b12fd864d6892c.sh 0.0%
+  INFO Uploading /tmp/git-ssh-885080b12fd864d6892c.sh 100.0%
+  INFO [e05182f7] Running /usr/bin/env chmod 700 /tmp/git-ssh-885080b12fd864d6892c.sh as debian@51.255.79.241
+ DEBUG [e05182f7] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env chmod 700 /tmp/git-ssh-885080b12fd864d6892c.sh )
+  INFO [e05182f7] Finished in 0.315 seconds with exit status 0 (successful).
+  INFO [ede8f528] Running /usr/bin/env git ls-remote git@github.com:julienmilazzo/teds-digital-dashboard.git HEAD as debian@51.255.79.241
+ DEBUG [ede8f528] Command: ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-885080b12fd864d6892c.sh" ; /usr/bin/env git ls-remote git@github.com:julienmilazzo/teds-digital-dashboard.git HEAD )
+ DEBUG [ede8f528] 	4a675da0c645509503dca9e6e3620fc87f9d761d	HEAD
+  INFO [ede8f528] Finished in 2.182 seconds with exit status 0 (successful).
+  INFO [c5ec6981] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/releases as debian@51.255.79.241
+ DEBUG [c5ec6981] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/releases )
+  INFO [c5ec6981] Finished in 0.347 seconds with exit status 0 (successful).
+  INFO [c8b56ff7] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared/var/log /var/www/sentinelle/shared/log /var/www/sentinelle/shared/vendor /var/www/sentinelle/shared/public/bundles /var/www/sentinelle/shared/public/dtc-done /var/www/sentinelle/shared/public/images /var/www/sentinelle/shared/var/oauth as debian@51.255.79.241
+ DEBUG [c8b56ff7] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared/var/log /var/www/sentinelle/shared/log /var/www/sentinelle/shared/vendor /var/www/sentinelle/shared/public/bundles /var/www/sentinelle/shared/public/dtc-done /var/www/sentinelle/shared/public/images /var/www/sentinelle/shared/var/oauth )
+  INFO [c8b56ff7] Finished in 0.595 seconds with exit status 0 (successful).
+  INFO [e56e5753] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/shared/public as debian@51.255.79.241
+ DEBUG [e56e5753] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/shared/public )
+  INFO [e56e5753] Finished in 0.728 seconds with exit status 0 (successful).
+ DEBUG [b0c8995c] Running [ -f /var/www/sentinelle/shared/.env ] as debian@51.255.79.241
+ DEBUG [b0c8995c] Command: [ -f /var/www/sentinelle/shared/.env ]
+ DEBUG [b0c8995c] Finished in 0.626 seconds with exit status 0 (successful).
+ DEBUG [84fca001] Running [ -f /var/www/sentinelle/shared/public/dn-list ] as debian@51.255.79.241
+ DEBUG [84fca001] Command: [ -f /var/www/sentinelle/shared/public/dn-list ]
+ DEBUG [84fca001] Finished in 0.290 seconds with exit status 1 (failed).
+ ERROR linked file /var/www/sentinelle/shared/public/dn-list does not exist on 51.255.79.241
+  INFO ---------------------------------------------------------------------------
+  INFO START 2022-02-08 11:11:41 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [80087112] Running /usr/bin/env mkdir -p /tmp as debian@51.255.79.241
+ DEBUG [80087112] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /tmp )
+  INFO [80087112] Finished in 4.127 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-f84b7eb7675903f14f53.sh 0.0%
+  INFO Uploading /tmp/git-ssh-f84b7eb7675903f14f53.sh 100.0%
+  INFO [288a1caf] Running /usr/bin/env chmod 700 /tmp/git-ssh-f84b7eb7675903f14f53.sh as debian@51.255.79.241
+ DEBUG [288a1caf] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env chmod 700 /tmp/git-ssh-f84b7eb7675903f14f53.sh )
+  INFO [288a1caf] Finished in 0.310 seconds with exit status 0 (successful).
+  INFO [cab7cb0f] Running /usr/bin/env git ls-remote git@github.com:julienmilazzo/teds-digital-dashboard.git HEAD as debian@51.255.79.241
+ DEBUG [cab7cb0f] Command: ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-f84b7eb7675903f14f53.sh" ; /usr/bin/env git ls-remote git@github.com:julienmilazzo/teds-digital-dashboard.git HEAD )
+ DEBUG [cab7cb0f] 	4a675da0c645509503dca9e6e3620fc87f9d761d	HEAD
+  INFO [cab7cb0f] Finished in 2.278 seconds with exit status 0 (successful).
+  INFO [6d5b45c9] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/releases as debian@51.255.79.241
+ DEBUG [6d5b45c9] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared /var/www/sentinelle/releases )
+  INFO [6d5b45c9] Finished in 0.798 seconds with exit status 0 (successful).
+  INFO [44efad79] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared/var/log /var/www/sentinelle/shared/log /var/www/sentinelle/shared/vendor /var/www/sentinelle/shared/public/bundles /var/www/sentinelle/shared/public/images as debian@51.255.79.241
+ DEBUG [44efad79] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared/var/log /var/www/sentinelle/shared/log /var/www/sentinelle/shared/vendor /var/www/sentinelle/shared/public/bundles /var/www/sentinelle/shared/public/images )
+  INFO [44efad79] Finished in 0.370 seconds with exit status 0 (successful).
+  INFO [f9ba8549] Running /usr/bin/env mkdir -p /var/www/sentinelle/shared as debian@51.255.79.241
+ DEBUG [f9ba8549] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/sentinelle/shared )
+  INFO [f9ba8549] Finished in 0.725 seconds with exit status 0 (successful).
+ DEBUG [e01e73bf] Running [ -f /var/www/sentinelle/shared/.env ] as debian@51.255.79.241
+ DEBUG [e01e73bf] Command: [ -f /var/www/sentinelle/shared/.env ]
+ DEBUG [e01e73bf] Finished in 0.314 seconds with exit status 0 (successful).
+ DEBUG [be95fa0f] Running [ -f /var/www/sentinelle/current/REVISION ] as debian@51.255.79.241
+ DEBUG [be95fa0f] Command: [ -f /var/www/sentinelle/current/REVISION ]
+ DEBUG [be95fa0f] Finished in 0.309 seconds with exit status 1 (failed).
+ DEBUG [2182d5ed] Running [ -f /var/www/sentinelle/repo/HEAD ] as debian@51.255.79.241
+ DEBUG [2182d5ed] Command: [ -f /var/www/sentinelle/repo/HEAD ]
+ DEBUG [2182d5ed] Finished in 0.313 seconds with exit status 1 (failed).
+ DEBUG [d32f34c4] Running if test ! -d /var/www/sentinelle; then echo "Directory does not exist '/var/www/sentinelle'" 1>&2; false; fi as debian@51.255.79.241
+ DEBUG [d32f34c4] Command: if test ! -d /var/www/sentinelle; then echo "Directory does not exist '/var/www/sentinelle'" 1>&2; false; fi
+ DEBUG [d32f34c4] Finished in 0.310 seconds with exit status 0 (successful).
+  INFO [4e07aa6c] Running /usr/bin/env git clone --mirror git@github.com:julienmilazzo/teds-digital-dashboard.git /var/www/sentinelle/repo as debian@51.255.79.241
+ DEBUG [4e07aa6c] Command: cd /var/www/sentinelle && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-f84b7eb7675903f14f53.sh" ; /usr/bin/env git clone --mirror git@github.com:julienmilazzo/teds-digital-dashboard.git /var/www/sentinelle/repo )
+ DEBUG [4e07aa6c] 	Cloning into bare repository '/var/www/sentinelle/repo'...
+  INFO [4e07aa6c] Finished in 3.810 seconds with exit status 0 (successful).
+ DEBUG [a8cd25aa] Running if test ! -d /var/www/sentinelle/repo; then echo "Directory does not exist '/var/www/sentinelle/repo'" 1>&2; false; fi as debian@51.255.79.241
+ DEBUG [a8cd25aa] Command: if test ! -d /var/www/sentinelle/repo; then echo "Directory does not exist '/var/www/sentinelle/repo'" 1>&2; false; fi
+ DEBUG [a8cd25aa] Finished in 0.262 seconds with exit status 0 (successful).
+  INFO [f0e14d71] Running /usr/bin/env git remote set-url origin git@github.com:julienmilazzo/teds-digital-dashboard.git as debian@51.255.79.241
+ DEBUG [f0e14d71] Command: cd /var/www/sentinelle/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-f84b7eb7675903f14f53.sh" ; /usr/bin/env git remote set-url origin git@github.com:julienmilazzo/teds-digital-dashboard.git )
+  INFO [f0e14d71] Finished in 0.315 seconds with exit status 0 (successful).
+  INFO [4ebe5e0e] Running /usr/bin/env git remote update --prune as debian@51.255.79.241
+ DEBUG [4ebe5e0e] Command: cd /var/www/sentinelle/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-f84b7eb7675903f14f53.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [4ebe5e0e] 	Fetching origin
+  INFO [4ebe5e0e] Finished in 2.083 seconds with exit status 0 (successful).
+ DEBUG [7e54304b] Running if test ! -d /var/www/sentinelle/repo; then echo "Directory does not exist '/var/www/sentinelle/repo'" 1>&2; false; fi as debian@51.255.79.241
+ DEBUG [7e54304b] Command: if test ! -d /var/www/sentinelle/repo; then echo "Directory does not exist '/var/www/sentinelle/repo'" 1>&2; false; fi
+ DEBUG [7e54304b] Finished in 0.715 seconds with exit status 0 (successful).
+  INFO [80e2098f] Running /usr/bin/env mkdir -p /var/www/sentinelle/releases/20220208101151 as debian@51.255.79.241
+ DEBUG [80e2098f] Command: cd /var/www/sentinelle/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-f84b7eb7675903f14f53.sh" ; /usr/bin/env mkdir -p /var/www/sentinelle/releases/20220208101151 )
+  INFO [80e2098f] Finished in 0.614 seconds with exit status 0 (successful).
+  INFO [661b2359] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/sentinelle/releases/20220208101151 as debian@51.255.79.241
+ DEBUG [661b2359] Command: cd /var/www/sentinelle/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-f84b7eb7675903f14f53.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /var/www/sentinelle/releases/20220208101151 )
+ DEBUG [661b2359] 	fatal: Not a valid object name
+ DEBUG [661b2359] 	tar: This does not look like a tar archive
+tar: Exiting with failure status due to previous errors
