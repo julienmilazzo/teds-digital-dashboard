@@ -25,7 +25,7 @@ set :format_options, command_output: true, log_file: "var/log/capistrano.log", c
 append :linked_files, ".env"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "vendor", "public/bundles", "public/images"
+append :linked_dirs, "log", "vendor", "public/bundles", "public/images", "public/audio"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
