@@ -10,6 +10,12 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        document.addEventListener("click", function () {
+            var date = new Date();
+            if (11 === date.getMonth()) {
+                document.getElementById('noel').play();
+            }
+        });
         function searchClient() {
             var url = '{{ path("client_search") }}';
             window.location.href = url + '?searchName=' + $('#search').val();
@@ -21,7 +27,7 @@
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
-
+    <audio controls id='noel' style="display: none"><source src='{{ app.request.getSchemeAndHttpHost() }}/audio/noel.mp3' type='audio/mpeg'> </audio>
     <div class="yellow row div-title">
         <div class="col-sm">
             <h1 class="title-index bd-bt" style="display: inline-block">Clients :</h1>

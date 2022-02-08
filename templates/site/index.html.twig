@@ -11,6 +11,7 @@
     {{ parent() }}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+
             $('.table').scrollTableBody();
         })
         function searchSite() {
@@ -29,7 +30,6 @@
 {% endblock %}
 
 {% block body %}
-
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
@@ -88,7 +88,6 @@
             <a href="{{ path('site_new') }}" class="btn parme" style="margin: 5%">Ajouter</a>
             {% if currentSite is defined and currentSite is not null %}
                 <a href="{{ path('site_edit', {'id': currentSite.id}) }}" class="btn blue" style="margin: 5%">Éditer: {{ currentSite.name }}</a>
-                {{ include('site/_delete_form.html.twig') }}
             {% endif %}
         </div>
     </div>
