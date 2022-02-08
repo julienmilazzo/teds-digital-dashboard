@@ -38,14 +38,18 @@ class SiteController extends AbstractController
     }
 
     #[Route('/ordered/{id}', name: 'site_ordered', methods: ['GET'])]
-    public function ordered(Request $request, SiteRepository $siteRepository, Site $site): Response
+    public function ordered(Request $request, SiteRepository $siteRepository, Site $site, EntityManagerInterface $entityManager): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+
+        $services = GetterServices::getServices($site->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('site/index.html.twig', [
             'sites' => $siteRepository->findBy([], [$request->get('orderedType') => $orderBy]),
             'orderBy' => $orderBy,
             'currentSite' => $site,
+            'domainNames' => $services[0] ?? null,
+            'clickAndCollects' => $services[1] ?? null,
         ]);
     }
 

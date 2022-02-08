@@ -37,9 +37,11 @@ class ClientController extends AbstractController
     public function ordered(Request $request, ClientRepository $clientRepository): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+        $clients =  $clientRepository->findBy([], [$request->get('orderedType') => $orderBy]);
 
         return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findBy([], [$request->get('orderedType') => $orderBy]),
+            'clients' => $clients,
+            'currentClient' => $clients[0],
             'orderBy' => $orderBy
         ]);
     }

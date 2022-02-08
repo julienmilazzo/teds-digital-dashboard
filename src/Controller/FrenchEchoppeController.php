@@ -33,7 +33,7 @@ class FrenchEchoppeController extends AbstractController
         ]);
     }
 
-    #[Route('/ordered/{id}', name: 'domain_name_ordered', methods: ['GET'])]
+    #[Route('/ordered/{id}', name: 'french-echoppe_ordered', methods: ['GET'])]
     public function ordered(Request $request, FrenchEchoppeRepository $frenchEchoppeRepository, FrenchEchoppe $frenchEchoppe): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
