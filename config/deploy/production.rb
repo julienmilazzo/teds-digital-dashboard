@@ -81,4 +81,4 @@ namespace :execute_on_server do
 end
 
 before 'deploy:cleanup', 'execute_on_server:old_releases_var_chown'
-after 'deploy:finished', 'execute_on_server:videcache'
+# after 'deploy:finished', 'execute_on_server:videcache'
