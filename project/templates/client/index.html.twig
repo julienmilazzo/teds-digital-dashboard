@@ -32,7 +32,8 @@
         </div>
     </div>
     <div class="grid container-fluid div3">
-        <div class="div4 div-list bg-white">
+        <div class=" client div4 div-list bg-white">
+            <a href="{{ path('client_new') }}"class="btn parme" style="float: right">Ajouter</a>
             <h1 class="c-blue bd-bt">Liste : </h1>
             {% if currentClient is defined and currentClient is not null %}
                 <table class="table table-index">
@@ -67,22 +68,6 @@
                 </table>
             {% else %}
                 <p>Aucun client</p>
-            {% endif %}
-        </div>
-
-        <div class="div-details bg-white">
-            {% if currentClient is defined and currentClient is not null %}
-                {% include 'client/details.html.twig' %}
-            {% else %}
-                <h1 class="c-parme bd-bt">Détails </h1>
-            {% endif %}
-        </div>
-
-        <div class="div-action bg-white" style="text-align: center">
-            <h1 class="c-yellow bd-bt">Actions : </h1>
-            <a href="{{ path('client_new') }}"class="btn parme" style="margin: 7%">Ajouter</a>
-            {% if currentClient is defined and currentClient is not null %}
-                <a href="{{ path('client_edit', {'id': currentClient.id}) }}" class="btn blue" style="margin: 5%">Éditer : {{ currentClient.name }}</a>
             {% endif %}
         </div>
     </div>

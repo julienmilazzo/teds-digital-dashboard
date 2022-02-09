@@ -25,7 +25,11 @@ class ClientController extends AbstractController
             'clients' => $clients,
             'currentClient' => $currentClient,
             'domainNames' => $services[0] ?? null,
-            'clickAndCollects' => $services[1] ?? null
+            'clickAndCollects' => $services[1] ?? null,
+            'mails' => $services[2] ?? null,
+            'frenchEchoppes' => $services[3] ?? null,
+            'ads' => $services[4] ?? null,
+            'socialNetworks' => $services[5] ?? null,
         ]);
     }
 
@@ -74,13 +78,16 @@ class ClientController extends AbstractController
         $clients = $clientRepository->findAll();
         $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
 
-        return $this->render('client/index.html.twig', [
+        return $this->render('client/show.html.twig', [
             'clients' => $clients,
             'currentClient' => $currentClient,
             'domainNames' => $services[0],
-            'clickAndCollects' => $services[1]
+            'clickAndCollects' => $services[1],
+            'mails' => $services[2] ?? null,
+            'frenchEchoppes' => $services[3] ?? null,
+            'ads' => $services[4] ?? null,
+            'socialNetworks' => $services[5] ?? null,
         ]);
-
     }
     #[Route('/{id}/edit', name: 'client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
