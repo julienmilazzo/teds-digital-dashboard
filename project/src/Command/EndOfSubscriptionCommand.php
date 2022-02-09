@@ -11,7 +11,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class EndOfSubscriptionCommand extends Command
 {
     protected static $defaultName = 'app:end-of-sub';
