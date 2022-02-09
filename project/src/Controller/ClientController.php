@@ -18,18 +18,10 @@ class ClientController extends AbstractController
     public function index(ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
-        $currentClient = $clients[0] ?? null;
-        $services = GetterServices::getServices($currentClient->getSiteClientToServicesBinders(), $entityManager);
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
-            'currentClient' => $currentClient,
-            'domainNames' => $services['domainNames'] ?? null,
-            'clickAndCollects' => $services['clickAndCollects'] ?? null,
-            'mails' => $services['mails'] ?? null,
-            'frenchEchoppes' => $services['frenchEchoppes'] ?? null,
-            'ads' => $services['ads'] ?? null,
-            'socialNetworks' => $services['socialNetworks'] ?? null,
+            'currentClient' => $clients[0],
         ]);
     }
 
@@ -45,9 +37,11 @@ class ClientController extends AbstractController
     public function ordered(Request $request, ClientRepository $clientRepository): Response
     {
         $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
+        $clients =  $clientRepository->findBy([], [$request->get('orderedType') => $orderBy]);
 
         return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findBy([], [$request->get('orderedType') => $orderBy]),
+            'clients' => $clients,
+            'currentClient' => $clients[0],
             'orderBy' => $orderBy
         ]);
     }
