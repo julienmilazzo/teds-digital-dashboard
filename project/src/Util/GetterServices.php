@@ -51,6 +51,6 @@ class GetterServices
             };
         }
 
-        return [$domainNames, $clickAndCollects, $mails, $frenchEchoppes, $ads, $socialNetworks];
+        return ['domainNames' => $domainNames, 'clickAndCollects' => $clickAndCollects, 'mails' => $mails, 'frenchEchoppes' => $frenchEchoppes, 'ads' => $ads, 'socialNetworks' => $socialNetworks];
     }
 }
