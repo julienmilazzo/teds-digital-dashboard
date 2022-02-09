@@ -1,0 +1,62 @@
+<h1 class="c-parme bd-bt">Détails de {{ currentSocialNetwork.id }}</h1>
+<a href="{{ path('social_network_edit', {'id': currentSocialNetwork.id}) }}" class="btn blue">
+    Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+</a>
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Client :</th>
+        <td>{{ currentSocialNetwork.client.name }}
+            <a href="{{ path('client_show', {'id': currentSocialNetwork.client.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+        </td>
+    </tr>
+    <tr>
+        <th>Post par semaine :</th>
+        <td>{{ currentSocialNetwork.postByWeek }}</td>
+    </tr>
+    <tr>
+        <th>Quel Réseaux ? </th>
+        <td>
+            {% for i in 0..((currentSocialNetwork.whichSocialNetwork|length)-1) %}
+                - {{ currentSocialNetwork.whichSocialNetwork[i] }} <br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Prestataire :</th>
+        <td>{{ currentSocialNetwork.provider }}</td>
+    </tr>
+    <tr>
+        <th>Offre :</th>
+        <td>{{ currentSocialNetwork.offer }}</td>
+    </tr>
+    <tr>
+        <th>Coût :</th>
+        <td>{{ currentSocialNetwork.cost }}</td>
+    </tr>
+    <tr>
+        <th>Prix facturé :</th>
+        <td>{{ currentSocialNetwork.invoicedPrice }}</td>
+    </tr>
+    <tr>
+        <th>Type de renouvellement :</th>
+        <td>{{ currentSocialNetwork.renewalType }}</td>
+    </tr>
+    <tr>
+        <th>Date de renouvellement :</th>
+        <td>{{ currentSocialNetwork.renewalDate ? currentSocialNetwork.renewalDate|date('Y-m-d') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Date de début :</th>
+        <td>{{ currentSocialNetwork.startDate ? currentSocialNetwork.startDate|date('Y-m-d') : '' }}</td>
+    </tr>
+    <tr>
+        <th>Commentaire :</th>
+        <td>{{ currentSocialNetwork.commentary }}</td>
+    </tr>
+    <tr>
+        <th>Actif : </th>
+        <td>{{ currentSocialNetwork.enable ? 'Oui' : 'Non' }}</td>
+    </tr>
+    </tbody>
+</table>
