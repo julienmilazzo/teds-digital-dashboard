@@ -29,6 +29,11 @@ class ImportCSVType extends AbstractType
                     'Nom de domain' => 'nomDeDomaine',
                     'Site' => 'site',
                     'Serveur' => 'serveur',
+                    'Click\'N Collect' => 'clickAndCollect',
+                    'Réseaux sociaux' => 'socialNetwork',
+                    'Publicités' => 'ad',
+                    'French Echoppe' => 'frenchEchoppe',
+                    'Email' => 'mail',
                 ],
                 'mapped' => false,
             ])
@@ -45,7 +50,8 @@ class ImportCSVType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
                 'attr' => [
-                    'class' => 'mt-4 col-3 btn btn-light'
+                    'class' => 'mt-4 col-3 btn btn-light',
+                    'style' => 'border: solid 1px black; border-radius: 30px; margin-left: 38%',
                 ],
             ]);
     }

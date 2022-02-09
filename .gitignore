@@ -20,4 +20,5 @@
 ###< phpunit/phpunit ###
 
 composer.lock
+symfony.lock
 /.idea
