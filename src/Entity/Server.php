@@ -153,11 +153,13 @@ class Server extends Service
     }
 
     /**
-     * @param int|null $siteClientToServicesBinderId
+     * @param int $siteClientToServicesBinderId
+     * @return Service
      */
-    public function setSiteClientToServicesBinderId(?int $siteClientToServicesBinderId): void
+    public function setSiteClientToServicesBinderId(int $siteClientToServicesBinderId): Service
     {
         $this->siteClientToServicesBinderId = $siteClientToServicesBinderId;
+        return $this;
     }
 
     /**
