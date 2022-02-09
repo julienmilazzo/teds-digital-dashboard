@@ -88,7 +88,6 @@ class ClientController extends AbstractController
             'ads' => $services[4] ?? null,
             'socialNetworks' => $services[5] ?? null,
         ]);
-
     }
     #[Route('/{id}/edit', name: 'client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response

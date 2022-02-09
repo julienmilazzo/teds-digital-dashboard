@@ -12,12 +12,12 @@
 html {
     --tedsColor : rgb(240, 15, 15);
 }
-body{
+body {
     font-family: 'Futura PT';
     color: #2E2A37;
 }
 /*for the header*/
-.div1{
+.div1 {
     width: 100%;
     color: var(--tedsColor);;
     padding-left: 0;
@@ -25,18 +25,18 @@ body{
 }
 
 /*The biggest division usefull for the background*/
-.div3{
+.div3 {
     height: 100%;
     width: 100%;
     background-color: whitesmoke;
 }
 /*The white division*/
-.div4{
+.div4 {
     margin-left: 14%;
     margin-right: 15px;
     padding: 2%;
 }
-.div4.client{
+.div4.client {
     margin-left: 5%;
     margin-right: 15px;
     padding: 2%;
@@ -258,14 +258,14 @@ body{
     background-color: white;
 }
 /* End of grid */
-.table-index thead{
+.table-index thead {
     background-color: #f1f1f1;
     position:relative;
     display: block;
     width:100%;
 }
 
-.table-index tbody{
+.table-index tbody {
     /* Position */
     display: block; position:relative;
     width:100%; overflow-y:scroll;
@@ -274,12 +274,12 @@ body{
     max-height: 471px;
 }
 
-.table-index tr{
+.table-index tr {
     width: 100%;
     display:flex;
 }
 
-.table-index td,.table-index th{
+.table-index td,.table-index th {
     flex-basis:100%;
     flex-grow:2;
     display: block;
@@ -287,7 +287,7 @@ body{
     overflow-x: auto;
     max-height: 120px;
 }
-.body-half-screen{
+.body-half-screen {
     max-height: 480px;
 }
 .bd-bt {
