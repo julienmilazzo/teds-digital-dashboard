@@ -1,4 +1,4 @@
-<h1 class="c-parme bd-bt">Détails de {{ currentSocialNetwork.id }}</h1>
+<h1 class="c-parme bd-bt">Détails de {{ currentSocialNetwork.id }} {{ date(currentSocialNetwork.renewalDate) < date('+1month') ? '<p class="text-danger">Fin d\'abonnement proche</p>'}}</h1>
 <a href="{{ path('social_network_edit', {'id': currentSocialNetwork.id}) }}" class="btn blue">
     Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 </a>
