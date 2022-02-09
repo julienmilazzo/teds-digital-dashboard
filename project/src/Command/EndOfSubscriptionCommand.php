@@ -11,17 +11,31 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 use Symfony\Component\Console\Output\OutputInterface;
 
+
 class EndOfSubscriptionCommand extends Command
 {
     protected static $defaultName = 'app:end-of-sub';
     protected static $defaultDescription = "Liste des abonnements qui se terminent bientôt, par client :";
-
+    /**
+     * @var ClientRepository
+     */
     private $clientRepository;
 
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
 
-    private $mailer;
+    /**
+     * @var \Swift_Mailer
+     */
+    private $mailer; //Todo change mailer because outdated
 
+    /**
+     * @param ClientRepository $clientRepository
+     * @param EntityManagerInterface $entityManager
+     * @param \Swift_Mailer $mailer
+     */
     public function __construct(ClientRepository $clientRepository, EntityManagerInterface $entityManager, \Swift_Mailer $mailer)
     {
         $this->clientRepository = $clientRepository;
@@ -30,15 +44,21 @@ class EndOfSubscriptionCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * @return void
+     */
     protected function configure(): void
     {
         $this
-            // configure an argument
             ->addArgument('nextWhat', InputArgument::REQUIRED, 'Recherche pour la semaine/mois/année suivant')
-            // ...
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $toDate = [
@@ -63,120 +83,100 @@ class EndOfSubscriptionCommand extends Command
             $mailView .= '<hr><br><h3> Client : ' . $client->getName() . '</h3>';
             $mailView .= '<h4> Nom de domaine :</h4><ul> ';
 
-            $count = 0;
             /** @var DomainName $domainName */
             foreach ($services['domainNames'] as $domainName) {
                 if ($date >= $domainName->getRenewalDate()) {
-                    ++$count;
                     $output->writeln("--------------------------");
                     $output->writeln("Nom de domaine : " . $domainName->getUrl() . " fin le " . ($domainName->getRenewalDate())->format("d-m-Y"));
                     $output->writeln(" ");
-                    $mailView .='<li>' . '<b>' . $domainName->getUrl() . ' :</b>' . ' fin le <u style="color: red">' . ($domainName->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
+                    $mailView .='<li>' . '<b>' . $domainName->getUrl() . ' :</b>' . ' fin le <u class="text-danger">' . ($domainName->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
                 }
             }
-            if (0 === $count) {
+            if (!count($services['domainesNames'])) {
                 $mailView .= '-';
-            } else {
-                $count = 0;
             }
             $mailView .= '</ul><h4> Click\'N Collect:</h4><ul> ';
             /** @var ClickAndCollect $clickAndCollect */
             foreach ($services['clickAndCollects'] as $clickAndCollect) {
                 if ($date >= $clickAndCollect->getRenewalDate()) {
-                    ++$count;
                     $output->writeln("--------------------------");
                     $output->writeln("Click'N Collect : " . " fin le " . ($clickAndCollect->getRenewalDate())->format("d-m-Y"));
                     $output->writeln(" ");
-                    $mailView .= '<li>' . ' fin le <u style="color: red">' . ($clickAndCollect->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
+                    $mailView .= '<li>' . ' fin le <u class="text-danger">' . ($clickAndCollect->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
                 }
             }
 
-            if (0 === $count) {
+            if (!count($services['clickAndCollects'])) {
                 $mailView .= '-';
-            } else {
-                $count = 0;
             }
             $mailView .= '</ul><h4> Mail :</h4><ul> ';
             /** @var Mail $mail */
             foreach ($services['mails'] as $mail) {
                 if ($date >= $mail->getRenewalDate()) {
-                    ++$count;
                     $output->writeln("--------------------------");
                     $output->writeln("Mail : " . " fin le " . ($mail->getRenewalDate())->format("d-m-Y"));
                     $output->writeln(" ");
-                    $mailView .= '<li>' . ' fin le <u style="color: red">' . ($mail->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
+                    $mailView .= '<li>' . ' fin le <u class="text-danger">' . ($mail->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
                 }
             }
 
-            if (0 === $count) {
+            if (!count($services['mails'])) {
                 $mailView .= '-';
-            } else {
-                $count = 0;
             }
             $mailView .= '</ul><h4> French Echoppe :</h4><ul> ';
             /** @var FrenchEchoppe $frenchEchoppe */
             foreach ($services['frenchEchoppes'] as $frenchEchoppe) {
                 if ($date >= $frenchEchoppe->getRenewalDate()) {
-                    ++$count;
                     $output->writeln("--------------------------");
                     $output->writeln("French Echoppe : " . " fin le " . ($frenchEchoppe->getRenewalDate())->format("d-m-Y"));
                     $output->writeln(" ");
-                    $mailView .= '<li>' . ' fin le <u style="color: red">' . ($frenchEchoppe->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
+                    $mailView .= '<li>' . ' fin le <u class="text-danger">' . ($frenchEchoppe->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
                 }
             }
 
-            if (0 === $count) {
+            if (!count($services['frenchEchoppes'])) {
                 $mailView .= '-';
-            } else {
-                $count = 0;
             }
             $mailView .= '</ul><h4> Ad :</h4><ul> ';
             /** @var Ad $ad */
             foreach ($services['ads'] as $ad) {
                 if ($date >= $ad->getRenewalDate()) {
-                    ++$count;
                     $output->writeln("--------------------------");
                     $output->writeln("Ad : " . " fin le " . ($ad->getRenewalDate())->format("d-m-Y"));
                     $output->writeln(" ");
-                    $mailView .= '<li>' . ' fin le <u style="color: red">' . ($ad->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
+                    $mailView .= '<li>' . ' fin le <u class="text-danger">' . ($ad->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
                 }
             }
 
-            if (0 === $count) {
+            if (!count($services['ads'])) {
                 $mailView .= '-';
-            } else {
-                $count = 0;
             }
             $mailView .= '</ul><h4> Réseaux sociaux :</h4><ul> ';
             /** @var SocialNetwork $socialNetwork */
             foreach ($services['socialNetworks'] as $socialNetwork) {
                 if ($date >= $socialNetwork->getRenewalDate()) {
-                    ++$count;
                     $output->writeln("--------------------------");
                     $output->writeln("Réseaux sociaux : " . " fin le " . ($socialNetwork->getRenewalDate())->format("d-m-Y"));
                     $output->writeln(" ");
-                    $mailView .= '<li>' . ' fin le <u style="color: red">' . ($socialNetwork->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
+                    $mailView .= '<li>' . ' fin le <u class="text-danger">' . ($socialNetwork->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
                 }
             }
 
-            if (0 === $count) {
+            if (!count($services['socialNetworks'])) {
                 $mailView .= '-';
-            } else {
-                $count = 0;
             }
             $mailView .= '</ul><h4> Serveurs :</h4><ul>';
 
             /** @var Server $server */
             foreach ($client->getServers() as $server) {
                 if ($date >= $server->getRenewalDate()) {
-                    ++$count;
                     $output->writeln("--------------------------");
                     $output->writeln("Serveur : " . $server->getName() . " fin le " . ($server->getRenewalDate())->format("d-m-Y"));
                     $output->writeln(" ");
-                    $mailView .= '<li>' . $server->getName() . ' fin le <u style="color: red">' . ($server->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
+                    $mailView .= '<li>' . $server->getName() . ' fin le <u class="text-danger">' . ($server->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
                 }
             }
-            if (0 === $count) {
+            if (!count($client->getServers())) {
                 $mailView .= '-';
             }
             $mailView .= '</ul>';

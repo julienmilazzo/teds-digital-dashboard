@@ -1,4 +1,4 @@
-<h1 class="c-parme bd-bt">Détails de {{ currentServer.name }} {{ date(currentServer.renewalDate) < date('+1month') ? '<p style="color : red">Fin d\'abonnement proche</p>'}}</h1>
+<h1 class="c-parme bd-bt">Détails de {{ currentServer.name }} {{ date(currentServer.renewalDate) < date('+1month') ? '<p class="text-danger">Fin d\'abonnement proche</p>'}}</h1>
 <a href="{{ path('server_edit', {'id': currentServer.id}) }}" class="btn blue">
     Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 </a>
