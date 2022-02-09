@@ -51,7 +51,7 @@ class Service
     protected $startDate;
 
     /**
-     * @ORM\Column(type="string", length=10000)
+     * @ORM\Column(type="string", length=10000, nullable=true)
      */
     protected $commentary;
 

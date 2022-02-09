@@ -44,6 +44,7 @@
                         <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'cost', 'orderBy' : app.request.get('orderedType') is same as ('cost') ? sort, 'id' : currentServer.id  }) }}">Coût <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('cost')) ? 'down' : 'up' }}"></i></a></th>
                         <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'invoicedPrice', 'orderBy' : app.request.get('orderedType') is same as ('invoicedPrice') ? sort, 'id' : currentServer.id  }) }}">Prix facturé <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('invoicedPrice')) ? 'down' : 'up' }}"></i></a></th>
                         <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalType', 'orderBy' : app.request.get('orderedType') is same as ('renewalType') ? sort, 'id' : currentServer.id  }) }}">Type de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalType')) ? 'down' : 'up' }}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'startDate', 'orderBy' : app.request.get('orderedType') is same as ('startDate') ? sort, 'id' : currentServer.id  }) }}">Date de début <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('startDate')) ? 'down' : 'up' }}"></i></a></th>
                         <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalDate', 'orderBy' : app.request.get('orderedType') is same as ('renewalDate') ? sort, 'id' : currentServer.id  }) }}">Date de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalDate')) ? 'down' : 'up' }}"></i></a></th>
                         <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort, 'id' : currentServer.id  }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
                         <th>Voir</th>
@@ -58,6 +59,7 @@
                                 <td>{{ server.cost }}</td>
                                 <td>{{ server.invoicedPrice }}</td>
                                 <td>{{ server.renewalType }}</td>
+                                <td>{{ server.startDate ? server.startDate|date('Y-m-d') : '' }}</td>
                                 <td>{{ server.renewalDate ? server.renewalDate|date('d-m-Y') : '' }}</td>
                                 <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
                                 <td>
