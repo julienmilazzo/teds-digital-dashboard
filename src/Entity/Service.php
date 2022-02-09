@@ -66,78 +66,92 @@ class Service
     protected int $siteClientToServicesBinderId;
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getOffer(): ?string
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * @param mixed $provider
+     * @return Service
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOffer()
     {
         return $this->offer;
     }
 
     /**
-     * @param string $offer
-     * @return $this
+     * @param mixed $offer
+     * @return Service
      */
-    public function setOffer(string $offer): self
+    public function setOffer($offer)
     {
         $this->offer = $offer;
-
         return $this;
     }
 
     /**
-     * @return float|null
+     * @return mixed
      */
-    public function getCost(): ?float
+    public function getCost()
     {
         return $this->cost;
     }
 
     /**
-     * @param float|null $cost
-     * @return $this
+     * @param mixed $cost
+     * @return Service
      */
-    public function setCost(?float $cost): self
+    public function setCost($cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * @return float|null
+     * @return mixed
      */
-    public function getInvoicedPrice(): ?float
+    public function getInvoicedPrice()
     {
         return $this->invoicedPrice;
     }
 
     /**
-     * @param float|null $invoicedPrice
-     * @return $this
+     * @param mixed $invoicedPrice
+     * @return Service
      */
-    public function setInvoicedPrice(?float $invoicedPrice): self
+    public function setInvoicedPrice($invoicedPrice)
     {
         $this->invoicedPrice = $invoicedPrice;
-
         return $this;
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getRenewalType(): ?string
+    public function getRenewalType()
     {
         return $this->renewalType;
     }
 
     /**
-     * @param string $renewalType
-     * @return $this
+     * @param mixed $renewalType
+     * @return Service
      */
-    public function setRenewalType(string $renewalType): self
+    public function setRenewalType($renewalType)
     {
         $this->renewalType = $renewalType;
-
         return $this;
     }
 
@@ -151,29 +165,12 @@ class Service
 
     /**
      * @param mixed $renewalDate
+     * @return Service
      */
-    public function setRenewalDate($renewalDate): void
+    public function setRenewalDate($renewalDate)
     {
         $this->renewalDate = $renewalDate;
-    }
-
-    /**
-     * @param string $provider
-     * @return $this
-     */
-    public function setProvider(string $provider): self
-    {
-        $this->provider = $provider;
-
         return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getProvider(): ?string
-    {
-        return $this->provider;
     }
 
     /**
@@ -186,26 +183,12 @@ class Service
 
     /**
      * @param mixed $startDate
+     * @return Service
      */
-    public function setStartDate($startDate): void
+    public function setStartDate($startDate)
     {
         $this->startDate = $startDate;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSiteClientToServicesBinderId(): int
-    {
-        return $this->siteClientToServicesBinderId;
-    }
-
-    /**
-     * @param int|null $siteClientToServicesBinderId
-     */
-    public function setSiteClientToServicesBinderId(?int $siteClientToServicesBinderId): void
-    {
-        $this->siteClientToServicesBinderId = $siteClientToServicesBinderId;
+        return $this;
     }
 
     /**
@@ -218,10 +201,12 @@ class Service
 
     /**
      * @param mixed $commentary
+     * @return Service
      */
-    public function setCommentary($commentary): void
+    public function setCommentary($commentary)
     {
         $this->commentary = $commentary;
+        return $this;
     }
 
     /**
@@ -234,9 +219,31 @@ class Service
 
     /**
      * @param mixed $enable
+     * @return Service
      */
-    public function setEnable($enable): void
+    public function setEnable($enable)
     {
         $this->enable = $enable;
+        return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getSiteClientToServicesBinderId(): int
+    {
+        return $this->siteClientToServicesBinderId;
+    }
+
+    /**
+     * @param int $siteClientToServicesBinderId
+     * @return Service
+     */
+    public function setSiteClientToServicesBinderId(int $siteClientToServicesBinderId): Service
+    {
+        $this->siteClientToServicesBinderId = $siteClientToServicesBinderId;
+        return $this;
+    }
+
+
 }

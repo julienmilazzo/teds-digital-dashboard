@@ -75,16 +75,17 @@ class ImportController extends AbstractController
                         'startDate' => new \DateTime($sRow[6]),
                         'renewalDate' => new \DateTime($sRow[7]),
                     ];
-                    if ("" === $domainName['renewalDate']) {
+                    if (!$domainName['renewalDate']) {
                         $domainName['renewalDate'] = date_add(new \DateTime($sRow[6]) , new DateInterval('P1Y'));
                     }
 
                     $futurDomainName = new DomainName();
                     $domainNameForm = $this->createForm(DomainNameType::class, $futurDomainName);
                     $domainNameForm->submit($domainName);
-                    $domainNameForm->getData()->setStartDate($domainName['startDate']);
-                    $domainNameForm->getData()->setRenewalDate($domainName['renewalDate']);
-                    $domainNameForm->getData()->setClient($clientRepository->findOneBy(['name' => $sRow[8]]));
+                    $domainNameForm->getData()
+                        ->setStartDate($domainName['startDate'])
+                        ->setRenewalDate($domainName['renewalDate'])
+                        ->setClient($clientRepository->findOneBy(['name' => $sRow[8]]));
 
                     $entityManager->persist($domainNameForm->getData());
                 }
@@ -149,15 +150,17 @@ class ImportController extends AbstractController
                         'startDate' => new \DateTime($sRow[6]),
                         'renewalDate' => new \DateTime($sRow[7]),
                     ];
-                    if ("" === $server['renewalDate']) {
+                    if (!$server['renewalDate']) {
                         $server['renewalDate'] = date_add(new \DateTime($sRow[6]) , new DateInterval('P1Y'));
                     }
 
                     $futurServer = new Server();
                     $serverForm = $this->createForm(ServerType::class, $futurServer);
                     $serverForm->submit($server);
-                    $serverForm->getData()->setStartDate($server['startDate']);
-                    $serverForm->getData()->setRenewalDate($server['renewalDate']);
+                    /** @var Server $serverToComplete */
+                    $serverToComplete = $serverForm->getData();
+                    $serverToComplete->setStartDate($server['startDate'])
+                        ->setRenewalDate($server['renewalDate']);
 
                     $serverForm->getData()->setClient($clientRepository->findOneBy(['name' => $sRow[8]]));
 
@@ -189,10 +192,10 @@ class ImportController extends AbstractController
                     $futurSite = new Site();
                     $siteForm = $this->createForm(SiteType::class, $futurSite);
                     $siteForm->submit($site);
-                    $siteForm->getData()->setOnlineDate($site['onlineDate']);
-
-                    $siteForm->getData()->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[3]]));
-                    $siteForm->getData()->addServer($entityManager->getRepository(Server::class)->findOneBy(['name' => $sRow[4]]));
+                    $siteToComplete = $siteForm->getData();
+                    $siteToComplete->setOnlineDate($site['onlineDate'])
+                        ->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[3]]))
+                        ->addServer($entityManager->getRepository(Server::class)->findOneBy(['name' => $sRow[4]]));
 
                     $entityManager->persist($siteForm->getData());
                 }
@@ -225,23 +228,23 @@ class ImportController extends AbstractController
                         'onlineDate' => new \DateTime($sRow[7]),
                         'online' => $sRow[8],
                     ];
-                    if ("" === $clickAndCollect['renewalDate']) {
+                    if (!$clickAndCollect['renewalDate']) {
                         $clickAndCollect['renewalDate'] = date_add(new \DateTime($sRow[5]) , new DateInterval('P1Y'));
                     }
 
                     $futurClickAndCollect = new ClickAndCollect();
                     $clickAndCollectForm = $this->createForm(ClickAndCollectType::class, $futurClickAndCollect);
                     $clickAndCollectForm->submit($clickAndCollect);
-                    $clickAndCollectForm->getData()->setStartDate($clickAndCollect['startDate']);
-                    $clickAndCollectForm->getData()->setRenewalDate($clickAndCollect['renewalDate']);
-                    $clickAndCollectForm->getData()->setOnlineDate($clickAndCollect['onlineDate']);
 
-                    $clickAndCollectForm->getData()->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[9]]));
-                    $clickAndCollectForm->getData()->setSite($entityManager->getRepository(Site::class)->findOneBy(['name' => $sRow[10]]));
-                    $clickAndCollectForm->getData()->setServer($entityManager->getRepository(Server::class)->findOneBy(['name' => $sRow[11]]));
+                    $clickAndCollectToComplete = $clickAndCollectForm->getData();
+                    $clickAndCollectToComplete->setStartDate($clickAndCollect['startDate'])
+                        ->setRenewalDate($clickAndCollect['renewalDate'])
+                        ->setOnlineDate($clickAndCollect['onlineDate'])
+                        ->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[9]]))
+                        ->setSite($entityManager->getRepository(Site::class)->findOneBy(['name' => $sRow[10]]))
+                        ->setServer($entityManager->getRepository(Server::class)->findOneBy(['name' => $sRow[11]]));
 
                     $entityManager->persist($clickAndCollectForm->getData());
-
                 }
             }
             $entityManager->flush();
@@ -272,21 +275,20 @@ class ImportController extends AbstractController
                         'onlineDate' => new \DateTime($sRow[7]),
                         'online' => $sRow[8],
                     ];
-                    if ("" === $frenchEchoppe['renewalDate']) {
+                    if (!$frenchEchoppe['renewalDate']) {
                         $frenchEchoppe['renewalDate'] = date_add(new \DateTime($sRow[5]) , new DateInterval('P1Y'));
                     }
 
                     $futurFrenchEchoppe = new FrenchEchoppe();
                     $frenchEchoppeForm = $this->createForm(FrenchEchoppeType::class, $futurFrenchEchoppe);
                     $frenchEchoppeForm->submit($frenchEchoppe);
-                    $frenchEchoppeForm->getData()->setStartDate($frenchEchoppe['startDate']);
-                    $frenchEchoppeForm->getData()->setRenewalDate($frenchEchoppe['renewalDate']);
-                    $frenchEchoppeForm->getData()->setOnlineDate($frenchEchoppe['onlineDate']);
-
-                    $frenchEchoppeForm->getData()->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[9]]));
+                    $frenchEchoppeToComplete = $frenchEchoppeForm->getData();
+                    $frenchEchoppeToComplete->getData()->setStartDate($frenchEchoppe['startDate'])
+                        ->setRenewalDate($frenchEchoppe['renewalDate'])
+                        ->setOnlineDate($frenchEchoppe['onlineDate'])
+                        ->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[9]]));
 
                     $entityManager->persist($frenchEchoppeForm->getData());
-
                 }
             }
             $entityManager->flush();
@@ -315,21 +317,20 @@ class ImportController extends AbstractController
                         'startDate' => new \DateTime($sRow[5]),
                         'renewalDate' => new \DateTime($sRow[6]),
                     ];
-                    if ("" === $mail['renewalDate']) {
+                    if (!$mail['renewalDate']) {
                         $mail['renewalDate'] = date_add(new \DateTime($sRow[5]) , new DateInterval('P1Y'));
                     }
 
                     $futurMail = new Mail();
                     $mailForm = $this->createForm(MailType::class, $futurMail);
                     $mailForm->submit($mail);
-                    $mailForm->getData()->setStartDate($mail['startDate']);
-                    $mailForm->getData()->setRenewalDate($mail['renewalDate']);
-
-                    $mailForm->getData()->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[7]]));
-                    $mailForm->getData()->setDomainName($entityManager->getRepository(DomainName::class)->findOneBy(['url' => $sRow[8]]));
+                    $mailToComplete = $mailForm->getData();
+                    $mailToComplete->setStartDate($mail['startDate'])
+                        ->setRenewalDate($mail['renewalDate'])
+                        ->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[7]]))
+                        ->setDomainName($entityManager->getRepository(DomainName::class)->findOneBy(['url' => $sRow[8]]));
 
                     $entityManager->persist($mailForm->getData());
-
                 }
             }
             $entityManager->flush();
@@ -360,20 +361,20 @@ class ImportController extends AbstractController
                         'postByWeek' => $sRow[7],
                         'whichSocialNetwork' => explode(",", $sRow[8]),
                     ];
-                    if ("" === $socialNetwork['renewalDate']) {
+                    if (!$socialNetwork['renewalDate']) {
                         $socialNetwork['renewalDate'] = date_add(new \DateTime($sRow[5]) , new DateInterval('P1Y'));
                     }
 
                     $futurSocialNetwork = new SocialNetwork();
                     $socialNetworkForm = $this->createForm(SocialNetworkType::class, $futurSocialNetwork);
                     $socialNetworkForm->submit($socialNetwork);
-                    $socialNetworkForm->getData()->setStartDate($socialNetwork['startDate']);
-                    $socialNetworkForm->getData()->setRenewalDate($socialNetwork['renewalDate']);
-                    $socialNetworkForm->getData()->setWhichSocialNetwork($socialNetwork['whichSocialNetwork']);
-                    $socialNetworkForm->getData()->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[9]]));
+                    $socialNetworkToComplete = $socialNetworkForm->getData();
+                    $socialNetworkToComplete->setStartDate($socialNetwork['startDate'])
+                        ->setRenewalDate($socialNetwork['renewalDate'])
+                        ->setWhichSocialNetwork($socialNetwork['whichSocialNetwork'])
+                        ->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[9]]));
 
                     $entityManager->persist($socialNetworkForm->getData());
-
                 }
             }
             $entityManager->flush();
@@ -404,22 +405,22 @@ class ImportController extends AbstractController
                         'endDate' => new \DateTime($sRow[7]),
                         'commentary' => $sRow[8],
                     ];
-                    if ("" === $ad['renewalDate']) {
+                    if (!$ad['renewalDate']) {
                         $ad['renewalDate'] = date_add(new \DateTime($sRow[5]) , new DateInterval('P1Y'));
                     }
 
                     $futurAd = new Ad();
                     $adForm = $this->createForm(AdType::class, $futurAd);
                     $adForm->submit($ad);
-                    $adForm->getData()->setStartDate($ad['startDate']);
-                    $adForm->getData()->setRenewalDate($ad['renewalDate']);
-                    $adForm->getData()->setEndDate($ad['endDate']);
+                    $adToComplete = $adForm->getData();
 
-                    $adForm->getData()->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[9]]));
-                    $adForm->getData()->setSite($entityManager->getRepository(Site::class)->findOneBy(['name' => $sRow[10]]));
+                    $adToComplete->setStartDate($ad['startDate'])
+                        ->setRenewalDate($ad['renewalDate'])
+                        ->setEndDate($ad['endDate'])
+                        ->setClient($entityManager->getRepository(Client::class)->findOneBy(['name' => $sRow[9]]))
+                        ->setSite($entityManager->getRepository(Site::class)->findOneBy(['name' => $sRow[10]]));
 
                     $entityManager->persist($adForm->getData());
-
                 }
             }
             $entityManager->flush();
