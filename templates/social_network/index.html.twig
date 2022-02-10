@@ -26,13 +26,13 @@
         function searchSame() {
             searchItems = [];
             {% for social_network in social_networks %}
-            var socialNetworkClientName = "{{ social_network.client.name }}"
-            if (!socialNetworkClientName.includes($('#search').val())) {
-                $('#social-network-{{ social_network.id }}').addClass("d-none");
-            } else {
-                $('#social-network-{{ social_network.id }}').removeClass("d-none");
-                searchItems.push({{ social_network.id }});
-            }
+                var socialNetworkClientName = "{{ social_network.client.name }}"
+                if (!socialNetworkClientName.includes($('#search').val())) {
+                    $('#social-network-{{ social_network.id }}').addClass("d-none");
+                } else {
+                    $('#social-network-{{ social_network.id }}').removeClass("d-none");
+                    searchItems.push({{ social_network.id }});
+                }
             {% endfor %}
         }
     </script>

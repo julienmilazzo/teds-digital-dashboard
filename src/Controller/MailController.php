@@ -39,7 +39,6 @@ class MailController extends AbstractController
         return $this->render("mail/search.html.twig", [
             'mails' => $mails,
         ]);
-
     }
 
     #[Route('/ordered/{id}', name: 'mail_ordered', methods: ['GET'])]

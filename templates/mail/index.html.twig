@@ -25,13 +25,13 @@
         function searchSame() {
             searchItems = [];
             {% for mail in mails %}
-            var mailClientName = "{{ mail.client.name }}"
-            if (!mailClientName.includes($('#search').val())) {
-                $('#mail-{{ mail.id }}').addClass("d-none");
-            } else {
-                $('#mail-{{ mail.id }}').removeClass("d-none");
-                searchItems.push({{ mail.id }});
-            }
+                var mailClientName = "{{ mail.client.name }}"
+                if (!mailClientName.includes($('#search').val())) {
+                    $('#mail-{{ mail.id }}').addClass("d-none");
+                } else {
+                    $('#mail-{{ mail.id }}').removeClass("d-none");
+                    searchItems.push({{ mail.id }});
+                }
             {% endfor %}
         }
     </script>

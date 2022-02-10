@@ -26,13 +26,13 @@
         function searchSame() {
             searchItems = [];
             {% for ad in ads %}
-            var adClientName = "{{ ad.client.name }}"
-            if (!adClientName.includes($('#search').val())) {
-                $('#pub-{{ ad.id }}').addClass("d-none");
-            } else {
-                $('#pub-{{ ad.id }}').removeClass("d-none");
-                searchItems.push({{ ad.id }});
-            }
+                var adClientName = "{{ ad.client.name }}"
+                if (!adClientName.includes($('#search').val())) {
+                    $('#pub-{{ ad.id }}').addClass("d-none");
+                } else {
+                    $('#pub-{{ ad.id }}').removeClass("d-none");
+                    searchItems.push({{ ad.id }});
+                }
             {% endfor %}
         }
     </script>
@@ -98,7 +98,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <p>Aucun nom de domaines</p>
+                <p>Aucune publicité</p>
             {% endif %}
         </div>
 

@@ -22,7 +22,6 @@ class ClientController extends AbstractController
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
             'currentClient' => $clients[0],
-            "error" => $request->get('error') ?? null,
         ]);
     }
 

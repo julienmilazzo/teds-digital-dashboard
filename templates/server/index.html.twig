@@ -29,13 +29,13 @@
         function searchSame() {
             searchItems = [];
             {% for server in servers %}
-            var serverName = "{{ server.name }}"
-            if (!serverName.includes($('#search').val())) {
-                $('#server-{{ server.id }}').addClass("d-none");
-            } else {
-                $('#server-{{ server.id }}').removeClass("d-none");
-                searchItems.push({{ server.id }});
-            }
+                var serverName = "{{ server.name }}"
+                if (!serverName.includes($('#search').val())) {
+                    $('#server-{{ server.id }}').addClass("d-none");
+                } else {
+                    $('#server-{{ server.id }}').removeClass("d-none");
+                    searchItems.push({{ server.id }});
+                }
             {% endfor %}
         }
     </script>

@@ -39,7 +39,6 @@ class AdController extends AbstractController
         return $this->render("ad/search.html.twig", [
             'ads' => $ads,
         ]);
-
     }
 
     #[Route('/ordered/{id}', name: 'mail_ordered', methods: ['GET'])]
