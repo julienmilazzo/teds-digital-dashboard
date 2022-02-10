@@ -28,8 +28,16 @@ class FrenchEchoppeController extends AbstractController
     #[Route('/search', name: 'french_echoppe_search', methods: ['GET'])]
     public function search(Request $request, FrenchEchoppeRepository $frenchEchoppeRepository): Response
     {
+        $frenchEchoppes= [];
+        $ids = explode(",", $request->get('ids'));
+        if ("" !== $ids[0]) {
+            foreach ($ids as $id) {
+                $frenchEchoppes[] = $frenchEchoppeRepository->findOneBy(['id' => $id]);
+            }
+        }
+
         return $this->render('french_echoppe/search.html.twig', [
-            'frenchEchoppes' => $frenchEchoppeRepository->findBy(['url' => $request->get('searchUrl')]),
+            'frenchEchoppes' => $frenchEchoppes,
         ]);
     }
 

@@ -25,6 +25,23 @@ class AdController extends AbstractController
         ]);
     }
 
+    #[Route('/search', name: 'ad_search', methods: ['GET'])]
+    public function search(Request $request, AdRepository $adRepository): Response
+    {
+        $ads= [];
+        $ids = explode(",", $request->get('ids'));
+        if ("" !== $ids[0]) {
+            foreach ($ids as $id) {
+                $ads[] = $adRepository->findOneBy(['id' => $id]);
+            }
+        }
+
+        return $this->render("ad/search.html.twig", [
+            'ads' => $ads,
+        ]);
+
+    }
+
     #[Route('/ordered/{id}', name: 'mail_ordered', methods: ['GET'])]
     public function ordered(Request $request, AdRepository $adRepository, Ad $ad): Response
     {

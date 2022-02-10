@@ -15,21 +15,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClientController extends AbstractController
 {
     #[Route('/', name: 'client_index', methods: ['GET'])]
-    public function index(ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
     {
         $clients = $clientRepository->findAll();
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
             'currentClient' => $clients[0],
+            "error" => $request->get('error') ?? null,
         ]);
     }
 
     #[Route('/search', name: 'client_search', methods: ['GET'])]
     public function search(Request $request, ClientRepository $clientRepository): Response
     {
-        return $this->render('client/search.html.twig', [
-            'clients' => $clientRepository->findBy(['name' => $request->get('searchName')]),
+        $clients = [];
+        $ids = explode(",", $request->get('ids'));
+        if ("" !== $ids[0]) {
+            foreach ($ids as $id) {
+                $clients[] = $clientRepository->findOneBy(['id' => $id]);
+            }
+        }
+
+        return $this->render("client/search.html.twig", [
+            "clients" => $clients,
         ]);
     }
 

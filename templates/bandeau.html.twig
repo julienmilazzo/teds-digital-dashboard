@@ -1,4 +1,6 @@
-{% include 'sidebar.html.twig' %}
+{% if withoutSideNav is not defined or withoutSideNav is same as false %}
+    {% include 'sidebar.html.twig' %}
+{% endif %}
 <div class="container-fluid div1">
     <div class="row yellow">
         <div class="col-sm"></div>

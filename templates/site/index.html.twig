@@ -14,17 +14,44 @@
 
             $('.table').scrollTableBody();
         })
-        function searchSite() {
+        function isEasterEgg() {
             var search = $('#search').val();
             if ('rickroll' === search || 'cheesecake' === search) {
                 document.getElementById('rickroll').play();
                 $('.').replaceWith("<div class='div4'><img src='{{ app.request.getSchemeAndHttpHost() }}/images/rick-roll-rick-ashley.gif'></div>")
             } else if ('joyeux noel' === search) {
                 document.getElementById('noel').play();
-            } else {
-                var url = '{{ path("site_search") }}';
-                window.location.href = url + '?searchName=' + search;
             }
+        }
+
+        var searchItems = [];
+        $(document).ready(() => {
+            $("#search-form").on("submit", (e) => {
+                e.preventDefault();
+                isEasterEgg();
+                search();
+            });
+        });
+
+        function search() {
+            if (1 === searchItems.length) {
+                window.location.href = '/site/' + searchItems[0];
+            } else {
+                window.location.href = '{{ path("site_search") }}' + '?ids=' + searchItems.join();
+            }
+        }
+
+        function searchSame() {
+            searchItems = [];
+            {% for site in sites %}
+            var siteName = "{{ site.name }}"
+            if (!siteName.includes($('#search').val())) {
+                $('#site-{{ site.id }}').addClass("d-none");
+            } else {
+                $('#site-{{ site.id }}').removeClass("d-none");
+                searchItems.push({{ site.id }});
+            }
+            {% endfor %}
         }
     </script>
 {% endblock %}
@@ -40,9 +67,11 @@
             <h1 class="title-index bd-bt" style="display: inline-block">Sites :</h1>
         </div>
         <div class="col-sm search-div">
-            <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
-            <button class="btn parme my-2 my-sm-0" onclick="searchSite()" style="margin-bottom: 0.5rem!important;">Rechercher</button>
-        </div>
+            <form id="search-form" action="">
+                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
+                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            </form>
+           </div>
     </div>
     <div class="grid container-fluid div3">
         <div class="div4 div-list bg-white">
@@ -60,7 +89,7 @@
                     </thead>
                     <tbody class="body-half-screen">
                         {% for site in sites %}
-                            <tr style="vertical-align: middle;">
+                            <tr style="vertical-align: middle;" id="site-{{ site.id }}">
                                 <td>{{ site.name }}</td>
                                 <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
                                 <td>{{ site.online ? 'Oui' : 'Non' }}</td>

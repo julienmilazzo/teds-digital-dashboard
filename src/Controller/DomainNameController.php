@@ -15,21 +15,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class DomainNameController extends AbstractController
 {
     #[Route('/', name: 'domain_name_index', methods: ['GET'])]
-    public function index(DomainNameRepository $domainNameRepository): Response
+    public function index(Request $request, DomainNameRepository $domainNameRepository): Response
     {
         $domainNames = $domainNameRepository->findAll();
 
         return $this->render('domain_name/index.html.twig', [
             'domain_names' => $domainNames,
-            'currentDomainName' => $domainNames[0] ?? null
+            'currentDomainName' => $domainNames[0] ?? null,
+            "error" => $request->get('error') ?? null,
         ]);
     }
 
     #[Route('/search', name: 'domain_name_search', methods: ['GET'])]
     public function search(Request $request, DomainNameRepository $domainNameRepository): Response
     {
+        $domainNames = [];
+        $ids = explode(",", $request->get('ids'));
+        if ("" !== $ids[0]) {
+            foreach ($ids as $id) {
+                $domainNames[] = $domainNameRepository->findOneBy(['id' => $id]);
+            }
+        }
+
         return $this->render('domain_name/search.html.twig', [
-            'domain_names' => $domainNameRepository->findBy(['url' => $request->get('searchUrl')]),
+            'domain_names' => $domainNames
         ]);
     }
 

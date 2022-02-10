@@ -25,6 +25,22 @@ class SocialNetworkController extends AbstractController
         ]);
     }
 
+    #[Route('/search', name: 'social_network_search', methods: ['GET'])]
+    public function search(Request $request, SocialNetworkRepository $socialNetworkRepository): Response
+    {
+        $socialNetworks= [];
+        $ids = explode(",", $request->get('ids'));
+        if ("" !== $ids[0]) {
+            foreach ($ids as $id) {
+                $socialNetworks[] = $socialNetworkRepository->findOneBy(['id' => $id]);
+            }
+        }
+
+        return $this->render("social_network/search.html.twig", [
+            'social_networks' => $socialNetworks,
+        ]);
+    }
+
     #[Route('/ordered/{id}', name: 'social_network_ordered', methods: ['GET'])]
     public function ordered(Request $request, SocialNetworkRepository $socialNetworkRepository, SocialNetwork $socialNetwork): Response
     {

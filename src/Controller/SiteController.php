@@ -32,8 +32,16 @@ class SiteController extends AbstractController
     #[Route('/search', name: 'site_search', methods: ['GET'])]
     public function search(Request $request, SiteRepository $siteRepository): Response
     {
+        $sites = [];
+        $ids = explode(",", $request->get('ids'));
+        if ("" !== $ids[0]) {
+            foreach ($ids as $id) {
+                $sites[] = $siteRepository->findOneBy(['id' => $id]);
+            }
+        }
+
         return $this->render('site/search.html.twig', [
-            'sites' => $siteRepository->findBy(['name' => $request->get('searchName')]),
+            'sites' => $sites,
         ]);
     }
 

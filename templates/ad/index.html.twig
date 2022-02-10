@@ -1,48 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ad index{% endblock %}
+{% block title %}Publicité liste{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        var searchItems = [];
+        $(document).ready(() => {
+            $("#search-form").on("submit", (e) => {
+                e.preventDefault();
+                search();
+            });
+        });
+
+        function search() {
+            if (1 === searchItems.length) {
+                window.location.href = '/ad/' + searchItems[0];
+            } else {
+                window.location.href = '{{ path("ad_search") }}' + '?ids=' + searchItems.join();
+            }
+        }
+        function searchSame() {
+            searchItems = [];
+            {% for ad in ads %}
+            var adClientName = "{{ ad.client.name }}"
+            if (!adClientName.includes($('#search').val())) {
+                $('#pub-{{ ad.id }}').addClass("d-none");
+            } else {
+                $('#pub-{{ ad.id }}').removeClass("d-none");
+                searchItems.push({{ ad.id }});
+            }
+            {% endfor %}
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
-
     {% block bandeau %}
         {{ parent() }}
     {% endblock %}
     <div class="yellow row div-title">
         <div class="col-sm">
-            <h1 class="title-index bd-bt" style="display: inline-block">Mails :</h1>
+            <h1 class="title-index bd-bt" style="display: inline-block">Publicité :</h1>
+        </div>
+        <div class="col-sm search-div">
+            <form id="search-form" action="">
+                <input id="search"  class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
+                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            </form>
         </div>
     </div>
+
     <div class="grid container-fluid div3">
         <div class="div4 div-list bg-white">
+            <p class="text-danger">{{ error is defined and error is not null ? error }}</p>
             <h1 class="c-blue bd-bt">Liste : </h1>
             {% if currentAd is defined and currentAd is not null %}
                 <table class="table table-index">
                     <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Date de fin</th>
-                            <th>Prestataire</th>
-                            <th>Offre</th>
-                            <th>Coût</th>
-                            <th>Prix facturé</th>
-                            <th>Type de renouvellement</th>
-                            <th>Date de renouvellement</th>
-                            <th>Date début</th>
-                            <th>Commentaire</th>
-                            <th>Actif</th>
-                            <th>Voir</th>
-                        </tr>
+                    <tr>
+                        <th>Nom du client</th>
+                        <th>Date de fin</th>
+                        <th>Prestataire</th>
+                        <th>Offre</th>
+                        <th>Coût</th>
+                        <th>Prix facturé</th>
+                        <th>Type de renouvellement</th>
+                        <th>Date de renouvellement</th>
+                        <th>Date début</th>
+                        <th>Commentaire</th>
+                        <th>Actif</th>
+                        <th>Voir</th>
+                    </tr>
                     </thead>
                     <tbody>
                     {% for ad in ads %}
-                        <tr style="vertical-align: middle">
-                            <td>{{ ad.id }}</td>
+                        <tr style="vertical-align: middle" id="pub-{{ ad.id }}">
+                            <td>{{ ad.client.name }}</td>
                             <td>{{ ad.endDate ? ad.endDate|date('Y-m-d') : '' }}</td>
                             <td>{{ ad.provider }}</td>
                             <td>{{ ad.offer }}</td>
@@ -61,7 +98,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <p>Aucune Ad</p>
+                <p>Aucun nom de domaines</p>
             {% endif %}
         </div>
 
@@ -75,9 +112,6 @@
         <div class="div-action bg-white" style="text-align: center">
             <h1 class="c-yellow bd-bt">Actions : </h1>
             <a href="{{ path('ad_new') }}" class="btn parme" style="margin: 7%">Ajouter</a>
-            {% if currentAd is defined and currentAd is not null %}
-                <a href="{{ path('ad_edit', {'id': currentAd.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
-            {% endif %}
         </div>
     </div>
     {% block footer %}

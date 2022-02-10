@@ -4,6 +4,36 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        var searchItems = [];
+        $(document).ready(() => {
+            $("#search-form").on("submit", (e) => {
+                e.preventDefault();
+                search();
+            });
+        });
+
+        function search() {
+            if (1 === searchItems.length) {
+                window.location.href = '/french/echoppe/' + searchItems[0];
+            } else {
+                window.location.href = '{{ path("french_echoppe_search") }}' + '?ids=' + searchItems.join();
+            }
+        }
+        function searchSame() {
+            searchItems = [];
+            {% for french_echoppe in french_echoppes %}
+                var frenchEchoppeClientName = "{{ french_echoppe.client.name }}"
+
+                if (!frenchEchoppeClientName.includes($('#search').val())) {
+                    $('#french-echoppe-{{ french_echoppe.id }}').addClass("d-none");
+                } else {
+                    $('#french-echoppe-{{ french_echoppe.id }}').removeClass("d-none");
+                    searchItems.push({{ french_echoppe.id }});
+                }
+            {% endfor %}
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -14,16 +44,21 @@
         <div class="col-sm">
             <h1 class="title-index bd-bt" style="display: inline-block">French-echoppe :</h1>
         </div>
+        <div class="col-sm search-div">
+            <form id="search-form" action="">
+                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
+                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            </form>
+        </div>
     </div>
     <div class="grid container-fluid div3">
         <div class="div4 div-list bg-white">
             <h1 class="c-blue bd-bt">Liste : </h1>
             {% if currentFrenchEchoppe is defined and currentFrenchEchoppe is not null %}
-
                 <table class="table table-index">
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Nom du client</th>
                         <th>Date de mise en ligne</th>
                         <th>En ligne</th>
                         <th>Actif</th>
@@ -40,8 +75,8 @@
                     </thead>
                     <tbody>
                     {% for french_echoppe in french_echoppes %}
-                        <tr style="vertical-align: middle">
-                            <td>{{ french_echoppe.id }}</td>
+                        <tr style="vertical-align: middle" id="french-echoppe-{{ french_echoppe.id }}">
+                            <td>{{ french_echoppe.client.name }}</td>
                             <td>{{ french_echoppe.onlineDate ? french_echoppe.onlineDate|date('Y-m-d') : '' }}</td>
                             <td>{{ french_echoppe.online ? 'Oui' : 'Non' }}</td>
                             <td>{{ french_echoppe.enable ? 'Oui' : 'Non' }}</td>

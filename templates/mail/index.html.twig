@@ -6,6 +6,35 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        var searchItems = [];
+        $(document).ready(() => {
+            $("#search-form").on("submit", (e) => {
+                e.preventDefault();
+                search();
+            });
+        });
+
+        function search() {
+            if (1 === searchItems.length) {
+                window.location.href = '/mail/' + searchItems[0];
+            } else {
+                window.location.href = '{{ path("mail_search") }}' + '?ids=' + searchItems.join();
+            }
+        }
+        function searchSame() {
+            searchItems = [];
+            {% for mail in mails %}
+            var mailClientName = "{{ mail.client.name }}"
+            if (!mailClientName.includes($('#search').val())) {
+                $('#mail-{{ mail.id }}').addClass("d-none");
+            } else {
+                $('#mail-{{ mail.id }}').removeClass("d-none");
+                searchItems.push({{ mail.id }});
+            }
+            {% endfor %}
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -17,6 +46,12 @@
         <div class="col-sm">
             <h1 class="title-index bd-bt" style="display: inline-block">Mails :</h1>
         </div>
+        <div class="col-sm search-div">
+            <form id="search-form" action="">
+                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
+                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            </form>
+        </div>
     </div>
     <div class="grid container-fluid div3">
         <div class="div4 div-list bg-white">
@@ -25,7 +60,6 @@
                 <table class="table table-index">
                     <thead>
                         <tr>
-                            <th>Id</th>
                             <th>Client</th>
                             <th>Prestataire</th>
                             <th>Offre</th>
@@ -41,8 +75,7 @@
                     </thead>
                     <tbody>
                         {% for mail in mails %}
-                            <tr style="vertical-align: middle">
-                                <td>{{ mail.id }}</td>
+                            <tr style="vertical-align: middle" id="mail-{{ mail.id }}">
                                 <td>{{ mail.client.name }}</td>
                                 <td>{{ mail.provider }}</td>
                                 <td>{{ mail.offer }}</td>

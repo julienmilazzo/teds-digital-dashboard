@@ -28,8 +28,16 @@ class ClickAndCollectController extends AbstractController
     #[Route('/search', name: 'click_and_collect_search', methods: ['GET'])]
     public function search(Request $request, ClickAndCollectRepository $clickAndCollectRepository): Response
     {
-        return $this->render('click_and_collect/search.html.twig', [
-            'clickAndCollects' => $clickAndCollectRepository->findBy(['url' => $request->get('searchUrl')]),
+        $clickAndCollects= [];
+        $ids = explode(",", $request->get('ids'));
+        if ("" !== $ids[0]) {
+            foreach ($ids as $id) {
+                $clickAndCollects[] = $clickAndCollectRepository->findOneBy(['id' => $id]);
+            }
+        }
+
+        return $this->render("click_and_collect/search.html.twig", [
+            'click_and_collects' => $clickAndCollects,
         ]);
     }
 

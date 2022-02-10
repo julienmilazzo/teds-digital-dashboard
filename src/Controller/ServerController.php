@@ -27,8 +27,16 @@ class ServerController extends AbstractController
     #[Route('/search', name: 'server_search', methods: ['GET'])]
     public function search(Request $request, ServerRepository $serverRepository): Response
     {
+        $servers = [];
+        $ids = explode(",", $request->get('ids'));
+        if ("" !== $ids[0]) {
+            foreach ($ids as $id) {
+                $servers[] = $serverRepository->findOneBy(['id' => $id]);
+            }
+        }
+
         return $this->render('server/search.html.twig', [
-            'servers' => $serverRepository->findBy(['name' => $request->get('searchName')]),
+            'servers' => $servers,
         ]);
     }
 
