@@ -45,7 +45,7 @@
             searchItems = [];
             {% for site in sites %}
                 var siteName = "{{ site.name }}"
-                if (!siteName.includes($('#search').val())) {
+                if (!siteName.toLowerCase().includes($('#search').val().toLowerCase())) {
                     $('#site-{{ site.id }}').addClass("d-none");
                 } else {
                     $('#site-{{ site.id }}').removeClass("d-none");

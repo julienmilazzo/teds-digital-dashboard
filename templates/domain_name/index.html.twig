@@ -29,7 +29,7 @@
             searchItems = [];
             {% for domain_name in domain_names %}
                 var domainNameUrl = "{{ domain_name.url }}"
-                if (!domainNameUrl.includes($('#search').val())) {
+                if (!domainNameUrl.toLowerCase().includes($('#search').val().toLowerCase())) {
                     $('#domain-name-{{ domain_name.id }}').addClass("d-none");
                 } else {
                     $('#domain-name-{{ domain_name.id }}').removeClass("d-none");

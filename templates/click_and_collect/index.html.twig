@@ -24,7 +24,7 @@
             searchItems = [];
             {% for click_and_collect in click_and_collects %}
                 var clickAndCollectClientName = "{{ click_and_collect.client.name }}"
-                if (!clickAndCollectClientName.includes($('#search').val())) {
+                if (!clickAndCollectClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
                     $('#click-and-collect-{{ click_and_collect.id }}').addClass("d-none");
                 } else {
                     $('#click-and-collect-{{ click_and_collect.id }}').removeClass("d-none");

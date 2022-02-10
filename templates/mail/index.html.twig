@@ -26,7 +26,7 @@
             searchItems = [];
             {% for mail in mails %}
                 var mailClientName = "{{ mail.client.name }}"
-                if (!mailClientName.includes($('#search').val())) {
+                if (!mailClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
                     $('#mail-{{ mail.id }}').addClass("d-none");
                 } else {
                     $('#mail-{{ mail.id }}').removeClass("d-none");

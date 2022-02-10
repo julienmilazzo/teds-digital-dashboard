@@ -37,7 +37,7 @@
             searchItems = [];
             {% for client in clients %}
                 var clientName = "{{ client.name }}"
-                if (!clientName.includes($('#search').val())) {
+                if (!clientName.toLowerCase().includes($('#search').val().toLowerCase())) {
                     $('#client-{{ client.id }}').addClass("d-none");
                 } else {
                     $('#client-{{ client.id }}').removeClass("d-none");

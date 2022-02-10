@@ -27,7 +27,7 @@
             searchItems = [];
             {% for social_network in social_networks %}
                 var socialNetworkClientName = "{{ social_network.client.name }}"
-                if (!socialNetworkClientName.includes($('#search').val())) {
+                if (!socialNetworkClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
                     $('#social-network-{{ social_network.id }}').addClass("d-none");
                 } else {
                     $('#social-network-{{ social_network.id }}').removeClass("d-none");

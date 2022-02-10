@@ -27,7 +27,7 @@
             searchItems = [];
             {% for ad in ads %}
                 var adClientName = "{{ ad.client.name }}"
-                if (!adClientName.includes($('#search').val())) {
+                if (!adClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
                     $('#pub-{{ ad.id }}').addClass("d-none");
                 } else {
                     $('#pub-{{ ad.id }}').removeClass("d-none");

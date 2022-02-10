@@ -25,7 +25,7 @@
             {% for french_echoppe in french_echoppes %}
                 var frenchEchoppeClientName = "{{ french_echoppe.client.name }}"
 
-                if (!frenchEchoppeClientName.includes($('#search').val())) {
+                if (!frenchEchoppeClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
                     $('#french-echoppe-{{ french_echoppe.id }}').addClass("d-none");
                 } else {
                     $('#french-echoppe-{{ french_echoppe.id }}').removeClass("d-none");
