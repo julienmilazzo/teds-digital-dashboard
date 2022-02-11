@@ -35,6 +35,7 @@
             {% endif %}
             <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
                 {% include 'site/details.html.twig' %}
+                <a href="{{ path("client_remove_site", {'id': currentClient.id, 'idToDelete': currentSite.id, "type": "Site"}) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
             </div>
         {% endfor %}
         {% set rowIndex = 0 %}
