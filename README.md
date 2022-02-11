@@ -3,13 +3,18 @@
 ## - Ordre d'ajout :
 - 1/ Clients
 - 2/ Sites
-- 3/ Domain Names / Click&Collect
-- 4/ Servers
+- 3/ Noms de domaine / Click&Collect / Réseau social / Mail / French Echoppe
+- 4/ Publicités
+- 5/ Serveurs
 
+## - Ordre d'ajout avec CSV :
+- 1/ Clients
+- 2/ Serveurs
+- 3/ Sites
+- 4/ Noms de domaine / Click&Collect / Réseau social / Mail / French Echoppe
+- 5/ Publicités
 
 ## - TO DO :
-- [ ] Add new entities (Mail, Social network, Adwords, French-échoppe)
-- [ ] Went it's the first time using this project redirect to a form or find a way to display the index empty
-- [ ] Sort the menu with sub menus
-- [ ] Finish import CSV for all entities
+- [ ] Delete data from dashboard
 - [ ] Merge the view so you only have one for many entities
+- [ ] Make the updateAddRenewalDate working with the renewalType

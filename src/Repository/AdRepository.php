@@ -18,4 +18,21 @@ class AdRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Ad::class);
     }
+
+    /**
+     * @return Ad[]
+     */
+    public function findAllOrderByRenewalDate(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT ad
+            FROM App\Entity\Ad ad
+            ORDER BY ad.renewalDate ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

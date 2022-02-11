@@ -6,9 +6,10 @@ use App\Util\Binder;
 use App\Entity\DomainName;
 use App\Form\DomainNameType;
 use App\Repository\DomainNameRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/domain-name')]
@@ -17,7 +18,7 @@ class DomainNameController extends AbstractController
     #[Route('/', name: 'domain_name_index', methods: ['GET'])]
     public function index(Request $request, DomainNameRepository $domainNameRepository): Response
     {
-        $domainNames = $domainNameRepository->findAll();
+        $domainNames = $domainNameRepository->findAllOrderByRenewalDate();
 
         return $this->render('domain_name/index.html.twig', [
             'domain_names' => $domainNames,
@@ -119,5 +120,16 @@ class DomainNameController extends AbstractController
         }
 
         return $this->redirectToRoute('domain_name_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
+    public function updateAddRenewalDate(Request $request, DomainName $domainName, EntityManagerInterface $em)
+    {
+        $newDate = $domainName->getRenewalDate()->add(new DateInterval('P1Y'));
+
+        $domainName->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
+        $em->persist($domainName);
+        $em->flush();
+        return new JsonResponse(true);
     }
 }

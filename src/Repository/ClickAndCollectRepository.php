@@ -18,4 +18,21 @@ class ClickAndCollectRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ClickAndCollect::class);
     }
+
+    /**
+     * @return ClickAndCollect[]
+     */
+    public function findAllOrderByRenewalDate(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT cc
+            FROM App\Entity\ClickAndCollect cc
+            ORDER BY cc.renewalDate ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

@@ -6,9 +6,10 @@ use App\Util\Binder;
 use App\Entity\SocialNetwork;
 use App\Form\SocialNetworkType;
 use App\Repository\SocialNetworkRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/social/network')]
@@ -17,7 +18,7 @@ class SocialNetworkController extends AbstractController
     #[Route('/', name: 'social_network_index', methods: ['GET'])]
     public function index(SocialNetworkRepository $socialNetworkRepository): Response
     {
-        $socialNetworks = $socialNetworkRepository->findAll();
+        $socialNetworks = $socialNetworkRepository->findAllOrderByRenewalDate();
 
         return $this->render('social_network/index.html.twig', [
             'social_networks' => $socialNetworks,
@@ -120,5 +121,16 @@ class SocialNetworkController extends AbstractController
         }
 
         return $this->redirectToRoute('social_network_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
+    public function updateAddRenewalDate(Request $request, SocialNetwork $socialNetwork, EntityManagerInterface $em)
+    {
+        $newDate = $socialNetwork->getRenewalDate()->add(new DateInterval('P1Y'));
+
+        $socialNetwork->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
+        $em->persist($socialNetwork);
+        $em->flush();
+        return new JsonResponse(true);
     }
 }

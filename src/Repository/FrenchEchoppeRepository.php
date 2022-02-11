@@ -18,4 +18,21 @@ class FrenchEchoppeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, FrenchEchoppe::class);
     }
+
+    /**
+     * @return FrenchEchoppe[]
+     */
+    public function findAllOrderByRenewalDate(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT fe
+            FROM App\Entity\FrenchEchoppe fe
+            ORDER BY fe.renewalDate ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

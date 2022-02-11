@@ -21,4 +21,21 @@ class DomainNameRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, DomainName::class);
     }
+
+    /**
+     * @return DomainName[]
+     */
+    public function findAllOrderByRenewalDate(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT dn
+            FROM App\Entity\DomainName dn
+            ORDER BY dn.renewalDate ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

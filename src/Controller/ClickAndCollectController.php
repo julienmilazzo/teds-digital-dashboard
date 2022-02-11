@@ -6,9 +6,10 @@ use App\Util\Binder;
 use App\Entity\ClickAndCollect;
 use App\Form\ClickAndCollectType;
 use App\Repository\ClickAndCollectRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/click/and/collect')]
@@ -17,7 +18,7 @@ class ClickAndCollectController extends AbstractController
     #[Route('/', name: 'click_and_collect_index', methods: ['GET'])]
     public function index(ClickAndCollectRepository $clickAndCollectRepository): Response
     {
-        $clickAndCollects = $clickAndCollectRepository->findAll();
+        $clickAndCollects = $clickAndCollectRepository->findAllOrderByRenewalDate();
 
         return $this->render('click_and_collect/index.html.twig', [
             'click_and_collects' => $clickAndCollects,
@@ -122,5 +123,16 @@ class ClickAndCollectController extends AbstractController
         }
 
         return $this->redirectToRoute('click_and_collect_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
+    public function updateAddRenewalDate(Request $request, ClickAndCollect $clickAndCollect, EntityManagerInterface $em)
+    {
+        $newDate = $clickAndCollect->getRenewalDate()->add(new DateInterval('P1Y'));
+
+        $clickAndCollect->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
+        $em->persist($clickAndCollect);
+        $em->flush();
+        return new JsonResponse(true);
     }
 }

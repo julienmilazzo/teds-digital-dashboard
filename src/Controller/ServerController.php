@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+use DateInterval;
 use App\Entity\{Server, Site};
 use App\Form\ServerType;
 use App\Repository\ServerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/server')]
@@ -16,7 +17,7 @@ class ServerController extends AbstractController
     #[Route('/', name: 'server_index', methods: ['GET'])]
     public function index(ServerRepository $serverRepository): Response
     {
-        $servers = $serverRepository->findAll();
+        $servers = $serverRepository->findAllOrderByRenewalDate();
 
         return $this->render('server/index.html.twig', [
             'servers' => $servers,
@@ -143,5 +144,16 @@ class ServerController extends AbstractController
         return $this->redirectToRoute('server_show', [
             'id' => $server->getId()
         ]);
+    }
+
+    #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
+    public function updateAddRenewalDate(Request $request, Server $server, EntityManagerInterface $em)
+    {
+        $newDate = $server->getRenewalDate()->add(new DateInterval('P1Y'));
+
+        $server->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
+        $em->persist($server);
+        $em->flush();
+        return new JsonResponse(true);
     }
 }

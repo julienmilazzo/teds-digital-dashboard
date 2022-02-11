@@ -18,4 +18,21 @@ class SocialNetworkRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, SocialNetwork::class);
     }
+
+    /**
+     * @return SocialNetwork[]
+     */
+    public function findAllOrderByRenewalDate(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT sn
+            FROM App\Entity\SocialNetwork sn
+            ORDER BY sn.renewalDate ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }
