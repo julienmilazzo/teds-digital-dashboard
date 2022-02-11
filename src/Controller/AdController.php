@@ -30,10 +30,8 @@ class AdController extends AbstractController
     {
         $ads= [];
         $ids = array_filter(explode(",", $request->get('ids')));
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $ads[] = $adRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $ads[] = $adRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render("ad/search.html.twig", [

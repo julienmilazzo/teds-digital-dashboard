@@ -30,10 +30,8 @@ class ClickAndCollectController extends AbstractController
     {
         $clickAndCollects= [];
         $ids = array_filter(explode(",", $request->get('ids')));
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $clickAndCollects[] = $clickAndCollectRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $clickAndCollects[] = $clickAndCollectRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render("click_and_collect/search.html.twig", [

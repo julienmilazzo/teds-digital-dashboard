@@ -30,11 +30,8 @@ class DomainNameController extends AbstractController
     {
         $domainNames = [];
         $ids = array_filter(explode(",", $request->get('ids')));
-
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $domainNames[] = $domainNameRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $domainNames[] = $domainNameRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render('domain_name/search.html.twig', [

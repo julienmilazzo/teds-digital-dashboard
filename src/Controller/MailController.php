@@ -30,11 +30,8 @@ class MailController extends AbstractController
     {
         $mails= [];
         $ids = array_filter(explode(",", $request->get('ids')));
-
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $mails[] = $mailRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $mails[] = $mailRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render("mail/search.html.twig", [

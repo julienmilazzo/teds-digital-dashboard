@@ -30,10 +30,8 @@ class ServerController extends AbstractController
         $servers = [];
         $ids = array_filter(explode(",", $request->get('ids')));
 
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $servers[] = $serverRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $servers[] = $serverRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render('server/search.html.twig', [

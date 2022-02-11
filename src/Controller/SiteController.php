@@ -35,10 +35,8 @@ class SiteController extends AbstractController
         $sites = [];
         $ids = array_filter(explode(",", $request->get('ids')));
 
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $sites[] = $siteRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $sites[] = $siteRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render('site/search.html.twig', [

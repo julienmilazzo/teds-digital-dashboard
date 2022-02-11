@@ -31,10 +31,8 @@ class ClientController extends AbstractController
         $clients = [];
         $ids = array_filter(explode(",", $request->get('ids')));
 
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $clients[] = $clientRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $clients[] = $clientRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render("client/search.html.twig", [

@@ -31,10 +31,8 @@ class FrenchEchoppeController extends AbstractController
         $frenchEchoppes= [];
         $ids = array_filter(explode(",", $request->get('ids')));
 
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $frenchEchoppes[] = $frenchEchoppeRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $frenchEchoppes[] = $frenchEchoppeRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render('french_echoppe/search.html.twig', [

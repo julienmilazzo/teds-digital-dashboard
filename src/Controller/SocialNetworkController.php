@@ -31,10 +31,8 @@ class SocialNetworkController extends AbstractController
         $socialNetworks= [];
         $ids = array_filter(explode(",", $request->get('ids')));
 
-        if ("" !== $ids[0]) {
-            foreach ($ids as $id) {
-                $socialNetworks[] = $socialNetworkRepository->findOneBy(['id' => $id]);
-            }
+        foreach ($ids as $id) {
+            $socialNetworks[] = $socialNetworkRepository->findOneBy(['id' => $id]);
         }
 
         return $this->render("social_network/search.html.twig", [
