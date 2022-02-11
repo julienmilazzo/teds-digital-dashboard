@@ -3,7 +3,6 @@
 namespace App\Twig;
 
 use App\Entity\Client;
-use Doctrine\Common\Collections\Collection;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

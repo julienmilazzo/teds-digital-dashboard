@@ -2,9 +2,11 @@
 <a href="{{ path('server_edit', {'id': currentServer.id}) }}" class="btn blue">
     Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 </a>
-<button onclick="updateAddRenewalDate()" class="btn parme">
-    Facturé
-</button>
+{% if date(currentServer.renewalDate) < date('+1month') %}
+    <button onclick="updateAddRenewalDate()" class="btn parme  f-right">
+        Facturé
+    </button>
+{% endif %}
 <table class="table">
     <tbody>
     <tr>
