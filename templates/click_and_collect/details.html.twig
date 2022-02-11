@@ -49,9 +49,11 @@
     </tr>
     <tr>
         <th>Server</th>
-        <td>{{ currentClickAndCollect.server.name }}
-            <a href="{{ path('server_show', {'id': currentClickAndCollect.server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
-        </td>
+        {% if currentClickAndCollect.server is defined and currentClickAndCollect.server is not null %}
+            <td>{{ currentClickAndCollect.server.name }}
+                <a href="{{ path('server_show', {'id': currentClickAndCollect.server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+            </td>
+        {% endif %}
     </tr>
     <tr>
         <th>Site</th>

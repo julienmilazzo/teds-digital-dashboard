@@ -25,6 +25,20 @@ class MailController extends AbstractController
         ]);
     }
 
+    #[Route('/search', name: 'mail_search', methods: ['GET'])]
+    public function search(Request $request, MailRepository $mailRepository): Response
+    {
+        $mails= [];
+        $ids = array_filter(explode(",", $request->get('ids')));
+        foreach ($ids as $id) {
+            $mails[] = $mailRepository->findOneBy(['id' => $id]);
+        }
+
+        return $this->render("mail/search.html.twig", [
+            'mails' => $mails,
+        ]);
+    }
+
     #[Route('/ordered/{id}', name: 'mail_ordered', methods: ['GET'])]
     public function ordered(Request $request, MailRepository $mailRepository, Mail $mail): Response
     {

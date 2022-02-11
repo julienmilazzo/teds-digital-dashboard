@@ -10,9 +10,32 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        function searchDomainName() {
-            var url = '{{ path("domain_name_search") }}';
-            window.location.href = url + '?searchUrl=' + $('#search').val();
+        var searchItems = [];
+        $(document).ready(() => {
+            $("#search-form").on("submit", (e) => {
+                e.preventDefault();
+                search();
+            });
+        });
+
+        function search() {
+            if (1 === searchItems.length) {
+                window.location.href = '/domain-name/' + searchItems[0];
+            } else {
+                window.location.href = '{{ path("domain_name_search") }}' + '?ids=' + searchItems.join();
+            }
+        }
+        function searchSame() {
+            searchItems = [];
+            {% for domain_name in domain_names %}
+                var domainNameUrl = "{{ domain_name.url }}"
+                if (!domainNameUrl.toLowerCase().includes($('#search').val().toLowerCase())) {
+                    $('#domain-name-{{ domain_name.id }}').addClass("d-none");
+                } else {
+                    $('#domain-name-{{ domain_name.id }}').removeClass("d-none");
+                    searchItems.push({{ domain_name.id }});
+                }
+            {% endfor %}
         }
     </script>
 {% endblock %}
@@ -26,8 +49,10 @@
             <h1 class="title-index bd-bt" style="display: inline-block">Noms de domaines :</h1>
         </div>
         <div class="col-sm search-div">
-            <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
-            <button class="btn parme my-2 my-sm-0" onclick="searchDomainName()" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            <form id="search-form" action="">
+                <input id="search"  class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
+                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            </form>
         </div>
     </div>
 
@@ -53,7 +78,7 @@
                     </thead>
                     <tbody>
                         {% for domain_name in domain_names %}
-                            <tr style="vertical-align: middle;">
+                            <tr style="vertical-align: middle;" id="domain-name-{{ domain_name.id }}">
                                 <td>{{ domain_name.url }}</td>
                                 <td>{{ domain_name.provider }}</td>
                                 <td>{{ domain_name.offer }}</td>

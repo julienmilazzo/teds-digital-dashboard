@@ -16,9 +16,34 @@
                 document.getElementById('noel').play();
             }
         });
+
+        var searchItems = [];
+        $(document).ready(() => {
+            $("#search-form").on("submit", (e) => {
+                e.preventDefault();
+                searchClient();
+            });
+        });
+
         function searchClient() {
-            var url = '{{ path("client_search") }}';
-            window.location.href = url + '?searchName=' + $('#search').val();
+            if (1 === searchItems.length) {
+                window.location.href = '/client/' + searchItems[0];
+            } else {
+                window.location.href = '{{ path("client_search") }}' + '?ids=' + searchItems.join();
+            }
+        }
+
+        function searchSame() {
+            searchItems = [];
+            {% for client in clients %}
+                var clientName = "{{ client.name }}"
+                if (!clientName.toLowerCase().includes($('#search').val().toLowerCase())) {
+                    $('#client-{{ client.id }}').addClass("d-none");
+                } else {
+                    $('#client-{{ client.id }}').removeClass("d-none");
+                    searchItems.push({{ client.id }});
+                }
+            {% endfor %}
         }
     </script>
 {% endblock %}
@@ -33,8 +58,10 @@
             <h1 class="title-index bd-bt" style="display: inline-block">Clients :</h1>
         </div>
         <div class="col-sm search-div">
-            <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
-            <button class="btn parme my-2 my-sm-0" onclick="searchClient()" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            <form id="search-form" action="">
+                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
+                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            </form>
         </div>
     </div>
     <div class="grid container-fluid div3">
@@ -57,7 +84,7 @@
                     </thead>
                     <tbody>
                         {% for client in clients %}
-                            <tr style="vertical-align: middle;">
+                            <tr style="vertical-align: middle;" id="client-{{ client.id }}">
                                 <td>{{ client.name }}</td>
                                 <td>{{ client.email }}</td>
                                 <td>{{ client.address }}</td>

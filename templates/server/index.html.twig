@@ -10,9 +10,33 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        function searchServer() {
-            var url = '{{ path("server_search") }}';
-            window.location.href = url + '?searchName=' + $('#search').val();
+        var searchItems = [];
+        $(document).ready(() => {
+            $("#search-form").on("submit", (e) => {
+                e.preventDefault();
+                search();
+            });
+        });
+
+        function search() {
+            if (1 === searchItems.length) {
+                window.location.href = '/server/' + searchItems[0];
+            } else {
+                window.location.href = '{{ path("server_search") }}' + '?ids=' + searchItems.join();
+            }
+        }
+
+        function searchSame() {
+            searchItems = [];
+            {% for server in servers %}
+                var serverName = "{{ server.name }}"
+                if (!serverName.toLowerCase().includes($('#search').val().toLowerCase())) {
+                    $('#server-{{ server.id }}').addClass("d-none");
+                } else {
+                    $('#server-{{ server.id }}').removeClass("d-none");
+                    searchItems.push({{ server.id }});
+                }
+            {% endfor %}
         }
     </script>
 {% endblock %}
@@ -27,8 +51,10 @@
             <h1 class="title-index bd-bt" style="display: inline-block">Serveurs :</h1>
         </div>
         <div class="col-sm search-div">
-            <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
-            <button class="btn parme my-2 my-sm-0" onclick="searchServer()" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            <form id="search-form" action="">
+                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
+                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            </form>
         </div>
     </div>
     <div class="grid container-fluid div3">
@@ -52,7 +78,7 @@
                     </thead>
                     <tbody class="body-half-screen">
                         {% for server in servers %}
-                            <tr style="vertical-align: middle;">
+                            <tr style="vertical-align: middle;" id="server-{{ server.id }}">
                                 <td>{{ server.name }}</td>
                                 <td>{{ server.provider }}</td>
                                 <td>{{ server.offer }}</td>

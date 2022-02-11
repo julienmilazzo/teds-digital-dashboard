@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mail liste{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {% block bandeau %}
+        {{ parent() }}
+    {% endblock %}
+
+    <div class="yellow row div-title">
+        <div class="col-sm">
+            <h1 class="title-index bd-bt" style="display: inline-block">Résultats de votre recherche :</h1>
+        </div>
+    </div>
+    <div class="container-fluid div3 grid">
+        <div class="div-annexe div4">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Prestataire</th>
+                    <th>Offre</th>
+                    <th>Coût</th>
+                    <th>Prix facturé</th>
+                    <th>Type de renouvellement</th>
+                    <th>Date de début</th>
+                    <th>date de renouvellement</th>
+                    <th>Commentaire</th>
+                    <th>Actif</th>
+                    <th>Voir</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mail in mails %}
+                    <tr style="vertical-align: middle">
+                        <td>{{ mail.client.name }}</td>
+                        <td>{{ mail.provider }}</td>
+                        <td>{{ mail.offer }}</td>
+                        <td>{{ mail.cost }}</td>
+                        <td>{{ mail.invoicedPrice }}</td>
+                        <td>{{ mail.renewalType }}</td>
+                        <td>{{ mail.startDate ? mail.startDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ mail.renewalDate ? mail.renewalDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ mail.commentary }}</td>
+                        <td>{{ mail.enable ? 'Oui' : 'Non' }}</td>
+                        <td>
+                            <a href="{{ path('mail_show', {'id': mail.id}) }}" class="btn btn-secondary">Détails</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucun Mail</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('mail_index') }}" class="btn yellow">< Retour liste</a>
+        </div>
+    </div>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

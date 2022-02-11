@@ -5,9 +5,32 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        function searchClickAndCollect() {
-            var url = '{{ path("domain_name_search") }}';
-            window.location.href = url + '?searchUrl=' + $('#search').val();
+        var searchItems = [];
+        $(document).ready(() => {
+            $("#search-form").on("submit", (e) => {
+                e.preventDefault();
+                search();
+            });
+        });
+
+        function search() {
+            if (1 === searchItems.length) {
+                window.location.href = '/click/and/collect/' + searchItems[0];
+            } else {
+                window.location.href = '{{ path("click_and_collect_search") }}' + '?ids=' + searchItems.join();
+            }
+        }
+        function searchSame() {
+            searchItems = [];
+            {% for click_and_collect in click_and_collects %}
+                var clickAndCollectClientName = "{{ click_and_collect.client.name }}"
+                if (!clickAndCollectClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
+                    $('#click-and-collect-{{ click_and_collect.id }}').addClass("d-none");
+                } else {
+                    $('#click-and-collect-{{ click_and_collect.id }}').removeClass("d-none");
+                    searchItems.push({{ click_and_collect.id }});
+                }
+            {% endfor %}
         }
     </script>
 {% endblock %}
@@ -21,8 +44,10 @@
             <h1 class="title-index bd-bt" style="display: inline-block">Click & Collect :</h1>
         </div>
         <div class="col-sm search-div">
-            <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search">
-            <button class="btn parme my-2 my-sm-0" onclick="searchClickAndCollect()" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            <form id="search-form" action="">
+                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
+                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
+            </form>
         </div>
     </div>
     <div class="grid container-fluid div3">
@@ -32,7 +57,7 @@
                 <table class="table table-index">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>Nom du client</th>
                             <th>Date de mise en ligne</th>
                             <th>En ligne</th>
                             <th>Actif</th>
@@ -49,8 +74,8 @@
                     </thead>
                     <tbody>
                       {% for click_and_collect in click_and_collects %}
-                          <tr style="vertical-align: middle">
-                              <td>{{ click_and_collect.id }}</td>
+                          <tr style="vertical-align: middle" id="click-and-collect-{{ click_and_collect.id }}">
+                              <td>{{ click_and_collect.client.name }}</td>
                               <td>{{ click_and_collect.onlineDate ? click_and_collect.onlineDate|date('Y-m-d') : '' }}</td>
                               <td>{{ click_and_collect.online ? 'Oui' : 'Non' }}</td>
                               <td>{{ click_and_collect.enable ? 'Oui' : 'Non' }}</td>
