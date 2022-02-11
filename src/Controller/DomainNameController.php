@@ -29,7 +29,8 @@ class DomainNameController extends AbstractController
     public function search(Request $request, DomainNameRepository $domainNameRepository): Response
     {
         $domainNames = [];
-        $ids = explode(",", $request->get('ids'));
+        $ids = array_filter(explode(",", $request->get('ids')));
+
         if ("" !== $ids[0]) {
             foreach ($ids as $id) {
                 $domainNames[] = $domainNameRepository->findOneBy(['id' => $id]);

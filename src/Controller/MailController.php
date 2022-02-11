@@ -29,7 +29,8 @@ class MailController extends AbstractController
     public function search(Request $request, MailRepository $mailRepository): Response
     {
         $mails= [];
-        $ids = explode(",", $request->get('ids'));
+        $ids = array_filter(explode(",", $request->get('ids')));
+
         if ("" !== $ids[0]) {
             foreach ($ids as $id) {
                 $mails[] = $mailRepository->findOneBy(['id' => $id]);

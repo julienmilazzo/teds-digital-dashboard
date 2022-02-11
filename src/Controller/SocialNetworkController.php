@@ -29,7 +29,8 @@ class SocialNetworkController extends AbstractController
     public function search(Request $request, SocialNetworkRepository $socialNetworkRepository): Response
     {
         $socialNetworks= [];
-        $ids = explode(",", $request->get('ids'));
+        $ids = array_filter(explode(",", $request->get('ids')));
+
         if ("" !== $ids[0]) {
             foreach ($ids as $id) {
                 $socialNetworks[] = $socialNetworkRepository->findOneBy(['id' => $id]);

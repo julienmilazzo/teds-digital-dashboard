@@ -28,7 +28,8 @@ class ServerController extends AbstractController
     public function search(Request $request, ServerRepository $serverRepository): Response
     {
         $servers = [];
-        $ids = explode(",", $request->get('ids'));
+        $ids = array_filter(explode(",", $request->get('ids')));
+
         if ("" !== $ids[0]) {
             foreach ($ids as $id) {
                 $servers[] = $serverRepository->findOneBy(['id' => $id]);

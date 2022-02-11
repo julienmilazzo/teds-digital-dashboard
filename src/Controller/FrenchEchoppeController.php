@@ -29,7 +29,8 @@ class FrenchEchoppeController extends AbstractController
     public function search(Request $request, FrenchEchoppeRepository $frenchEchoppeRepository): Response
     {
         $frenchEchoppes= [];
-        $ids = explode(",", $request->get('ids'));
+        $ids = array_filter(explode(",", $request->get('ids')));
+
         if ("" !== $ids[0]) {
             foreach ($ids as $id) {
                 $frenchEchoppes[] = $frenchEchoppeRepository->findOneBy(['id' => $id]);

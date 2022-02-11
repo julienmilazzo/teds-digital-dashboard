@@ -29,7 +29,7 @@ class ClickAndCollectController extends AbstractController
     public function search(Request $request, ClickAndCollectRepository $clickAndCollectRepository): Response
     {
         $clickAndCollects= [];
-        $ids = explode(",", $request->get('ids'));
+        $ids = array_filter(explode(",", $request->get('ids')));
         if ("" !== $ids[0]) {
             foreach ($ids as $id) {
                 $clickAndCollects[] = $clickAndCollectRepository->findOneBy(['id' => $id]);

@@ -33,7 +33,8 @@ class SiteController extends AbstractController
     public function search(Request $request, SiteRepository $siteRepository): Response
     {
         $sites = [];
-        $ids = explode(",", $request->get('ids'));
+        $ids = array_filter(explode(",", $request->get('ids')));
+
         if ("" !== $ids[0]) {
             foreach ($ids as $id) {
                 $sites[] = $siteRepository->findOneBy(['id' => $id]);

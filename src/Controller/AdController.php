@@ -29,7 +29,7 @@ class AdController extends AbstractController
     public function search(Request $request, AdRepository $adRepository): Response
     {
         $ads= [];
-        $ids = explode(",", $request->get('ids'));
+        $ids = array_filter(explode(",", $request->get('ids')));
         if ("" !== $ids[0]) {
             foreach ($ids as $id) {
                 $ads[] = $adRepository->findOneBy(['id' => $id]);
