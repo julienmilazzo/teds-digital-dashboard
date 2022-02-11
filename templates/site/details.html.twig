@@ -28,23 +28,27 @@
     <tr>
         <th>Noms de domaine :</th>
         <td>
-            {% for domainName in domainNames %}
-                {% if domainName is defined and domainName is not null %}
-                    - {{ domainName.url }}
-                    <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i> </a>
-                {% endif %}
-            {% endfor %}
+            {% if domaineNames is defined and domainNames is not null %}
+                {% for domainName in domainNames|filter(domainName => domainName.site is same as (currentSite)) %}
+                    {% if domainName is defined and domainName is not null %}
+                        - {{ domainName.url }}
+                        <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i> </a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </td>
     </tr>
     <tr>
         <th>Click & Collects :</th>
         <td>
-            {% for clickAndCollect in clickAndCollects %}
-                {% if clickAndCollect is defined and clickAndCollect is not null %}
-                    - {{ clickAndCollect.id }}
-                    <a href="{{ path('click_and_collect_show', {'id': clickAndCollect.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                {% endif %}
-            {% endfor %}
+            {% if clickAndCollects is defined and clickAndCollects is not null %}
+                {% for clickAndCollect in clickAndCollects|filter(clickAndCollect => clickAndCollect.site is same as (currentSite)) %}
+                    {% if clickAndCollect is defined and clickAndCollect is not null %}
+                        - {{ clickAndCollect.id }}
+                        <a href="{{ path('click_and_collect_show', {'id': clickAndCollect.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </td>
     </tr>
     </tbody>
