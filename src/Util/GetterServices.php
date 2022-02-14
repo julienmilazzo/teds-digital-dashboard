@@ -53,4 +53,19 @@ class GetterServices
 
         return ['domainNames' => $domainNames, 'clickAndCollects' => $clickAndCollects, 'mails' => $mails, 'frenchEchoppes' => $frenchEchoppes, 'ads' => $ads, 'socialNetworks' => $socialNetworks];
     }
+
+    static function removeAllServices(Collection $siteClientToServicesBinders, EntityManagerInterface $em) {
+        foreach ($siteClientToServicesBinders as $siteClientToServicesBinder) {
+            $serviceRepositoryMapping = [
+                Service::DOMAIN_NAME => DomainName::class,
+                Service::CLICK_AND_COLLECT => ClickAndCollect::class,
+                Service::MAIL => Mail::class,
+                Service::AD => Ad::class,
+                Service::SOCIAL_NETWORK => SocialNetwork::class,
+                Service::FRENCH_ECHOPPE => FrenchEchoppe::class,
+            ];
+            $data = $em->getRepository($serviceRepositoryMapping[$siteClientToServicesBinder->getType()])->findOneBy(['id' => $siteClientToServicesBinder->getServiceId()]);
+            $em->remove($data);
+        }
+    }
 }

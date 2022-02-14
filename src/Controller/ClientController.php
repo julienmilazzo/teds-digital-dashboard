@@ -125,14 +125,17 @@ class ClientController extends AbstractController
         return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
     }
 
+
     #[Route('/remove-site/{id}', name: 'client_remove_site', methods: ['GET', 'POST'])]
-    public function removeSite(Client $client, Site $site, EntityManagerInterface $entityManager): Response
+    public function removeSite(Client $client,Request $request, EntityManagerInterface $entityManager): Response
     {
-        $client->removeSite($site);
+        $client->removeSite($entityManager->getRepository(Site::class)->findOneBy(["id" => $request->get('idToDelete')]));
+
+        GetterServices::removeAllServices($entityManager->getRepository(Site::class)->findOneBy(["id" => $request->get('idToDelete')])->getSiteClientToServicesBinders(), $entityManager);
+
+        $entityManager->remove($entityManager->getRepository(Site::class)->findOneBy(["id" => $request->get('idToDelete')]));
         $entityManager->flush();
 
-        return $this->render('client/show.html.twig', [
-            'currentClient' => $client,
-        ]);
+        return $this->redirectToRoute("client_show", ["id" => $client->getId()]);
     }
 }
