@@ -2,6 +2,11 @@
 <a href="{{ path('ad_edit', {'id': currentAd.id}) }}" class="btn blue">
     Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 </a>
+{% if date(currentAd.renewalDate) < date('+1month') %}
+    <button onclick="updateAddRenewalDate()" class="btn parme f-right">
+        Facturé
+    </button>
+{% endif %}
 <table class="table">
     <tbody>
     <tr>
@@ -68,3 +73,15 @@
     </tr>
     </tbody>
 </table>
+<script>
+    function updateAddRenewalDate() {
+        var url = '{{ path('updateAddRenewalDate', {id:currentAd.id}) }}';
+        ajax = $.ajax({
+            url: url,
+            type: 'GET',
+            success: function() {
+                location.reload();
+            },
+        });
+    }
+</script>

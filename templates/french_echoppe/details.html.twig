@@ -2,6 +2,11 @@
 <a href="{{ path('french_echoppe_edit', {'id': currentFrenchEchoppe.id}) }}" class="btn blue">
     Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 </a>
+{% if date(currentFrenchEchoppe.renewalDate) < date('+1month') %}
+    <button onclick="updateAddRenewalDate()" class="btn parme  f-right">
+        Facturé
+    </button>
+{% endif %}
 <table class="table">
     <tbody>
     <tr>
@@ -58,3 +63,15 @@
     </tr>
     </tbody>
 </table>
+<script>
+    function updateAddRenewalDate() {
+        var url = '{{ path('updateAddRenewalDate', {id:currentFrenchEchoppe.id}) }}';
+        ajax = $.ajax({
+            url: url,
+            type: 'GET',
+            success: function() {
+                location.reload();
+            },
+        });
+    }
+</script>

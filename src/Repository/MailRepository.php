@@ -18,4 +18,21 @@ class MailRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Mail::class);
     }
+
+    /**
+     * @return Mail[]
+     */
+    public function findAllOrderByRenewalDate(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT mail
+            FROM App\Entity\Mail mail
+            ORDER BY mail.renewalDate ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

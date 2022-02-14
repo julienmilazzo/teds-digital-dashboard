@@ -6,9 +6,10 @@ use App\Util\Binder;
 use App\Entity\FrenchEchoppe;
 use App\Form\FrenchEchoppeType;
 use App\Repository\FrenchEchoppeRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/french/echoppe')]
@@ -17,7 +18,7 @@ class FrenchEchoppeController extends AbstractController
     #[Route('/', name: 'french_echoppe_index', methods: ['GET'])]
     public function index(FrenchEchoppeRepository $frenchEchoppeRepository): Response
     {
-        $frenchEchoppes = $frenchEchoppeRepository->findAll();
+        $frenchEchoppes = $frenchEchoppeRepository->findAllOrderByRenewalDate();
 
         return $this->render('french_echoppe/index.html.twig', [
             'french_echoppes' => $frenchEchoppes,
@@ -121,5 +122,17 @@ class FrenchEchoppeController extends AbstractController
         }
 
         return $this->redirectToRoute('french_echoppe_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
+    public function updateAddRenewalDate(Request $request, FrenchEchoppe $frenchEchoppe, EntityManagerInterface $em)
+    {
+        $newDate = $frenchEchoppe->getRenewalDate()->add(new DateInterval('P1Y'));
+
+        $frenchEchoppe->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
+        $em->persist($frenchEchoppe);
+        $em->flush();
+        return new JsonResponse(true);
     }
 }

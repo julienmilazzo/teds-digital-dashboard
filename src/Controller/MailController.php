@@ -6,9 +6,10 @@ use App\Util\Binder;
 use App\Entity\Mail;
 use App\Form\MailType;
 use App\Repository\MailRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/mail')]
@@ -17,7 +18,7 @@ class MailController extends AbstractController
     #[Route('/', name: 'mail_index', methods: ['GET'])]
     public function index(MailRepository $mailRepository): Response
     {
-        $mails = $mailRepository->findAll();
+        $mails = $mailRepository->findAllOrderByRenewalDate();
 
         return $this->render('mail/index.html.twig', [
             'mails' => $mails,
@@ -111,5 +112,16 @@ class MailController extends AbstractController
         }
 
         return $this->redirectToRoute('mail_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
+    public function updateAddRenewalDate(Request $request, Mail $mail, EntityManagerInterface $em)
+    {
+        $newDate = $mail->getRenewalDate()->add(new DateInterval('P1Y'));
+
+        $mail->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
+        $em->persist($mail);
+        $em->flush();
+        return new JsonResponse(true);
     }
 }

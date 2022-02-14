@@ -6,9 +6,10 @@ use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use App\Util\Binder;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/ad')]
@@ -17,7 +18,7 @@ class AdController extends AbstractController
     #[Route('/', name: 'ad_index', methods: ['GET'])]
     public function index(AdRepository $adRepository): Response
     {
-        $ads = $adRepository->findAll();
+        $ads = $adRepository->findAllOrderByRenewalDate();
 
         return $this->render('ad/index.html.twig', [
             'ads' => $ads,
@@ -76,7 +77,7 @@ class AdController extends AbstractController
     #[Route('/{id}', name: 'ad_show', methods: ['GET'])]
     public function show(Ad $ad, AdRepository $adRepository): Response
     {
-        $ads = $adRepository->findAll();
+        $ads = $adRepository->findAllOrderByRenewalDate();
 
         return $this->render('ad/index.html.twig', [
             'ads' => $ads,
@@ -111,5 +112,16 @@ class AdController extends AbstractController
         }
 
         return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
+    public function updateAddRenewalDate(Request $request, Ad $ad, EntityManagerInterface $em)
+    {
+        $newDate = $ad->getRenewalDate()->add(new DateInterval('P1Y'));
+
+        $ad->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
+        $em->persist($ad);
+        $em->flush();
+        return new JsonResponse(true);
     }
 }

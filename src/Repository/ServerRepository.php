@@ -21,4 +21,21 @@ class ServerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Server::class);
     }
+
+    /**
+     * @return Server[]
+     */
+    public function findAllOrderByRenewalDate(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM App\Entity\Server s
+            ORDER BY s.renewalDate ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

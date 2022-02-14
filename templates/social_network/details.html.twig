@@ -2,6 +2,11 @@
 <a href="{{ path('social_network_edit', {'id': currentSocialNetwork.id}) }}" class="btn blue">
     Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 </a>
+{% if date(currentSocialNetwork.renewalDate) < date('+1month') %}
+    <button onclick="updateAddRenewalDate()" class="btn parme  f-right">
+        Facturé
+    </button>
+{% endif %}
 <table class="table">
     <tbody>
     <tr>
@@ -17,9 +22,13 @@
     <tr>
         <th>Quel Réseaux ? </th>
         <td>
-            {% for i in 0..((currentSocialNetwork.whichSocialNetwork|length)-1) %}
-                - {{ currentSocialNetwork.whichSocialNetwork[i] }} <br>
-            {% endfor %}
+            {% if currentSocialNetwork.whichSocialNetwork|length is not same as 0 %}
+                {% for i in 0..((currentSocialNetwork.whichSocialNetwork|length)-1) %}
+                    - {{ currentSocialNetwork.whichSocialNetwork[i] }} <br>
+                {% endfor %}
+            {% else %}
+                Aucun
+            {% endif %}
         </td>
     </tr>
     <tr>
@@ -60,3 +69,15 @@
     </tr>
     </tbody>
 </table>
+<script>
+    function updateAddRenewalDate() {
+        var url = '{{ path('updateAddRenewalDate', {id:currentSocialNetwork.id}) }}';
+        ajax = $.ajax({
+            url: url,
+            type: 'GET',
+            success: function() {
+                location.reload();
+            },
+        });
+    }
+</script>

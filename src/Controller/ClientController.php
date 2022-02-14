@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{Client,Site};
+use App\Entity\{Ad, ClickAndCollect, Client, DomainName, FrenchEchoppe, Mail, Site, SocialNetwork};
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +22,12 @@ class ClientController extends AbstractController
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
             'currentClient' => $clients[0],
+            'domainNames' => $entityManager->getRepository(DomainName::class)->findAll(),
+            'clickAndCollects' => $entityManager->getRepository(ClickAndCollect::class)->findAll(),
+            'frenchEchoppes' => $entityManager->getRepository(FrenchEchoppe::class)->findAll(),
+            'mails' => $entityManager->getRepository(Mail::class)->findAll(),
+            'ads' => $entityManager->getRepository(Ad::class)->findAll(),
+            'socialNetworks' => $entityManager->getRepository(SocialNetwork::class)->findAll(),
         ]);
     }
 

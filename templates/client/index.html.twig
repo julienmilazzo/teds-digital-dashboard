@@ -71,32 +71,42 @@
             {% if currentClient is defined and currentClient is not null %}
                 <table class="table table-index">
                     <thead>
-                        <tr>
-                            <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort, 'id' : currentClient.id }) }}">Nom <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                            <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'email', 'orderBy' : app.request.get('orderedType') is same as ('email') ? sort, 'id' : currentClient.id }) }}">Email <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('email')) ? 'down' : 'up' }}"></i></a></th>
-                            <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'address', 'orderBy' : app.request.get('orderedType') is same as ('address') ? sort, 'id' : currentClient.id }) }}">Adresse <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('address')) ? 'down' : 'up' }}"></i></a></th>
-                            <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'city', 'orderBy' : app.request.get('orderedType') is same as ('city') ? sort, 'id' : currentClient.id }) }}">Ville <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('city')) ? 'down' : 'up' }}"></i></a></th>
-                            <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'zipCode', 'orderBy' : app.request.get('orderedType') is same as ('zipCode') ? sort, 'id' : currentClient.id }) }}">Code postal <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('zipCode')) ? 'down' : 'up' }}"></i></a></th>
-                            <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'phone', 'orderBy' : app.request.get('orderedType') is same as ('phone') ? sort, 'id' : currentClient.id }) }}">Téléphone <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('phone')) ? 'down' : 'up' }}"></i></a></th>
-                            <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort, 'id' : currentClient.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
-                            <th>Voir</th>
-                        </tr>
+                    <tr>
+                        <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort, 'id' : currentClient.id }) }}">Nom <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'email', 'orderBy' : app.request.get('orderedType') is same as ('email') ? sort, 'id' : currentClient.id }) }}">Email <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('email')) ? 'down' : 'up' }}"></i></a></th>
+                        <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'phone', 'orderBy' : app.request.get('orderedType') is same as ('phone') ? sort, 'id' : currentClient.id }) }}">Téléphone <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('phone')) ? 'down' : 'up' }}"></i></a></th>
+                        <th>Site</th>
+                        <th>Serveur</th>
+                        <th>Nom de domaine</th>
+                        <th>Click'N Collect</th>
+                        <th>French Echoppe</th>
+                        <th>Mail</th>
+                        <th>Publicité</th>
+                        <th>Réseaux sociaux</th>
+                        <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort, 'id' : currentClient.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
+                        <th>Voir</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {% for client in clients %}
-                            <tr style="vertical-align: middle;" id="client-{{ client.id }}">
-                                <td>{{ client.name }}</td>
-                                <td>{{ client.email }}</td>
-                                <td>{{ client.address }}</td>
-                                <td>{{ client.city }}</td>
-                                <td>{{ client.zipCode }}</td>
-                                <td>{{ client.phone }}</td>
-                                <td>{{ client.enable ? 'Oui' : 'Non' }}</td>
-                                <td style="width: 17%">
-                                    <a href="{{ path('client_show', {'id': client.id}) }}" class="btn btn-secondary">Détails</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {% for client in clients %}
+                        <tr style="vertical-align: middle;">
+                            <td>{{ client.name }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.phone }}</td>
+                            <td>{{ client.sites is defined and client.sites is not null ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
+                            <td>{{ client.servers is defined and client.servers is not null ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
+                            <td>{{ hasOneIn(client, domainNames) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
+                            <td>{{ hasOneIn(client, clickAndCollects) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
+                            <td>{{ hasOneIn(client, frenchEchoppes) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
+                            <td>{{ hasOneIn(client, mails) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
+                            <td>{{ hasOneIn(client, ads) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
+                            <td>{{ hasOneIn(client, socialNetworks) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
+                           <td>{{ client.enable ? 'Oui' : 'Non' }}</td>
+                            <td style="width: 17%">
+                                <a href="{{ path('client_show', {'id': client.id}) }}" class="btn btn-secondary">Détails</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             {% else %}
