@@ -1,22 +1,22 @@
 <div id="mySidenav" class="sidenav open-side-nav">
-    <div style="text-align: center">
+    <div class="text-center">
         <img src="{{ app.request.getSchemeAndHttpHost() }}/images/teds-blanc.png" class="img-teds" alt="teds">
     </div>
     <a href="{{ path('app_logout') }}" class="logout"><i class="fa fa-sign-out icon-title-right sign-out-link" data-toggle="tooltip" aria-hidden="true" title="Déconnexion"></i></a>
     <div class="admin-menu" id="step-0">
         <br />
         <div class="block-menu">
-            <h3><i class="fa fa-bars" aria-hidden="true"></i> Menu</h3>
+            <h3 class="ps-2"><i class="fa fa-bars" aria-hidden="true"></i> Menu</h3>
 
             <div class="home-admin-link" id="step-3">
                 <a href="{{ path('client_index') }}" class="btn btn-link"><i class="fa fa-users" aria-hidden="true"></i> Clients</a>
             </div>
-            <h4 class="sub-title-menu"><i class="fa fa-handshake-o" aria-hidden="true"></i> Services Web</h4>
+            <h4 class="sub-title-menu ps-2"><i class="fa fa-handshake-o" aria-hidden="true"></i> Services Web</h4>
             <div class="home-admin-link">
                 <a href="{{ path('site_index') }}" class="btn btn-link"><i class="fa fa-window-maximize" aria-hidden="true"></i> Sites</a>
             </div>
             <div class="home-admin-link">
-                <a href="{{ path('server_index') }}" class="btn btn-link"><i class="fa fa-server" aria-hidden="true"></i> Serveurs</a>
+                <a href="{{ path('server_index') }}" class="btn btn-link"><i class="fa fa-server" aria-hidden="true"></i> Hébergements</a>
             </div>
             <div class="home-admin-link">
                 <a href="{{ path('domain_name_index') }}" class="btn btn-link"><i class="fa fa-id-card" aria-hidden="true"></i> Nom de domaines</a>
@@ -30,14 +30,14 @@
             <div class="home-admin-link">
                 <a href="{{ path('mail_index') }}" class="btn btn-link"><i class="fa fa-envelope-o" aria-hidden="true"></i> Email</a>
             </div>
-            <h4 class="sub-title-menu"><i class="fa fa-comments-o" aria-hidden="true"></i> Services Com'</h4>
+            <h4 class="sub-title-menu ps-2"><i class="fa fa-comments-o" aria-hidden="true"></i> Services Com'</h4>
             <div class="home-admin-link">
                 <a href="{{ path('social_network_index') }}" class="btn btn-link"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Réseaux sociaux</a>
             </div>
             <div class="home-admin-link">
                 <a href="{{ path('ad_index') }}" class="btn btn-link"><i class="fa fa-map-signs" aria-hidden="true"></i> Publicités</a>
             </div>
-            <h4 class="sub-title-menu"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> Autres</h4>
+            <h4 class="sub-title-menu ps-2"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> Autres</h4>
             <div class="home-admin-link">
                 <a href="{{ path('import_csv') }}" class="btn btn-link"><i class="fa fa-file-text" aria-hidden="true"></i> Importer CSV</a>
             </div>

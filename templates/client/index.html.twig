@@ -55,7 +55,7 @@
     <audio controls id='noel' style="display: none"><source src='{{ app.request.getSchemeAndHttpHost() }}/audio/noel.mp3' type='audio/mpeg'> </audio>
     <div class="yellow row div-title">
         <div class="col-sm">
-            <h1 class="title-index bd-bt" style="display: inline-block">Clients :</h1>
+            <h1 class="title-index bd-bt">Clients</h1>
         </div>
         <div class="col-sm search-div">
             <form id="search-form" action="">
@@ -64,57 +64,73 @@
             </form>
         </div>
     </div>
-    <div class="grid container-fluid div3">
-        <div class=" client div4 div-list bg-white">
-            <a href="{{ path('client_new') }}"class="btn parme" style="float: right">Ajouter</a>
-            <h1 class="c-blue bd-bt">Liste : </h1>
-            {% if currentClient is defined and currentClient is not null %}
-                <table class="table table-index">
-                    <thead>
-                    <tr>
-                        <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort, 'id' : currentClient.id }) }}">Nom <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'email', 'orderBy' : app.request.get('orderedType') is same as ('email') ? sort, 'id' : currentClient.id }) }}">Email <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('email')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'phone', 'orderBy' : app.request.get('orderedType') is same as ('phone') ? sort, 'id' : currentClient.id }) }}">Téléphone <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('phone')) ? 'down' : 'up' }}"></i></a></th>
-                        <th>Site</th>
-                        <th>Serveur</th>
-                        <th>Nom de domaine</th>
-                        <th>Click'N Collect</th>
-                        <th>French Echoppe</th>
-                        <th>Mail</th>
-                        <th>Publicité</th>
-                        <th>Réseaux sociaux</th>
-                        <th><a class="a-ordered" href="{{ path('client_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort, 'id' : currentClient.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
-                        <th>Voir</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for client in clients %}
-                        <tr style="vertical-align: middle;">
-                            <td>{{ client.name }}</td>
-                            <td>{{ client.email }}</td>
-                            <td>{{ client.phone }}</td>
-                            <td>{{ client.sites is defined and client.sites is not null ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
-                            <td>{{ client.servers is defined and client.servers is not null ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
-                            <td>{{ hasOneIn(client, domainNames) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
-                            <td>{{ hasOneIn(client, clickAndCollects) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
-                            <td>{{ hasOneIn(client, frenchEchoppes) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
-                            <td>{{ hasOneIn(client, mails) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
-                            <td>{{ hasOneIn(client, ads) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
-                            <td>{{ hasOneIn(client, socialNetworks) ? '<i class="fa fa-check" aria-hidden="true"></i>' }}</td>
-                           <td>{{ client.enable ? 'Oui' : 'Non' }}</td>
-                            <td style="width: 17%">
-                                <a href="{{ path('client_show', {'id': client.id}) }}" class="btn btn-secondary">Détails</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>Aucun client</p>
-            {% endif %}
+
+    <div class="container-fluid pt-4">
+        <div class="row ps-5">
+            <div class="col-11 offset-1 pt-3 ps-5">
+                <a href="{{ path('client_new') }}" class="btn parme float-end">Ajouter</a>
+                <h1 class="c-blue bd-bt">Liste des clients </h1>
+                {% if currentClient is defined and currentClient is not null %}
+                    <table class="table table-striped table-hover" id="client_table">
+                        <thead>
+                            <tr class="table-dark">
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Téléphone</th>
+                                <th class="text-center">Site</th>
+                                <th class="text-center">Hébergement</th>
+                                <th class="text-center">Nom de domaine</th>
+                                <th class="text-center">Click'N Collect</th>
+                                <th class="text-center">French Echoppe</th>
+                                <th class="text-center">Mail</th>
+                                <th class="text-center">Publicité</th>
+                                <th class="text-center">Réseaux sociaux</th>
+                                {% include 'helpers/table-head/actif.html.twig' %}
+                                {% include 'helpers/table-head/empty-non-sortable.html.twig' %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for client in clients %}
+                            <tr class="align-middle">
+                                <td>
+                                    <a href="{{ path('client_show', {'id': client.id}) }}" class="text-body text-decoration-none">
+                                        {{ client.name }}<i class="fa fa-search ms-2" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                <td>{{ client.email }}</td>
+                                <td>{{ client.phone }}</td>
+                                {% include 'helpers/table-body/has-one.html.twig' with
+                                    {'hasOne': client.sites is defined and client.sites is not null and client.sites|length} only %}
+                                {% include 'helpers/table-body/has-one.html.twig' with
+                                    {'hasOne': client.servers is defined and client.servers is not null and client.servers|length} only %}
+                                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, domainNames)} only %}
+                                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, clickAndCollects)} only %}
+                                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, frenchEchoppes)} only %}
+                                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, mails)} only %}
+                                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, ads)} only %}
+                                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, socialNetworks)} only %}
+                                {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': client.enable} only %}
+                                <td>
+                                    <a href="{{ path('client_edit', {'id': currentClient.id}) }}" class="btn blue">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Aucun client</p>
+                {% endif %}
+            </div>
         </div>
     </div>
     {% block footer %}
         {{ parent() }}
     {% endblock %}
+    <script>
+        $(function() {
+            $("#client_table").tablesorter();
+        });
+    </script>
 {% endblock %}

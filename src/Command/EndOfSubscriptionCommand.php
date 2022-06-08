@@ -164,13 +164,13 @@ class EndOfSubscriptionCommand extends Command
             if (!count($services['socialNetworks'])) {
                 $mailView .= '-';
             }
-            $mailView .= '</ul><h4> Serveurs :</h4><ul>';
+            $mailView .= '</ul><h4> Hébergements :</h4><ul>';
 
             /** @var Server $server */
             foreach ($client->getServers() as $server) {
                 if ($date >= $server->getRenewalDate()) {
                     $output->writeln("--------------------------");
-                    $output->writeln("Serveur : " . $server->getName() . " fin le " . ($server->getRenewalDate())->format("d-m-Y"));
+                    $output->writeln("Hébergement : " . $server->getName() . " fin le " . ($server->getRenewalDate())->format("d-m-Y"));
                     $output->writeln(" ");
                     $mailView .= '<li>' . $server->getName() . ' fin le <u class="text-danger">' . ($server->getRenewalDate())->format("d-m-Y") . '</u></li><br>';
                 }

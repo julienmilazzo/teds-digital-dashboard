@@ -30,6 +30,8 @@ class AdType extends ServiceType
                     'class' => 'col-7 mb-4',
                     'style' => 'display: inline'
                 ],
+                'format' => 'dd-MM-yyyy',
+                'years' => range(2000, date("Y"))
             ])
             ->add('client', EntityType::class, [
                 'label' => 'Client :',

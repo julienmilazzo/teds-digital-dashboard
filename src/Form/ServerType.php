@@ -21,7 +21,7 @@ class ServerType extends ServiceType
 
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom du serveur :',
+                'label' => 'Nom de l\'hébergement :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'

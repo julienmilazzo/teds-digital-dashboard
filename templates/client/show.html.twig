@@ -21,156 +21,155 @@
         </div>
     </div>
 
-     <h3 class="title-details">Sites :</h3>
-    <div class="div-add-btn">
-        <a href="{{ path('site_new') }}"class="btn parme">Ajouter un Site</a>
-    </div>
-    <div class="grid-for container-fluid div3">
-        {% for currentSite in currentClient.sites %}
-            {% set rowIndex = rowIndex + 1 %}
-            {% if rowIndex is same as 4  %}
-                {% set rowIndex = 1 %}
-                </div>
-                <div class="grid-for container-fluid div3">
-            {% endif %}
-            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
-                {% include 'site/details.html.twig' %}
+    <div class="container-fluid bg-white">
+        <div class="row">
+            <div class="col-10 offset-2 py-3">
+                {{ include('client/details.html.twig') }}
             </div>
-        {% endfor %}
-        {% set rowIndex = 0 %}
-    </div>
+            <div class="col-10 offset-2 py-3">
+                <span class="fs-3 pe-4">Ajouter :</span>
+                <div class="div-add-btn d-inline-block bg-white">
+                    <a href="{{ path('site_new') }}" class="btn parme">Un site</a>
+                </div>
+                <div class="div-add-btn d-inline-block bg-white">
+                    <a href="{{ path('server_new') }}" class="btn parme">Un hébergement</a>
+                </div>
+                <div class="div-add-btn d-inline-block bg-white">
+                    <a href="{{ path('domain_name_new', {'clientId': currentClient.id}) }}" class="btn parme">Un nom de domaine</a>
+                </div>
+                <div class="div-add-btn d-inline-block bg-white">
+                    <a href="{{ path('mail_new') }}" class="btn parme">Un mail</a>
+                </div>
+                <div class="div-add-btn d-inline-block bg-white">
+                    <a href="{{ path('french_echoppe_new') }}" class="btn parme">Un French Echoppe</a>
+                </div>
+                <div class="div-add-btn d-inline-block bg-white">
+                    <a href="{{ path('social_network_new') }}" class="btn parme">Un réseau social</a>
+                </div>
+                <div class="div-add-btn d-inline-block bg-white">
+                    <a href="{{ path('click_and_collect_new') }}" class="btn parme">Un click&collect</a>
+                </div>
+                <div class="div-add-btn d-inline-block bg-white">
+                    <a href="{{ path('ad_new') }}" class="btn parme">Une pub</a>
+                </div>
+            </div>
+        </div>
 
-     <h3 class="title-details">Serveurs : </h3>
-    <div class="div-add-btn">
-        <a href="{{ path('server_new') }}"class="btn parme" >Ajouter un Serveur</a>
-    </div>
-    <div class="grid-for container-fluid div3">
-        {% for currentServer in currentClient.servers %}
-            {% set rowIndex = rowIndex + 1 %}
-            {% if rowIndex is same as 4  %}
-                {% set rowIndex = 1 %}
+        {% set details = true %}
+        {% set sites = currentClient.sites %}
+        {% if sites|length %}
+            <div class="row ps-5">
+                <div class="col-11 offset-1 pt-3 ps-5">
+                    {% include 'site/details.html.twig' %}
                 </div>
-                <div class="grid-for container-fluid div3">
-            {% endif %}
-            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
-                {% include 'server/details.html.twig' %}
             </div>
-        {% endfor %}
-        {% set rowIndex = 0 %}
-    </div>
+        {% endif %}
 
-     <h3 class="title-details">Noms de domaines : </h3>
-    <div class="div-add-btn">
-        <a href="{{ path('domain_name_new') }}"class="btn parme">Ajouter un Nom de domaine</a>
-    </div>
-    <div class="grid-for container-fluid div3">
-        {% for currentDomainName in domainNames %}
-            {% set rowIndex = rowIndex + 1 %}
-            {% if rowIndex is same as 4  %}
-                {% set rowIndex = 1 %}
+        {% if domainNames|length %}
+            <div class="row ps-5">
+                <div class="col-11 offset-1 pt-3 ps-5">
+                    {% include 'domain_name/details.html.twig' %}
                 </div>
-                <div class="grid-for container-fluid div3">
-            {% endif %}
-            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
-                {% include 'domain_name/details.html.twig' %}
             </div>
-        {% endfor %}
-        {% set rowIndex = 0 %}
-    </div>
+        {% endif %}
 
-     <h3 class="title-details">Email : </h3>
-    <div class="div-add-btn">
-        <a href="{{ path('mail_new') }}"class="btn parme">Ajouter un Mail</a>
-    </div>
-    <div class="grid-for container-fluid div3">
-        {% for currentMail in mails %}
-            {% set rowIndex = rowIndex + 1 %}
-            {% if rowIndex is same as 4  %}
-                {% set rowIndex = 1 %}
+        {% if currentClient.servers|length %}
+            <div class="row ps-5">
+                <div class="col-11 offset-1 pt-3 ps-5">
+                    {% include 'server/details.html.twig' %}
                 </div>
-                <div class="grid-for container-fluid div3">
-            {% endif %}
-            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
-                {% include 'mail/details.html.twig' %}
             </div>
-        {% endfor %}
-        {% set rowIndex = 0 %}
-    </div>
+        {% endif %}
 
-    <h3 class="title-details">French Echoppe : </h3>
-    <div class="div-add-btn">
-        <a href="{{ path('french_echoppe_new') }}"class="btn parme">Ajouter un French Echoppe</a>
-    </div>
-    <div class="grid-for container-fluid div3">
-        {% for currentFrenchEchoppe in frenchEchoppes %}
-            {% set rowIndex = rowIndex + 1 %}
-            {% if rowIndex is same as 4  %}
-                {% set rowIndex = 1 %}
-                </div>
-                <div class="grid-for container-fluid div3">
-            {% endif %}
-            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
-                {% include 'french_echoppe/details.html.twig' %}
-            </div>
-        {% endfor %}
-        {% set rowIndex = 0 %}
-    </div>
+{#        {% if mails|length %}#}
+{#            <h3 class="title-details">Email : </h3>#}
+{#            <div class="grid-for container-fluid div3">#}
+{#                {% for currentMail in mails %}#}
+{#                    {% set rowIndex = rowIndex + 1 %}#}
+{#                    {% if rowIndex is same as 4  %}#}
+{#                        {% set rowIndex = 1 %}#}
+{#                        </div>#}
+{#                        <div class="grid-for container-fluid div3">#}
+{#                    {% endif %}#}
+{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
+{#                        {% include 'mail/details.html.twig' %}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                {% set rowIndex = 0 %}#}
+{#            </div>#}
+{#        {% endif %}#}
 
-    <h3 class="title-details">Réseaux sociaux : </h3>
-    <div class="div-add-btn">
-        <a href="{{ path('social_network_new') }}"class="btn parme">Ajouter un réseau social</a>
-    </div>
-    <div class="grid-for container-fluid div3">
-        {% for currentSocialNetwork in socialNetworks %}
-            {% set rowIndex = rowIndex + 1 %}
-            {% if rowIndex is same as 4  %}
-                {% set rowIndex = 1 %}
-                </div>
-                <div class="grid-for container-fluid div3">
-            {% endif %}
-            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
-                {% include 'social_network/details.html.twig' %}
-            </div>
-        {% endfor %}
-        {% set rowIndex = 0 %}
-    </div>
+{#        {% if frenchEchoppes|length %}#}
+{#            <h3 class="title-details">French Echoppe : </h3>#}
+{#            <div class="grid-for container-fluid div3">#}
+{#                {% for currentFrenchEchoppe in frenchEchoppes %}#}
+{#                    {% set rowIndex = rowIndex + 1 %}#}
+{#                    {% if rowIndex is same as 4  %}#}
+{#                        {% set rowIndex = 1 %}#}
+{#                        </div>#}
+{#                        <div class="grid-for container-fluid div3">#}
+{#                    {% endif %}#}
+{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
+{#                        {% include 'french_echoppe/details.html.twig' %}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                {% set rowIndex = 0 %}#}
+{#            </div>#}
+{#        {% endif %}#}
 
-    <h3 class="title-details">Publicités : </h3>
-    <div class="div-add-btn">
-        <a href="{{ path('ad_new') }}" class="btn parme">Ajouter une publicité</a>
-    </div>
-    <div class="grid-for container-fluid div3">
-        {% for currentAd in ads %}
-            {% set rowIndex = rowIndex + 1 %}
-            {% if rowIndex is same as 4  %}
-                {% set rowIndex = 1 %}
-                </div>
-                <div class="grid-for container-fluid div3">
-            {% endif %}
-            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
-                {% include 'ad/details.html.twig' %}
-            </div>
-        {% endfor %}
-        {% set rowIndex = 0 %}
-    </div>
+{#        {% if socialNetworks|length %}#}
+{#            <h3 class="title-details">Réseaux sociaux : </h3>#}
+{#            <div class="grid-for container-fluid div3">#}
+{#                {% for currentSocialNetwork in socialNetworks %}#}
+{#                    {% set rowIndex = rowIndex + 1 %}#}
+{#                    {% if rowIndex is same as 4  %}#}
+{#                        {% set rowIndex = 1 %}#}
+{#                        </div>#}
+{#                        <div class="grid-for container-fluid div3">#}
+{#                    {% endif %}#}
+{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
+{#                        {% include 'social_network/details.html.twig' %}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                {% set rowIndex = 0 %}#}
+{#            </div>#}
+{#        {% endif %}#}
 
-    <h3 class="title-details">Click and Collect : </h3>
-    <div class="div-add-btn">
-        <a href="{{ path('click_and_collect_new') }}"class="btn parme">Ajouter un Click and Collect</a>
-    </div>
-    <div class="grid-for container-fluid div3">
-        {% for currentClickAndCollect in clickAndCollects %}
-            {% set rowIndex = rowIndex + 1 %}
-            {% if rowIndex is same as 4  %}
-                {% set rowIndex = 1 %}
-                </div>
-                <div class="grid-for container-fluid div3">
-            {% endif %}
-            <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">
-                {% include 'click_and_collect/details.html.twig' %}
-            </div>
-        {% endfor %}
-        {% set rowIndex = 0 %}
+{#        {% if ads|length %}#}
+{#            <h3 class="title-details">Publicités : </h3>#}
+{#            <div class="grid-for container-fluid div3">#}
+{#                {% for currentAd in ads %}#}
+{#                    {% set rowIndex = rowIndex + 1 %}#}
+{#                    {% if rowIndex is same as 4  %}#}
+{#                        {% set rowIndex = 1 %}#}
+{#                        </div>#}
+{#                        <div class="grid-for container-fluid div3">#}
+{#                    {% endif %}#}
+{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
+{#                        {% include 'ad/details.html.twig' %}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                {% set rowIndex = 0 %}#}
+{#            </div>#}
+{#        {% endif %}#}
+
+{#        {% if clickAndCollects|length %}#}
+{#            <h3 class="title-details">Click and Collect : </h3>#}
+{#            <div class="grid-for container-fluid div3">#}
+{#                {% for currentClickAndCollect in clickAndCollects %}#}
+{#                    {% set rowIndex = rowIndex + 1 %}#}
+{#                    {% if rowIndex is same as 4  %}#}
+{#                        {% set rowIndex = 1 %}#}
+{#                        </div>#}
+{#                        <div class="grid-for container-fluid div3">#}
+{#                    {% endif %}#}
+{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
+{#                        {% include 'click_and_collect/details.html.twig' %}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                {% set rowIndex = 0 %}#}
+{#            </div>#}
+{#        {% endif %}#}
     </div>
 
     {% block footer %}
