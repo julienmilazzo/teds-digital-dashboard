@@ -26,7 +26,7 @@ class ImportCSVType extends AbstractType
                 ],
                 'choices' => [
                     'Client' => 'client',
-                    'Nom de domain' => 'nomDeDomaine',
+                    'Nom de domaine' => 'nomDeDomaine',
                     'Site' => 'site',
                     'Serveur' => 'serveur',
                     'Click\'N Collect' => 'clickAndCollect',

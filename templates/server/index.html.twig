@@ -2,7 +2,7 @@
 
 {% set sort = orderBy is not defined or orderBy is same as ('ASC') ? 'ASC' : 'DESC' %}
 
-{% block title %}Serveur liste{% endblock %}
+{% block title %}Hébergement liste{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -48,7 +48,7 @@
     {% endblock %}
     <div class="yellow row div-title">
         <div class="col-sm">
-            <h1 class="title-index bd-bt" style="display: inline-block">Serveurs :</h1>
+            <h1 class="title-index bd-bt">Hébergements</h1>
         </div>
         <div class="col-sm search-div">
             <form id="search-form" action="">
@@ -57,61 +57,18 @@
             </form>
         </div>
     </div>
-    <div class="grid container-fluid div3">
-        <div class="div4 div-list bg-white">
-            <h1 class="c-blue bd-bt">Liste : </h1>
-            {% if currentServer is defined and currentServer is not null %}
-                <table class="table table-index">
-                    <thead>
-                    <tr>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort, 'id' : currentServer.id }) }}">Nom <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'provider', 'orderBy' : app.request.get('orderedType') is same as ('provider') ? sort, 'id' : currentServer.id  }) }}">Prestataire <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('provider')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'offer', 'orderBy' : app.request.get('orderedType') is same as ('offer') ? sort, 'id' : currentServer.id  }) }}">Offre <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('offer')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'cost', 'orderBy' : app.request.get('orderedType') is same as ('cost') ? sort, 'id' : currentServer.id  }) }}">Coût <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('cost')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'invoicedPrice', 'orderBy' : app.request.get('orderedType') is same as ('invoicedPrice') ? sort, 'id' : currentServer.id  }) }}">Prix facturé <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('invoicedPrice')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalType', 'orderBy' : app.request.get('orderedType') is same as ('renewalType') ? sort, 'id' : currentServer.id  }) }}">Type de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalType')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'startDate', 'orderBy' : app.request.get('orderedType') is same as ('startDate') ? sort, 'id' : currentServer.id  }) }}">Date de début <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('startDate')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'renewalDate', 'orderBy' : app.request.get('orderedType') is same as ('renewalDate') ? sort, 'id' : currentServer.id  }) }}">Date de renouvellement <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('renewalDate')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('server_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort, 'id' : currentServer.id  }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
-                        <th>Voir</th>
-                    </tr>
-                    </thead>
-                    <tbody class="body-half-screen">
-                        {% for server in servers %}
-                            <tr style="vertical-align: middle;" id="server-{{ server.id }}">
-                                <td>{{ server.name }}</td>
-                                <td>{{ server.provider }}</td>
-                                <td>{{ server.offer }}</td>
-                                <td>{{ server.cost }}</td>
-                                <td>{{ server.invoicedPrice }}</td>
-                                <td>{{ server.renewalType }}</td>
-                                <td>{{ server.startDate ? server.startDate|date('Y-m-d') : '' }}</td>
-                                <td>{{ server.renewalDate ? server.renewalDate|date('d-m-Y') : '' }}</td>
-                                <td>{{ server.enable ? 'Oui' : 'Non' }}</td>
-                                <td>
-                                    <a href="{{ path('server_show', {'id': server.id}) }}" class="btn btn-secondary" >Détails</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>Aucun serveur</p>
-            {% endif %}
-        </div>
-        <div class="div-details bg-white">
-            {% if currentServer is defined and currentServer is not null %}
-                {% include 'server/details.html.twig' %}
-            {% else %}
-                <h1 class="c-parme bd-bt">Détails </h1>
-            {% endif %}
-        </div>
-        <div class="div-action bg-white" style="text-align: center">
-            <h1 class="c-yellow bd-bt">Actions : </h1>
-            <a href="{{ path('server_new') }}" class="btn parme" style="margin: 7%">Ajouter</a>
-            {% if currentServer is defined and currentServer is not null %}
-                <a href="{{ path('server_edit', {'id': currentServer.id}) }}" class="btn blue" style="margin: 5%">Éditer: {{ currentServer.name }}</a>
-            {% endif %}
+
+    <div class="container-fluid pt-4">
+        <div class="row ps-5">
+            <div class="col-11 offset-1 pt-3 ps-5">
+                <a href="{{ path('server_new') }}" class="btn parme float-end">Ajouter un hébergement</a>
+                {% if servers|length %}
+                    {% set currentClient = servers[0].client %}
+                    {% include 'server/details.html.twig' %}
+                {% else %}
+                    <p>Aucun hébergement</p>
+                {% endif %}
+            </div>
         </div>
     </div>
     {% block footer %}

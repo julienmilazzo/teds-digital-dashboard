@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 class Service
@@ -61,7 +60,7 @@ class Service
     protected $enable;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected int $siteClientToServicesBinderId;
 

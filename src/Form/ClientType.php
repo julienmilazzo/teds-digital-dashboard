@@ -18,7 +18,7 @@ class ClientType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom :',
+                'label' => 'Nom* :',
                 'label_attr' => [
                     'class' => 'col-3 mb-4 label-form',
                     'style' => 'vertical-align: top;'
@@ -36,6 +36,7 @@ class ClientType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false,
             ])
             ->add('address', TextType::class, [
                 'label' => 'Adresse :',
@@ -46,6 +47,7 @@ class ClientType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false,
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville :',
@@ -56,6 +58,7 @@ class ClientType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false,
             ])
             ->add('zipCode', TextType::class, [
                 'label' => 'Code Postal :',
@@ -66,6 +69,7 @@ class ClientType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false,
             ])
             ->add('phone', TextType::class, [
                 'label' => 'Téléphone :',
@@ -76,6 +80,7 @@ class ClientType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false,
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',

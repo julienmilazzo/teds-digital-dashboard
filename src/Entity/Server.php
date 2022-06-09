@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *     fields= {"name"},
  *     errorPath="name",
- *     message= "Ce nom de serveur est déjà enregistré"
+ *     message= "Ce nom d'hébergement est déjà enregistré"
  *     )
  */
 class Server extends Service

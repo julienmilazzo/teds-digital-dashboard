@@ -26,8 +26,11 @@ class Binder
             ->setClient($service->getClient())
             ->setServiceId($service->getId());
 
-        $classes = [Ad::class, ClickAndCollect::class, DomainName::class ];
-        if (count(array_filter($classes, function ($class) use($service) { return ($service instanceof $class); }))) {
+        $classes = [Ad::class, ClickAndCollect::class, DomainName::class];
+        $services = array_filter($classes, function ($class) use ($service) {
+            return ($service instanceof $class);
+        });
+        if (count($services)) {
             $siteClientToServicesBinder->setSite($service->getSite() ?: null);
         }
 

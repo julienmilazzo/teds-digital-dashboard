@@ -77,6 +77,8 @@ class ServiceType extends AbstractType
                     'class' => 'col-7 mb-4',
                     'style' => 'display: inline'
                 ],
+                'format' => 'dd-MM-yyyy',
+                'years' => range(2000, date("Y"))
             ])
             ->add('startDate', DateType::class, [
                 'label' => 'Date de début :',
@@ -88,6 +90,8 @@ class ServiceType extends AbstractType
                     'class' => 'col-7 mb-4',
                     'style' => 'display: inline'
                 ],
+                'format' => 'dd-MM-yyyy',
+                'years' => range(2000, date("Y"))
             ])
             ->add('enable', CheckboxType::class, [
                 'label' => 'Actif : ',
@@ -111,6 +115,7 @@ class ServiceType extends AbstractType
                     'style' => 'height: 115px',
                     'placeholder' => 'Ajouter un commentaire ici...'
                 ],
+                'required' => false,
             ])
         ;
     }

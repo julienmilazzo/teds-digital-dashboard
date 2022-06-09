@@ -1,0 +1,8 @@
+<td>
+    {% set totalDn = 0 %}
+    {% for domainName in domainNames|filter(domainName => currentSite is not defined or domainName.site is same as (currentSite)) %}
+        <div>- {{ domainName.url }}</div>
+        {% set totalDn = totalDn + 1 %}
+    {% endfor %}
+    {% if not totalDn %}Aucun{% endif %}
+</td>

@@ -11,7 +11,6 @@
     {{ parent() }}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-
             $('.table').scrollTableBody();
         })
         function isEasterEgg() {
@@ -64,7 +63,7 @@
     <audio controls id='noel' style="display: none"><source src='{{ app.request.getSchemeAndHttpHost() }}/audio/noel.mp3' type='audio/mpeg'> </audio>
     <div class="yellow row div-title">
         <div class="col-sm">
-            <h1 class="title-index bd-bt" style="display: inline-block">Sites :</h1>
+            <h1 class="title-index bd-bt">Sites</h1>
         </div>
         <div class="col-sm search-div">
             <form id="search-form" action="">
@@ -73,51 +72,18 @@
             </form>
            </div>
     </div>
-    <div class="grid container-fluid div3">
-        <div class="div4 div-list bg-white">
-            <h1 class="c-blue bd-bt">Liste : </h1>
-            {% if currentSite is defined and currentSite is not null %}
-                <table class="table table-index">
-                    <thead>
-                    <tr>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'name', 'orderBy' : app.request.get('orderedType') is same as ('name') ? sort , 'id' : currentSite.id }) }}">Nom du site <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('name')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'onlineDate', 'orderBy' : app.request.get('orderedType') is same as ('onlineDate') ? sort , 'id' : currentSite.id }) }}">Date de mis en ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('onlineDate')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'online', 'orderBy' : app.request.get('orderedType') is same as ('online') ? sort , 'id' : currentSite.id }) }}">En ligne <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('online')) ? 'down' : 'up' }}"></i></a></th>
-                        <th><a class="a-ordered" href="{{ path('site_ordered', {'orderedType' : 'enable', 'orderBy' : app.request.get('orderedType') is same as ('enable') ? sort , 'id' : currentSite.id }) }}">Actif <i class="fa fa-arrow-{{ (sort is same as ('ASC') and app.request.get('orderedType') is same as ('enable')) ? 'down' : 'up' }}"></i></a></th>
-                        <th>Voir</th>
-                    </tr>
-                    </thead>
-                    <tbody class="body-half-screen">
-                        {% for site in sites %}
-                            <tr style="vertical-align: middle;" id="site-{{ site.id }}">
-                                <td>{{ site.name }}</td>
-                                <td>{{ site.onlineDate ? site.onlineDate|date('d-m-Y') : '' }}</td>
-                                <td>{{ site.online ? 'Oui' : 'Non' }}</td>
-                                <td>{{ site.enable ? 'Oui' : 'Non' }}</td>
-                                <td>
-                                    <a href="{{ path('site_show', {'id': site.id}) }}" class="btn btn-secondary">Détails</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>Aucun Site</p>
-            {% endif %}
-        </div>
-        <div class="div-details bg-white">
-            {% if currentSite is defined and currentSite is not null %}
-                {% include 'site/details.html.twig' %}
-            {% else %}
-                <h1 class="c-parme bd-bt">Détails </h1>
-            {% endif %}
-        </div>
-        <div class="div-action bg-white" style="text-align: center">
-            <h1 class="c-yellow bd-bt">Actions : </h1>
-            <a href="{{ path('site_new') }}" class="btn parme" style="margin: 5%">Ajouter</a>
-            {% if currentSite is defined and currentSite is not null %}
-                <a href="{{ path('site_edit', {'id': currentSite.id}) }}" class="btn blue" style="margin: 5%">Éditer: {{ currentSite.name }}</a>
-            {% endif %}
+
+    <div class="container-fluid pt-4">
+        <div class="row ps-5">
+            <div class="col-11 offset-1 pt-3 ps-5">
+                <a href="{{ path('site_new') }}" class="btn parme float-end">Ajouter un site</a>
+                {% if sites|length %}
+                    {% set currentClient = sites[0].client %}
+                    {% include 'site/details.html.twig' %}
+                {% else %}
+                    <p>Aucun site</p>
+                {% endif %}
+            </div>
         </div>
     </div>
     {% block footer %}

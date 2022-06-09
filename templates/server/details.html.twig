@@ -1,75 +1,68 @@
-<h1 class="c-parme bd-bt">Détails de {{ currentServer.name }} {{ date(currentServer.renewalDate) < date('+1month') ? '<p class="text-danger">Fin d\'abonnement proche</p>'}}</h1>
-<a href="{{ path('server_edit', {'id': currentServer.id}) }}" class="btn blue">
-    Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-</a>
-{% if date(currentServer.renewalDate) < date('+1month') %}
-    <button onclick="updateAddRenewalDate()" class="btn parme  f-right">
-        Facturé
-    </button>
-{% endif %}
-<table class="table">
+<h2 class="c-parme bd-bt">Détails des hébergements</h2>
+
+<table class="table table-striped table-hover" id="server_table">
+    <thead>
+        <tr class="table-dark">
+            {% include 'helpers/table-head/client.html.twig' %}
+            {% include 'helpers/table-head/prestataire.html.twig' %}
+            {% include 'helpers/table-head/offre.html.twig' %}
+            {% include 'helpers/table-head/cost.html.twig' %}
+            {% include 'helpers/table-head/price.html.twig' %}
+            {% include 'helpers/table-head/renew.html.twig' %}
+            {% include 'helpers/table-head/start.html.twig' %}
+            {% include 'helpers/table-head/date-renew.html.twig' %}
+            {% include 'helpers/table-head/actif.html.twig' %}
+            <th>Sites</th>
+            {% include 'helpers/table-head/domains.html.twig' %}
+            {% include 'helpers/table-head/clickcollects.html.twig' %}
+            {% include 'helpers/table-head/empty-non-sortable.html.twig' %}
+        </tr>
+    </thead>
     <tbody>
-    <tr>
-        <th>Prestataire</th>
-        <td>{{ currentServer.provider }}</td>
-    </tr>
-    <tr>
-        <th>Offre</th>
-        <td>{{ currentServer.offer }}</td>
-    </tr>
-    <tr>
-        <th>Coût</th>
-        <td>{{ currentServer.cost }}</td>
-    </tr>
-    <tr>
-        <th>Prix facturé</th>
-        <td>{{ currentServer.invoicedPrice }}</td>
-    </tr>
-    <tr>
-        <th>Type de renouvellement</th>
-        <td>{{ currentServer.renewalType }}</td>
-    </tr>
-    <tr>
-        <th>Date de renouvellement</th>
-        <td>{{ currentServer.renewalDate ? currentServer.renewalDate|date('Y-m-d') : '' }}</td>
-    </tr>
-    <tr>
-        <th>Actif</th>
-        <td>{{ currentServer.enable ? 'Oui' : 'Non' }}</td>
-    </tr>
-    <tr>
-        <th>Sites :</th>
-        <td>
-            {% for site in currentServer.sites %}
-                - {{ site.name }}
-                <a href="{{ path('site_show', {'id': site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                <a class="a-link btn" href="{{ path('server_remove_site', {'id' : currentServer.id, 'siteId' : site.id}) }}" onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')"><i class="fa fa-trash" aria-hidden="true"></i></a><br>
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <th>Click & Collects :</th>
-        <td>
-            {% for clickAndCollect in currentServer.clickAndCollects %}
-                - {{ clickAndCollect.id }}
-                <a href="{{ path('click_and_collect_show', {'id': clickAndCollect.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <th>Nom de domaines :</th>
-        <td>
-            {% for domainName in currentServer.domainNames %}
-                - {{ domainName.url }}
-                <a href="{{ path('domain_name_show', {'id': domainName.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-            {% endfor %}
-        </td>
-    </tr>
+        {% for currentServer in currentClient.servers %}
+            <tr class="align-middle">
+                {% set currentSite = currentServer.domainNames[0].site %}
+                {% include 'helpers/table-body/client.html.twig' %}
+                <td>{{ currentServer.provider }}</td>
+                <td>{{ currentServer.offer }}</td>
+                <td>{{ currentServer.cost }}</td>
+                <td>{{ currentServer.invoicedPrice }}</td>
+                <td>{{ currentServer.renewalType }}</td>
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentServer.startDate} only %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentServer.renewalDate} only %}
+                {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentServer.enable} only %}
+                <td>
+                    {% if not currentServer.sites|length %}Aucun{% endif %}
+                    {% for site in currentServer.sites %}
+                        <div>
+                            - {{ site.name }}
+                            <a class="a-link btn" href="{{ path('server_remove_site', {'id' : currentServer.id, 'siteId' : site.id}) }}"
+                               onclick="return confirm('Souhaitez-vous vraiment supprimer le site : ' + '{{ site.name }}')">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </td>
+                {% set domainNames = currentServer.domainNames %}
+                {% include 'helpers/table-body/domains.html.twig' %}
+                {% include 'helpers/table-body/clickcollects.html.twig' %}
+                <td class="text-center">
+                    <a href="{{ path('server_edit', {'id': currentServer.id}) }}" class="btn blue">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    {% if date(currentServer.renewalDate) < date('+1month') %}
+                        <button onclick="updateAddRenewalDate('{{ path('updateAddRenewalDate', {id: currentServer.id}) }}')" class="btn parme">
+                            Facturé
+                        </button>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
 <script>
-    function updateAddRenewalDate() {
-        var url = '{{ path('updateAddRenewalDate', {id:currentServer.id}) }}';
+    {# TODO : check this #}
+    function updateAddRenewalDate(url) {
         ajax = $.ajax({
             url: url,
             type: 'GET',
@@ -78,4 +71,7 @@
             },
         });
     }
+    $(function() {
+        $("#server_table").tablesorter();
+    });
 </script>

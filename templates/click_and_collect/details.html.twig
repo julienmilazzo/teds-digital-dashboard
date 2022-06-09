@@ -48,14 +48,14 @@
     <tr>
         <th>Client</th>
         <td>{{ currentClickAndCollect.client.name }}
-            <a href="{{ path('client_show', {'id': currentClickAndCollect.client.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+            <a href="{{ path('client_show', {'id': currentClickAndCollect.client.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-search" aria-hidden="true"></i></a>
         </td>
     </tr>
     <tr>
         <th>Server</th>
         {% if currentClickAndCollect.server is defined and currentClickAndCollect.server is not null %}
             <td>{{ currentClickAndCollect.server.name }}
-                <a href="{{ path('server_show', {'id': currentClickAndCollect.server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                <a href="{{ path('server_show', {'id': currentClickAndCollect.server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-search" aria-hidden="true"></i></a>
             </td>
         {% endif %}
     </tr>
@@ -64,7 +64,7 @@
         {% if currentClickAndCollect.site is defined and currentClickAndCollect.site is not null %}
             <td>
                 - {{ currentClickAndCollect.site.name }}
-                <a href="{{ path('site_show', {'id': currentClickAndCollect.site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                <a href="{{ path('site_show', {'id': currentClickAndCollect.site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-search" aria-hidden="true"></i></a>
             </td>
         {% endif %}
     </tr>

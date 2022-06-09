@@ -39,6 +39,8 @@ class SiteType extends AbstractType
                     'class' => 'col-7 mb-4',
                     'style' => 'display: inline'
                 ],
+                'format' => 'dd-MM-yyyy',
+                'years' => range(2000, date("Y"))
             ])
             ->add('online', CheckboxType::class, [
                 'label' => 'En ligne : ',
