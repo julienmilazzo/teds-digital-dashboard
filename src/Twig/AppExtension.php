@@ -56,7 +56,7 @@ class AppExtension extends AbstractExtension
                 ++$count;
             }
         }
-        return ($count >= 1);
+        return $count;
     }
 }
 

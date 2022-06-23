@@ -1,6 +1,9 @@
 <td>
-    {% if not currentSite.servers|length %}Aucun{% endif %}
-    {% for server in currentSite.servers %}
-        <div>- {{ server.name }}</div>
-    {% endfor %}
+    {% if currentSite is not defined or not currentSite or not currentSite.servers|length %}
+        Aucun
+    {% else %}
+        {% for server in currentSite.servers %}
+            <div>- {{ server.name }}</div>
+        {% endfor %}
+    {% endif %}
 </td>

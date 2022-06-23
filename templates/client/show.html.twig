@@ -21,6 +21,7 @@
         </div>
     </div>
 
+    {% set sites = currentClient.sites %}
     <div class="container-fluid bg-white">
         <div class="row">
             <div class="col-10 offset-2 py-3">
@@ -29,34 +30,41 @@
             <div class="col-10 offset-2 py-3">
                 <span class="fs-3 pe-4">Ajouter :</span>
                 <div class="div-add-btn d-inline-block bg-white">
-                    <a href="{{ path('site_new') }}" class="btn parme">Un site</a>
+                    <a href="{{ path('site_new', {'clientId': currentClient.id}) }}" class="btn parme">Un site</a>
                 </div>
                 <div class="div-add-btn d-inline-block bg-white">
-                    <a href="{{ path('server_new') }}" class="btn parme">Un hébergement</a>
+                    <a href="{{ path('domain_name_new', {'clientId': currentClient.id, 'siteId': (sites|length ? sites[0].id)}) }}" class="btn parme">
+                        Un nom de domaine
+                    </a>
                 </div>
                 <div class="div-add-btn d-inline-block bg-white">
-                    <a href="{{ path('domain_name_new', {'clientId': currentClient.id}) }}" class="btn parme">Un nom de domaine</a>
+                    <a href="{{ path('server_new', {'clientId': currentClient.id, 'siteId': (sites|length ? sites[0].id)}) }}" class="btn parme">
+                        Un hébergement
+                    </a>
                 </div>
                 <div class="div-add-btn d-inline-block bg-white">
                     <a href="{{ path('mail_new') }}" class="btn parme">Un mail</a>
                 </div>
+{#                <div class="div-add-btn d-inline-block bg-white">#}
+{#                    <a href="{{ path('french_echoppe_new') }}" class="btn parme">Un French Echoppe</a>#}
+{#                </div>#}
                 <div class="div-add-btn d-inline-block bg-white">
-                    <a href="{{ path('french_echoppe_new') }}" class="btn parme">Un French Echoppe</a>
+                    <a href="{{ path('social_network_new', {'clientId': currentClient.id}) }}" class="btn parme">Un réseau social</a>
                 </div>
                 <div class="div-add-btn d-inline-block bg-white">
-                    <a href="{{ path('social_network_new') }}" class="btn parme">Un réseau social</a>
+                    <a href="{{ path('click_and_collect_new', {'clientId': currentClient.id, 'siteId': (sites|length ? sites[0].id)}) }}" class="btn parme">
+                        Un click&collect
+                    </a>
                 </div>
                 <div class="div-add-btn d-inline-block bg-white">
-                    <a href="{{ path('click_and_collect_new') }}" class="btn parme">Un click&collect</a>
-                </div>
-                <div class="div-add-btn d-inline-block bg-white">
-                    <a href="{{ path('ad_new') }}" class="btn parme">Une pub</a>
+                    <a href="{{ path('ad_new', {'clientId': currentClient.id, 'siteId': (sites|length ? sites[0].id)}) }}" class="btn parme">
+                        Une pub
+                    </a>
                 </div>
             </div>
         </div>
 
         {% set details = true %}
-        {% set sites = currentClient.sites %}
         {% if sites|length %}
             <div class="row ps-5">
                 <div class="col-11 offset-1 pt-3 ps-5">
@@ -73,7 +81,13 @@
             </div>
         {% endif %}
 
-        {% if currentClient.servers|length %}
+        {% if currentClient.servers|length or currentClient.sites|filter(s => s.servers|length)|length %}
+            {% if currentClient.sites|filter(s => s.servers|length)|length %}
+                {% set servers = [] %}
+                {% for s in currentClient.sites|filter(s => s.servers|length) %}
+                    {% set servers = servers|merge(s.servers) %}
+                {% endfor %}
+            {% endif %}
             <div class="row ps-5">
                 <div class="col-11 offset-1 pt-3 ps-5">
                     {% include 'server/details.html.twig' %}
@@ -117,59 +131,29 @@
 {#            </div>#}
 {#        {% endif %}#}
 
-{#        {% if socialNetworks|length %}#}
-{#            <h3 class="title-details">Réseaux sociaux : </h3>#}
-{#            <div class="grid-for container-fluid div3">#}
-{#                {% for currentSocialNetwork in socialNetworks %}#}
-{#                    {% set rowIndex = rowIndex + 1 %}#}
-{#                    {% if rowIndex is same as 4  %}#}
-{#                        {% set rowIndex = 1 %}#}
-{#                        </div>#}
-{#                        <div class="grid-for container-fluid div3">#}
-{#                    {% endif %}#}
-{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
-{#                        {% include 'social_network/details.html.twig' %}#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#                {% set rowIndex = 0 %}#}
-{#            </div>#}
-{#        {% endif %}#}
+        {% if socialNetworks|length %}
+            <div class="row ps-5">
+                <div class="col-11 offset-1 pt-3 ps-5">
+                    {% include 'social_network/details.html.twig' %}
+                </div>
+            </div>
+        {% endif %}
 
-{#        {% if ads|length %}#}
-{#            <h3 class="title-details">Publicités : </h3>#}
-{#            <div class="grid-for container-fluid div3">#}
-{#                {% for currentAd in ads %}#}
-{#                    {% set rowIndex = rowIndex + 1 %}#}
-{#                    {% if rowIndex is same as 4  %}#}
-{#                        {% set rowIndex = 1 %}#}
-{#                        </div>#}
-{#                        <div class="grid-for container-fluid div3">#}
-{#                    {% endif %}#}
-{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
-{#                        {% include 'ad/details.html.twig' %}#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#                {% set rowIndex = 0 %}#}
-{#            </div>#}
-{#        {% endif %}#}
+        {% if ads|length %}
+            <div class="row ps-5">
+                <div class="col-11 offset-1 pt-3 ps-5">
+                    {% include 'ad/details.html.twig' %}
+                </div>
+            </div>
+        {% endif %}
 
-{#        {% if clickAndCollects|length %}#}
-{#            <h3 class="title-details">Click and Collect : </h3>#}
-{#            <div class="grid-for container-fluid div3">#}
-{#                {% for currentClickAndCollect in clickAndCollects %}#}
-{#                    {% set rowIndex = rowIndex + 1 %}#}
-{#                    {% if rowIndex is same as 4  %}#}
-{#                        {% set rowIndex = 1 %}#}
-{#                        </div>#}
-{#                        <div class="grid-for container-fluid div3">#}
-{#                    {% endif %}#}
-{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
-{#                        {% include 'click_and_collect/details.html.twig' %}#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#                {% set rowIndex = 0 %}#}
-{#            </div>#}
-{#        {% endif %}#}
+        {% if clickAndCollects|length %}
+            <div class="row ps-5">
+                <div class="col-11 offset-1 pt-3 ps-5">
+                    {% include 'click_and_collect/details.html.twig' %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 
     {% block footer %}

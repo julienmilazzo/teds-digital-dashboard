@@ -36,6 +36,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false,
             ])
             ->add('cost', NumberType::class, [
                 'label' => 'Coût :',
@@ -66,6 +67,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'class' => 'col-7 mb-4',
                 ],
+                'required' => false,
             ])
             ->add('renewalDate', DateType::class, [
                 'label' => 'Date de renouvellement :',
@@ -78,7 +80,7 @@ class ServiceType extends AbstractType
                     'style' => 'display: inline'
                 ],
                 'format' => 'dd-MM-yyyy',
-                'years' => range(2000, date("Y"))
+                'years' => range(2000, date("Y") + 2)
             ])
             ->add('startDate', DateType::class, [
                 'label' => 'Date de début :',

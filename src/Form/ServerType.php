@@ -3,13 +3,21 @@
 namespace App\Form;
 
 use App\Entity\{ClickAndCollect, Client, DomainName, Server, Site};
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\{CheckboxType, TextType};
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ServerType extends ServiceType
 {
+    /**
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(private EntityManagerInterface $em) {}
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -85,6 +93,17 @@ class ServerType extends ServiceType
                 'required' => true
             ])
         ;
+
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function($event) {
+            /** @var Form $form */
+            $form = $event->getForm();
+            /** @var Server $data */
+            $data = $form->getData();
+            $sites = $data->getSites();
+            $form->get('site')->setData($sites);
+            $form->get('domainName')->setData($this->em->getRepository(DomainName::class)->findBy(['server' => $data]));
+            $form->get('clickAndCollect')->setData($data->getClickAndCollects());
+        });
     }
 
     /**

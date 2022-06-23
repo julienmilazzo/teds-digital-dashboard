@@ -21,6 +21,7 @@
         {% for currentDomainName in domainNames %}
             <tr class="align-middle">
                 {% set currentSite = currentDomainName.site %}
+                {% set client = currentDomainName.client %}
                 {% include 'helpers/table-body/client.html.twig' %}
                 <td>{{ currentDomainName.provider }}</td>
                 <td>{{ currentDomainName.offer }}</td>
@@ -63,7 +64,4 @@
             },
         });
     }
-    $(function() {
-        $("#domain_names_table").tablesorter();
-    });
 </script>

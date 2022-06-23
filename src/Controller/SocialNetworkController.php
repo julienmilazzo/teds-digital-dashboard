@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Util\Binder;
-use App\Entity\SocialNetwork;
+use App\Entity\{Client, SocialNetwork};
 use App\Form\SocialNetworkType;
 use App\Repository\SocialNetworkRepository;
 use DateInterval;
@@ -15,14 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/social/network')]
 class SocialNetworkController extends AbstractController
 {
+    /**
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(private EntityManagerInterface $em){}
+
     #[Route('/', name: 'social_network_index', methods: ['GET'])]
     public function index(SocialNetworkRepository $socialNetworkRepository): Response
     {
-        $socialNetworks = $socialNetworkRepository->findAllOrderByRenewalDate();
-
         return $this->render('social_network/index.html.twig', [
-            'social_networks' => $socialNetworks,
-            'currentSocialNetwork' => $socialNetworks[0] ?? null
+            'socialNetworks' => $socialNetworkRepository->findAllOrderByRenewalDate()
         ]);
     }
 
@@ -37,29 +39,22 @@ class SocialNetworkController extends AbstractController
         }
 
         return $this->render("social_network/search.html.twig", [
-            'social_networks' => $socialNetworks,
-        ]);
-    }
-
-    #[Route('/ordered/{id}', name: 'social_network_ordered', methods: ['GET'])]
-    public function ordered(Request $request, SocialNetworkRepository $socialNetworkRepository, SocialNetwork $socialNetwork): Response
-    {
-        $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
-
-        return $this->render('social_network/index.html.twig', [
-            'social_networks' => $socialNetworkRepository->findBy([], [$request->get('orderedType') => $orderBy]),
-            'orderBy' => $orderBy,
-            'currentSocialNetwork' => $socialNetwork
+            'socialNetworks' => $socialNetworks,
         ]);
     }
 
     #[Route('/new', name: 'social_network_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
         $socialNetwork = new SocialNetwork();
+        if ($clientId = $request->get('clientId')) {
+            if ($client = $this->em->getRepository(Client::class)->find($clientId)) {
+                $socialNetwork->setClient($client);
+            }
+        }
+
         $form = $this->createForm(SocialNetworkType::class, $socialNetwork);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var SocialNetwork $socialNetwork */
             $socialNetwork = $form->getData();
@@ -68,55 +63,42 @@ class SocialNetworkController extends AbstractController
                 $futurSocialNetworks[] = $whichSocialNetwork;
             }
             $socialNetwork->setWhichSocialNetwork($futurSocialNetworks);
-            $entityManager->persist($socialNetwork);
-            $entityManager->flush();
+            $this->em->persist($socialNetwork);
+            $this->em->flush();
 
-            Binder::set($socialNetwork, $entityManager);
+            Binder::set($socialNetwork, $this->em);
 
-            return $this->redirectToRoute('social_network_show', ['id' => $socialNetwork->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('social_network_index');
         }
 
         return $this->renderForm('social_network/new.html.twig', [
-            'currentSocialNetwork' => $socialNetwork,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'social_network_show', methods: ['GET'])]
-    public function show(SocialNetwork $socialNetwork, SocialNetworkRepository $socialNetworkRepository): Response
-    {
-        $socialNetworks = $socialNetworkRepository->findAll();
-
-        return $this->render('social_network/index.html.twig', [
-            'currentSocialNetwork' => $socialNetwork,
-            'social_networks' => $socialNetworks,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'social_network_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, SocialNetwork $socialNetwork, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, SocialNetwork $socialNetwork): Response
     {
         $form = $this->createForm(SocialNetworkType::class, $socialNetwork);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->em->flush();
 
-            return $this->redirectToRoute('social_network_show', ['id' => $socialNetwork->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('social_network_index');
         }
 
         return $this->renderForm('social_network/edit.html.twig', [
-            'currentSocialNetwork' => $socialNetwork,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'social_network_delete', methods: ['POST'])]
-    public function delete(Request $request, SocialNetwork $socialNetwork, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, SocialNetwork $socialNetwork): Response
     {
         if ($this->isCsrfTokenValid('delete'.$socialNetwork->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($socialNetwork);
-            $entityManager->flush();
+            $this->em->remove($socialNetwork);
+            $this->em->flush();
         }
 
         return $this->redirectToRoute('social_network_index', [], Response::HTTP_SEE_OTHER);

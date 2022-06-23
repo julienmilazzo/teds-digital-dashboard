@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
+use App\Entity\Site;
 use App\Util\Binder;
 use App\Entity\ClickAndCollect;
 use App\Form\ClickAndCollectType;
@@ -15,14 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/click/and/collect')]
 class ClickAndCollectController extends AbstractController
 {
+    /**
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(private EntityManagerInterface $em){}
+
     #[Route('/', name: 'click_and_collect_index', methods: ['GET'])]
     public function index(ClickAndCollectRepository $clickAndCollectRepository): Response
     {
-        $clickAndCollects = $clickAndCollectRepository->findAllOrderByRenewalDate();
-
         return $this->render('click_and_collect/index.html.twig', [
-            'click_and_collects' => $clickAndCollects,
-            'currentClickAndCollect' => $clickAndCollects[0] ?? null
+            'clickAndCollects' => $clickAndCollectRepository->findAllOrderByRenewalDate(),
         ]);
     }
 
@@ -40,57 +44,42 @@ class ClickAndCollectController extends AbstractController
         ]);
     }
 
-    #[Route('/ordered/{id}', name: 'domain_name_ordered', methods: ['GET'])]
-    public function ordered(Request $request, ClickAndCollectRepository $clickAndCollectRepository, ClickAndCollect $clickAndCollect): Response
-    {
-        $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
-
-        return $this->render('click_and_collect/index.html.twig', [
-            'click_and_collects' => $clickAndCollectRepository->findBy([], [$request->get('orderedType') => $orderBy]),
-            'orderBy' => $orderBy,
-            'currentClickAndCollect' => $clickAndCollect
-        ]);
-    }
-
     #[Route('/new', name: 'click_and_collect_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
         $clickAndCollect = new ClickAndCollect();
+        if ($clientId = $request->get('clientId')) {
+            if ($client = $this->em->getRepository(Client::class)->find($clientId)) {
+                $clickAndCollect->setClient($client);
+            }
+        }
+        if ($siteId = $request->get('siteId')) {
+            if ($site = $this->em->getRepository(Site::class)->find($siteId)) {
+                $clickAndCollect->setSite($site);
+            }
+        }
+
         $form = $this->createForm(ClickAndCollectType::class, $clickAndCollect);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             /** @var ClickAndCollect $clickAndCollect */
             $clickAndCollect = $form->getData();
 
-            $entityManager->persist($clickAndCollect);
-            $entityManager->flush();
+            $this->em->persist($clickAndCollect);
+            $this->em->flush();
 
-            Binder::set($clickAndCollect, $entityManager);
+            Binder::set($clickAndCollect, $this->em);
 
-            return $this->redirectToRoute('click_and_collect_show', ['id' => $clickAndCollect->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('click_and_collect_index');
         }
 
         return $this->renderForm('click_and_collect/new.html.twig', [
-            'currentClickAndCollect' => $clickAndCollect,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'click_and_collect_show', methods: ['GET'])]
-    public function show(ClickAndCollect $clickAndCollect, ClickAndCollectRepository $clickAndCollectRepository): Response
-    {
-        $clickAndCollects = $clickAndCollectRepository->findAll();
-
-        return $this->render('click_and_collect/index.html.twig', [
-            'click_and_collects' => $clickAndCollects,
-            'currentClickAndCollect' => $clickAndCollect
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'click_and_collect_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, ClickAndCollect $clickAndCollect, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, ClickAndCollect $clickAndCollect): Response
     {
         $form = $this->createForm(ClickAndCollectType::class, $clickAndCollect);
         $form->handleRequest($request);
@@ -100,37 +89,37 @@ class ClickAndCollectController extends AbstractController
             /** @var ClickAndCollect $clickAndCollect */
             $clickAndCollect = $form->getData();
 
-            $entityManager->persist($clickAndCollect);
-            $entityManager->flush();
+            $this->em->persist($clickAndCollect);
+            $this->em->flush();
 
-            return $this->redirectToRoute('click_and_collect_show', ['id' => $clickAndCollect->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('click_and_collect_index');
         }
 
         return $this->renderForm('click_and_collect/edit.html.twig', [
-            'currentClickAndCollect' => $clickAndCollect,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'click_and_collect_delete', methods: ['POST'])]
-    public function delete(Request $request, ClickAndCollect $clickAndCollect, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, ClickAndCollect $clickAndCollect): Response
     {
         if ($this->isCsrfTokenValid('delete'.$clickAndCollect->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($clickAndCollect);
-            $entityManager->flush();
+            $this->em->remove($clickAndCollect);
+            $this->em->flush();
         }
 
         return $this->redirectToRoute('click_and_collect_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
-    public function updateAddRenewalDate(Request $request, ClickAndCollect $clickAndCollect, EntityManagerInterface $em)
+    public function updateAddRenewalDate(ClickAndCollect $clickAndCollect)
     {
         $newDate = $clickAndCollect->getRenewalDate()->add(new DateInterval('P1Y'));
 
         $clickAndCollect->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
-        $em->persist($clickAndCollect);
-        $em->flush();
+        $this->em->persist($clickAndCollect);
+        $this->em->flush();
+
         return new JsonResponse(true);
     }
 }

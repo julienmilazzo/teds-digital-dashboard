@@ -1,88 +1,54 @@
-<h1 class="c-parme bd-bt">Détails de {{ currentClickAndCollect.id }} {{ date(currentClickAndCollect.renewalDate) < date('+1month') ? '<p class="text-danger">Fin d\'abonnement proche</p>'}}</h1>
-<a href="{{ path('click_and_collect_edit', {'id': currentClickAndCollect.id}) }}" class="btn blue">
-    Éditer <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-</a>
-{% if date(currentClickAndCollect.renewalDate) < date('+1month') %}
-    <button onclick="updateAddRenewalDate()" class="btn parme f-right">
-        Facturé
-    </button>
-{% endif %}
-<table class="table">
+<h2 class="c-parme bd-bt">Détails clicks & collects</h2>
+
+<table class="table table-striped table-hover" id="cc_table">
+    <thead>
+        <tr class="table-dark">
+            {% include 'helpers/table-head/client.html.twig' %}
+            <th>Date de mise en ligne</th>
+            {% include 'helpers/table-head/prestataire.html.twig' %}
+            {% include 'helpers/table-head/offre.html.twig' %}
+            {% include 'helpers/table-head/cost.html.twig' %}
+            {% include 'helpers/table-head/price.html.twig' %}
+            {% include 'helpers/table-head/renew.html.twig' %}
+            {% include 'helpers/table-head/start.html.twig' %}
+            {% include 'helpers/table-head/date-renew.html.twig' %}
+            {% include 'helpers/table-head/actif.html.twig' %}
+            <th>Site</th>
+            {% include 'helpers/table-head/commentary.html.twig' %}
+            {% include 'helpers/table-head/servers.html.twig' %}
+            {% include 'helpers/table-head/empty-non-sortable.html.twig' %}
+        </tr>
+    </thead>
     <tbody>
-    <tr>
-        <th>Date de mise en ligne</th>
-        <td>{{ currentClickAndCollect.onlineDate ? currentClickAndCollect.onlineDate|date('d-m-Y') : '' }}</td>
-    </tr>
-    <tr>
-        <th>En ligne</th>
-        <td>{{ currentClickAndCollect.online ? 'Oui' : 'Non' }}</td>
-    </tr>
-    <tr>
-        <th>Prestataire</th>
-        <td>{{ currentClickAndCollect.provider }}</td>
-    </tr>
-    <tr>
-        <th>Offre</th>
-        <td>{{ currentClickAndCollect.offer }}</td>
-    </tr>
-    <tr>
-        <th>Coût</th>
-        <td>{{ currentClickAndCollect.cost }}</td>
-    </tr>
-    <tr>
-        <th>Prix facturé</th>
-        <td>{{ currentClickAndCollect.invoicedPrice }}</td>
-    </tr>
-    <tr>
-        <th>Type de renouvellement</th>
-        <td>{{ currentClickAndCollect.renewalType }}</td>
-    </tr>
-    <tr>
-        <th>Date de début</th>
-        <td>{{ currentClickAndCollect.startDate ? currentClickAndCollect.startDate|date('d-m-Y') : '' }}</td>
-    </tr>
-    <tr>
-        <th>Date de renouvellement</th>
-        <td>{{ currentClickAndCollect.renewalDate ? currentClickAndCollect.renewalDate|date('d-m-Y') : '' }}</td>
-    </tr>
-    <tr>
-        <th>Client</th>
-        <td>{{ currentClickAndCollect.client.name }}
-            <a href="{{ path('client_show', {'id': currentClickAndCollect.client.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-search" aria-hidden="true"></i></a>
-        </td>
-    </tr>
-    <tr>
-        <th>Server</th>
-        {% if currentClickAndCollect.server is defined and currentClickAndCollect.server is not null %}
-            <td>{{ currentClickAndCollect.server.name }}
-                <a href="{{ path('server_show', {'id': currentClickAndCollect.server.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-search" aria-hidden="true"></i></a>
-            </td>
-        {% endif %}
-    </tr>
-    <tr>
-        <th>Site</th>
-        {% if currentClickAndCollect.site is defined and currentClickAndCollect.site is not null %}
-            <td>
-                - {{ currentClickAndCollect.site.name }}
-                <a href="{{ path('site_show', {'id': currentClickAndCollect.site.id}) }}" class="a-link btn icon-title-left" data-toggle="tooltip" title="Cliquez pour plus de détails"> <i class="fa fa-search" aria-hidden="true"></i></a>
-            </td>
-        {% endif %}
-    </tr>
-    <tr>
-        <th>Commentaire</th>
-        <td>
-            {{ currentClickAndCollect.commentary }}
-        </td>
-    </tr>
-    <tr>
-        <th>Actif</th>
-        <td>{{ currentClickAndCollect.enable ? 'Oui' : 'Non' }}</td>
-    </tr>
+        {% for currentClickAndCollect in clickAndCollects %}
+            <tr class="align-middle">
+                {% set client = currentClickAndCollect.client %}
+                {% include 'helpers/table-body/client.html.twig' %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.onlineDate} only %}
+                <td>{{ currentClickAndCollect.provider }}</td>
+                <td>{{ currentClickAndCollect.offer }}</td>
+                <td>{{ currentClickAndCollect.cost }}</td>
+                <td>{{ currentClickAndCollect.invoicedPrice }}</td>
+                <td>{{ currentClickAndCollect.renewalType }}</td>
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.startDate} only %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.renewalDate} only %}
+                {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentClickAndCollect.online} only %}
+                {% set currentSite = currentClickAndCollect.site %}
+                <td>{{ currentSite.name }}</td>
+                <td>{{ currentClickAndCollect.commentary }}</td>
+                {% include 'helpers/table-body/servers.html.twig' %}
+                <td>
+                    <a href="{{ path('click_and_collect_edit', {'id': currentClickAndCollect.id}) }}" class="btn blue">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
 <script>
-    function updateAddRenewalDate() {
-        var url = '{{ path('updateAddRenewalDate', {id:currentClickAndCollect.id}) }}';
+     // TODO : check this
+    function updateAddRenewalDate(url) {
         ajax = $.ajax({
             url: url,
             type: 'GET',

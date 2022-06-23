@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Ad;
+use App\Entity\{Ad, Client, Site};
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use App\Util\Binder;
@@ -15,14 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/ad')]
 class AdController extends AbstractController
 {
+    /**
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(private EntityManagerInterface $em){}
+
     #[Route('/', name: 'ad_index', methods: ['GET'])]
     public function index(AdRepository $adRepository): Response
     {
-        $ads = $adRepository->findAllOrderByRenewalDate();
-
         return $this->render('ad/index.html.twig', [
-            'ads' => $ads,
-            'currentAd' => $ads[0] ?? null
+            'ads' => $adRepository->findAllOrderByRenewalDate(),
         ]);
     }
 
@@ -40,75 +42,60 @@ class AdController extends AbstractController
         ]);
     }
 
-    #[Route('/ordered/{id}', name: 'mail_ordered', methods: ['GET'])]
-    public function ordered(Request $request, AdRepository $adRepository, Ad $ad): Response
-    {
-        $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
-
-        return $this->render('mail/index.html.twig', [
-            'ads' => $adRepository->findBy([], [$request->get('orderedType') => $orderBy]),
-            'orderBy' => $orderBy,
-            'currentAd' => $ad
-        ]);
-    }
-
     #[Route('/new', name: 'ad_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
         $ad = new Ad();
+        if ($clientId = $request->get('clientId')) {
+            if ($client = $this->em->getRepository(Client::class)->find($clientId)) {
+                $ad->setClient($client);
+            }
+        }
+        if ($siteId = $request->get('siteId')) {
+            if ($site = $this->em->getRepository(Site::class)->find($siteId)) {
+                $ad->setSite($site);
+            }
+        }
         $form = $this->createForm(AdType::class, $ad);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($ad);
-            $entityManager->flush();
+            $this->em->persist($ad);
+            $this->em->flush();
 
-            Binder::set($ad, $entityManager);
+            Binder::set($ad, $this->em);
 
             return $this->redirectToRoute('ad_index', ['id' => $ad->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('ad/new.html.twig', [
-            'currentAd' => $ad,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'ad_show', methods: ['GET'])]
-    public function show(Ad $ad, AdRepository $adRepository): Response
-    {
-        $ads = $adRepository->findAllOrderByRenewalDate();
-
-        return $this->render('ad/index.html.twig', [
-            'ads' => $ads,
-            'currentAd' => $ad
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'ad_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Ad $ad, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Ad $ad): Response
     {
         $form = $this->createForm(AdType::class, $ad);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->em->flush();
 
             return $this->redirectToRoute('ad_index', ['id' =>  $ad->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('ad/edit.html.twig', [
-            'currentAd' => $ad,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'ad_delete', methods: ['POST'])]
-    public function delete(Request $request, Ad $ad, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Ad $ad): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ad->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($ad);
-            $entityManager->flush();
+            $this->em->remove($ad);
+            $this->em->flush();
         }
 
         return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
@@ -123,5 +110,14 @@ class AdController extends AbstractController
         $em->persist($ad);
         $em->flush();
         return new JsonResponse(true);
+    }
+
+    #[Route('/remove-site/{id}', name: 'ad_remove_site', methods: ['GET', 'POST'])]
+    public function removeSite(Ad $ad): Response
+    {
+        $ad->setSite(null);
+        $this->em->flush();
+
+        return $this->redirectToRoute('ad_index');
     }
 }

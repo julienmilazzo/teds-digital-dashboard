@@ -1,7 +1,7 @@
 {% if details is not defined %}
     <td>
-        {{ currentSite.client.name }}
-        <a href="{{ path('client_show', {'id': currentSite.client.id}) }}" class="a-link btn icon-title-left"
+        {{ client.name }}
+        <a href="{{ path('client_show', {'id': client.id}) }}" class="a-link btn icon-title-left"
            data-toggle="tooltip" title="Cliquez pour plus de détails">
             <i class="fa fa-search"></i>
         </a>

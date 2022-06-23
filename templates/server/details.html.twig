@@ -19,9 +19,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for currentServer in currentClient.servers %}
+        {% if servers is  not defined %}
+            {% set servers = currentClient.servers %}
+        {% endif %}
+        {% for currentServer in servers %}
             <tr class="align-middle">
-                {% set currentSite = currentServer.domainNames[0].site %}
+                {% set client = currentServer.client %}
                 {% include 'helpers/table-body/client.html.twig' %}
                 <td>{{ currentServer.provider }}</td>
                 <td>{{ currentServer.offer }}</td>
@@ -71,7 +74,4 @@
             },
         });
     }
-    $(function() {
-        $("#server_table").tablesorter();
-    });
 </script>

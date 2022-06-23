@@ -77,13 +77,13 @@
                                 <th>Nom</th>
                                 <th>Email</th>
                                 <th>Téléphone</th>
-                                <th class="text-center">Site</th>
-                                <th class="text-center">Hébergement</th>
-                                <th class="text-center">Nom de domaine</th>
-                                <th class="text-center">Click'N Collect</th>
-                                <th class="text-center">French Echoppe</th>
-                                <th class="text-center">Mail</th>
-                                <th class="text-center">Publicité</th>
+                                <th class="text-center">Sites</th>
+                                <th class="text-center">Hébergements</th>
+                                <th class="text-center">Nom de domaines</th>
+                                <th class="text-center">Click'N Collects</th>
+{#                                <th class="text-center">French Echoppes</th>#}
+                                <th class="text-center">Mails</th>
+                                <th class="text-center">Publicités</th>
                                 <th class="text-center">Réseaux sociaux</th>
                                 {% include 'helpers/table-head/actif.html.twig' %}
                                 {% include 'helpers/table-head/empty-non-sortable.html.twig' %}
@@ -100,18 +100,21 @@
                                 <td>{{ client.email }}</td>
                                 <td>{{ client.phone }}</td>
                                 {% include 'helpers/table-body/has-one.html.twig' with
-                                    {'hasOne': client.sites is defined and client.sites is not null and client.sites|length} only %}
-                                {% include 'helpers/table-body/has-one.html.twig' with
-                                    {'hasOne': client.servers is defined and client.servers is not null and client.servers|length} only %}
+                                    {'hasOne': client.sites|length} only %}
+                                {% if client.servers is defined and client.servers is not null and client.servers|length %}
+                                    {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': client.servers|length} only %}
+                                {% elseif (client.sites|filter(s => s.servers|length)|length) %}
+                                    {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': client.sites|filter(s => s.servers|length)|length} only %}
+                                {% endif %}
                                 {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, domainNames)} only %}
                                 {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, clickAndCollects)} only %}
-                                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, frenchEchoppes)} only %}
+{#                                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, frenchEchoppes)} only %}#}
                                 {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, mails)} only %}
                                 {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, ads)} only %}
                                 {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': hasOneIn(client, socialNetworks)} only %}
                                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': client.enable} only %}
                                 <td>
-                                    <a href="{{ path('client_edit', {'id': currentClient.id}) }}" class="btn blue">
+                                    <a href="{{ path('client_edit', {'id': client.id}) }}" class="btn blue">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </a>
                                 </td>
@@ -128,9 +131,4 @@
     {% block footer %}
         {{ parent() }}
     {% endblock %}
-    <script>
-        $(function() {
-            $("#client_table").tablesorter();
-        });
-    </script>
 {% endblock %}

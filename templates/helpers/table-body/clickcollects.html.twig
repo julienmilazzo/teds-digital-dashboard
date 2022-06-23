@@ -1,6 +1,7 @@
 <td>
     {% if not clickAndCollects|length %}Aucun{% endif %}
-    {% for clickAndCollect in clickAndCollects|filter(clickAndCollect => clickAndCollect.site is same as (currentSite)) %}
+    {% for clickAndCollect in clickAndCollects|filter(clickAndCollect => currentSite is not defined or clickAndCollect.site is same as (currentSite)) %}
+{# TODO : what to display instead of id ? #}
         <div>- {{ clickAndCollect.id }}</div>
     {% endfor %}
 </td>

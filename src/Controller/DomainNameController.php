@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Repository\ClientRepository;
 use App\Util\Binder;
-use App\Entity\DomainName;
+use App\Entity\{Client, Site, DomainName};
 use App\Form\DomainNameType;
 use App\Repository\DomainNameRepository;
 use DateInterval;
@@ -25,10 +24,8 @@ class DomainNameController extends AbstractController
     #[Route('/', name: 'domain_name_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        $domainNames = $this->dr->findAllOrderByRenewalDate();
-
         return $this->render('domain_name/index.html.twig', [
-            'domainNames' => $domainNames,
+            'domainNames' => $this->dr->findAllOrderByRenewalDate(),
         ]);
     }
 
@@ -47,12 +44,17 @@ class DomainNameController extends AbstractController
     }
 
     #[Route('/new', name: 'domain_name_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ClientRepository $cr): Response
+    public function new(Request $request): Response
     {
         $domainName = new DomainName();
         if ($clientId = $request->get('clientId')) {
-            if ($client = $cr->find($clientId)) {
+            if ($client = $this->em->getRepository(Client::class)->find($clientId)) {
                 $domainName->setClient($client);
+            }
+        }
+        if ($siteId = $request->get('siteId')) {
+            if ($site = $this->em->getRepository(Site::class)->find($siteId)) {
+                $domainName->setSite($site);
             }
         }
         $form = $this->createForm(DomainNameType::class, $domainName);
@@ -67,7 +69,7 @@ class DomainNameController extends AbstractController
 
             Binder::set($domainName, $this->em);
 
-            return $this->redirectToRoute('domain_name_show', ['id' => $domainName->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('domain_name_index');
         }
 
         return $this->renderForm('domain_name/new.html.twig', [
@@ -88,7 +90,7 @@ class DomainNameController extends AbstractController
             $this->em->persist($domainName);
             $this->em->flush();
 
-            return $this->redirectToRoute('domain_name_show', ['id' => $domainName->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('domain_name_index');
         }
 
         return $this->renderForm('domain_name/edit.html.twig', [
@@ -109,13 +111,13 @@ class DomainNameController extends AbstractController
     }
 
     #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
-    public function updateAddRenewalDate(Request $request, DomainName $domainName, EntityManagerInterface $em)
+    public function updateAddRenewalDate(Request $request, DomainName $domainName)
     {
         $newDate = $domainName->getRenewalDate()->add(new DateInterval('P1Y'));
 
         $domainName->setRenewalDate(new \DateTime($newDate->format('Y-m-d')) );
-        $em->persist($domainName);
-        $em->flush();
+        $this->em->persist($domainName);
+        $this->em->flush();
         return new JsonResponse(true);
     }
 }

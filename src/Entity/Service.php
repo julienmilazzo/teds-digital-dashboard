@@ -20,7 +20,7 @@ class Service
      protected $provider;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
      protected $offer;
 
@@ -35,7 +35,7 @@ class Service
      protected $invoicedPrice;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
      protected $renewalType;
 

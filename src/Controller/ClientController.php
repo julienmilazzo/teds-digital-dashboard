@@ -20,7 +20,7 @@ class ClientController extends AbstractController
     public function __construct(private EntityManagerInterface $em){}
 
     #[Route('/', name: 'client_index', methods: ['GET'])]
-    public function index(Request $request, ClientRepository $clientRepository): Response
+    public function index(ClientRepository $clientRepository): Response
     {
         $clients = $clientRepository->findAll();
 

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ClickAndCollect, DomainName, Server, Site};
+use App\Entity\{ClickAndCollect, Client, DomainName, Server, Site};
 use App\Form\SiteType;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,6 +47,12 @@ class SiteController extends AbstractController
     public function new(Request $request): Response
     {
         $site = new Site();
+        if ($clientId = $request->get('clientId')) {
+            if ($client = $this->em->getRepository(Client::class)->find($clientId)) {
+                $site->setClient($client);
+            }
+        }
+
         $form = $this->createForm(SiteType::class, $site);
         $form->handleRequest($request);
 
@@ -82,6 +88,7 @@ class SiteController extends AbstractController
 
         return $this->renderForm('site/edit.html.twig', [
             'form' => $form,
+            'currentSite' => $site,
         ]);
     }
 

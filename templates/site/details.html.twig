@@ -17,6 +17,7 @@
     <tbody>
     {% for currentSite in sites %}
         <tr class="align-middle">
+            {% set client = currentSite.client %}
             {% include 'helpers/table-body/client.html.twig' %}
             <td>{{ currentSite.name }}</td>
             {% include 'helpers/table-body/date.html.twig' with {'date': currentSite.onlineDate} only %}
@@ -35,8 +36,3 @@
     {% endfor %}
     </tbody>
 </table>
-<script>
-    $(function() {
-        $("#sites_table").tablesorter();
-    });
-</script>

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use DateInterval;
-use App\Entity\{ClickAndCollect, Server, Site};
+use App\Entity\{ClickAndCollect, Client, Server, Site};
 use App\Form\ServerType;
 use App\Repository\ServerRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,10 +22,8 @@ class ServerController extends AbstractController
     #[Route('/', name: 'server_index', methods: ['GET'])]
     public function index(ServerRepository $serverRepository): Response
     {
-        $servers = $serverRepository->findAllOrderByRenewalDate();
-
         return $this->render('server/index.html.twig', [
-            'servers' => $servers,
+            'servers' => $serverRepository->findAllOrderByRenewalDate(),
             'clickAndCollects' => $this->em->getRepository(ClickAndCollect::class)->findAll(),
         ]);
     }
@@ -49,6 +47,17 @@ class ServerController extends AbstractController
     public function new(Request $request): Response
     {
         $server = new Server();
+        if ($clientId = $request->get('clientId')) {
+            if ($client = $this->em->getRepository(Client::class)->find($clientId)) {
+                $server->setClient($client);
+            }
+        }
+        if ($siteId = $request->get('siteId')) {
+            if ($site = $this->em->getRepository(Site::class)->find($siteId)) {
+                $server->addSite($site);
+            }
+        }
+
         $form = $this->createForm(ServerType::class, $server);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,7 +75,7 @@ class ServerController extends AbstractController
             $this->em->persist($server);
             $this->em->flush();
 
-            return $this->redirectToRoute('server_show', ['id' => $server->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('server_index');
         }
 
         return $this->renderForm('server/new.html.twig', [
@@ -95,7 +104,7 @@ class ServerController extends AbstractController
             $this->em->persist($server);
             $this->em->flush();
 
-            return $this->redirectToRoute('server_show', ['id' => $server->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('server_index');
         }
 
         return $this->renderForm('server/edit.html.twig', [
@@ -121,9 +130,7 @@ class ServerController extends AbstractController
         $server->removeSite($site);
         $this->em->flush();
 
-        return $this->redirectToRoute('server_show', [
-            'id' => $server->getId()
-        ]);
+        return $this->redirectToRoute('server_index');
     }
 
     #[Route('/update-renewal-date/{id}', name: 'updateAddRenewalDate', methods: ['GET'])]
