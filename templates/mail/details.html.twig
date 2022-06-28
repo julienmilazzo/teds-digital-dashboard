@@ -29,7 +29,7 @@
                 {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentMail.invoicedPrice} only %}
                 {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentMail.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentMail.startDate} only %}
-                {% include 'helpers/table-body/date.html.twig' with {'date': currentMail.renewalDate} only %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentMail.renewalDate, 'month': 'true'} only %}
                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentMail.enable} only %}
                 {% include 'helpers/table-body/commentary.html.twig' with {'commentary': currentMail.commentary} only %}
                 {% include 'helpers/table-body/domains.html.twig' %}

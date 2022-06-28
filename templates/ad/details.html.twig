@@ -30,7 +30,7 @@
                 {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentAd.invoicedPrice} only %}
                 {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentAd.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentAd.startDate} only %}
-                {% include 'helpers/table-body/date.html.twig' with {'date': currentAd.renewalDate} only %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentAd.renewalDate, 'month': 'true'} only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentAd.endDate} only %}
                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentAd.enable} only %}
                 <td>

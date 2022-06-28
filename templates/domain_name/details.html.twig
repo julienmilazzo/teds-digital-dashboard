@@ -29,7 +29,7 @@
                 {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentDomainName.invoicedPrice} only %}
                 {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentDomainName.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentDomainName.startDate} only %}
-                {% include 'helpers/table-body/date.html.twig' with {'date': currentDomainName.renewalDate} only %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentDomainName.renewalDate, 'month': 'true'} only %}
                 {% include 'helpers/table-body/servers.html.twig' %}
                 <td>
                     {% if currentDomainName.site is defined and currentDomainName.site is not null %}

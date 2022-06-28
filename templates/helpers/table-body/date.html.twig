@@ -1,1 +1,7 @@
-<td>{{ date ? date|date('d-m-Y') : '' }}</td>
+<td class="text-center">
+    {% if not date or date|date('d-m-Y') is same as ('01-01-2000') %}
+        -
+    {% else %}
+        {{ month is defined ? date|date('d-m') : date|date('d-m-Y') }}
+    {% endif %}
+</td>

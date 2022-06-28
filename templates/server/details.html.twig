@@ -32,7 +32,7 @@
                 {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentServer.invoicedPrice} only %}
                 {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentServer.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentServer.startDate} only %}
-                {% include 'helpers/table-body/date.html.twig' with {'date': currentServer.renewalDate} only %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentServer.renewalDate, 'month': 'true'} only %}
                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentServer.enable} only %}
                 <td>
                     {% if not currentServer.sites|length %}Aucun{% endif %}
@@ -48,7 +48,7 @@
                 </td>
                 {% set domainNames = currentServer.domainNames %}
                 {% include 'helpers/table-body/domains.html.twig' %}
-                {% include 'helpers/table-body/clickcollects.html.twig' %}
+                {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': clickAndCollects|filter(clickAndCollect => currentSite is not defined or clickAndCollect.site is same as (currentSite))|length } only %}
                 {% include 'helpers/table-body/edit-link.html.twig' with {'link': path('server_edit', {'id': currentServer.id})} only %}
             </tr>
         {% endfor %}

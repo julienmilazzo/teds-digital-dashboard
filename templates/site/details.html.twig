@@ -5,9 +5,9 @@
         <tr class="table-dark">
             {% include 'helpers/table-head/client.html.twig' %}
             <th>Nom du site</th>
-            <th data-filter="false">Date de mise en ligne</th>
-            <th data-filter="false">En ligne</th>
-            {% include 'helpers/table-head/actif.html.twig' %}
+            <th data-filter="false" class="text-center">Mise en ligne</th>
+            <th data-filter="false" class="text-center">En ligne</th>
+{#            {% include 'helpers/table-head/actif.html.twig' %}#}
             {% include 'helpers/table-head/servers.html.twig' %}
             {% include 'helpers/table-head/domains.html.twig' %}
             {% include 'helpers/table-head/clickcollects.html.twig' %}
@@ -22,10 +22,10 @@
             <td>{{ currentSite.name }}</td>
             {% include 'helpers/table-body/date.html.twig' with {'date': currentSite.onlineDate} only %}
             {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentSite.online} only %}
-            {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentSite.enable} only %}
+{#            {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentSite.enable} only %}#}
             {% include 'helpers/table-body/servers.html.twig' %}
             {% include 'helpers/table-body/domains.html.twig' %}
-            {% include 'helpers/table-body/clickcollects.html.twig' %}
+            {% include 'helpers/table-body/has-one.html.twig' with {'hasOne': clickAndCollects|filter(clickAndCollect => currentSite is not defined or clickAndCollect.site is same as (currentSite))|length } only %}
             {% include 'helpers/table-body/edit-link.html.twig' with {'link': path('site_edit', {'id': currentSite.id})} only %}
         </tr>
     {% endfor %}

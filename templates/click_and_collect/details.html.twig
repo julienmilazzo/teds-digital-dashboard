@@ -1,4 +1,4 @@
-<h2 class="c-parme bd-bt">Détails clicks & collects</h2>
+<h2 class="c-parme bd-bt">Détails des clicks & collects</h2>
 
 <table class="table table-striped table-hover" id="cc_table">
     <thead>
@@ -9,7 +9,7 @@
             {% include 'helpers/table-head/cost.html.twig' %}
             {% include 'helpers/table-head/price.html.twig' %}
             {% include 'helpers/table-head/renew.html.twig' %}
-            <th data-filter="false">Date de mise en ligne</th>
+            <th data-filter="false">Mise en ligne</th>
             {% include 'helpers/table-head/start.html.twig' %}
             {% include 'helpers/table-head/date-renew.html.twig' %}
             {% include 'helpers/table-head/actif.html.twig' %}
@@ -31,7 +31,7 @@
                 {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentClickAndCollect.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.onlineDate} only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.startDate} only %}
-                {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.renewalDate} only %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.renewalDate, 'month': 'true'} only %}
                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentClickAndCollect.online} only %}
                 {% set currentSite = currentClickAndCollect.site %}
                 <td>{{ currentSite.name }}</td>

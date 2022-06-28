@@ -25,12 +25,12 @@
                 {% set client = currentSocialNetwork.client %}
                 {% include 'helpers/table-body/client.html.twig' %}
                 {% include 'helpers/table-body/provider.html.twig' with {'provider': currentSocialNetwork.provider} only %}
-                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentSocialNetwork.offer} only %}
+                {% include 'helpers/table-body/offer.html.twig' with {'offer': currentSocialNetwork.offer} only %}
                 {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentSocialNetwork.cost} only %}
                 {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentSocialNetwork.invoicedPrice} only %}
                 {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentSocialNetwork.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentSocialNetwork.startDate} only %}
-                {% include 'helpers/table-body/date.html.twig' with {'date': currentSocialNetwork.renewalDate} only %}
+                {% include 'helpers/table-body/date.html.twig' with {'date': currentSocialNetwork.renewalDate, 'month': 'true'} only %}
                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentSocialNetwork.enable} only %}
                 {% include 'helpers/table-body/commentary.html.twig' with {'commentary': currentSocialNetwork.commentary} only %}
                 <td class="text-center">{{ currentSocialNetwork.postByWeek }}</td>
