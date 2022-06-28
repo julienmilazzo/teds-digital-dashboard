@@ -14,7 +14,7 @@
             {% include 'helpers/table-head/date-renew.html.twig' %}
             {% include 'helpers/table-head/actif.html.twig' %}
             {% include 'helpers/table-head/commentary.html.twig' %}
-            <th>Post par semaine :</th>
+            <th data-filter="false">Post par semaine :</th>
             <th>Quel Réseaux ? </th>
             {% include 'helpers/table-head/empty-non-sortable.html.twig' %}
         </tr>
@@ -24,11 +24,11 @@
             <tr class="align-middle">
                 {% set client = currentSocialNetwork.client %}
                 {% include 'helpers/table-body/client.html.twig' %}
-                <td>{{ currentSocialNetwork.provider }}</td>
-                <td>{{ currentSocialNetwork.offer }}</td>
-                <td>{{ currentSocialNetwork.cost }}</td>
-                <td>{{ currentSocialNetwork.invoicedPrice }}</td>
-                <td>{{ currentSocialNetwork.renewalType }}</td>
+                {% include 'helpers/table-body/provider.html.twig' with {'provider': currentSocialNetwork.provider} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentSocialNetwork.offer} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentSocialNetwork.cost} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentSocialNetwork.invoicedPrice} only %}
+                {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentSocialNetwork.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentSocialNetwork.startDate} only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentSocialNetwork.renewalDate} only %}
                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentSocialNetwork.enable} only %}
@@ -43,16 +43,7 @@
                         Aucun
                     {% endif %}
                 </td>
-                <td class="text-center">
-                    <a href="{{ path('social_network_edit', {'id': currentSocialNetwork.id}) }}" class="btn blue">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </a>
-                    {% if date(currentSocialNetwork.renewalDate) < date('+1month') %}
-                        <button onclick="updateAddRenewalDate('{{ path('updateAddRenewalDate', {id: currentSocialNetwork.id}) }}')" class="btn parme">
-                            Facturé
-                        </button>
-                    {% endif %}
-                </td>
+                {% include 'helpers/table-body/edit-link.html.twig' with {'link': path('social_network_edit', {'id': currentSocialNetwork.id})} only %}
             </tr>
         {% endfor %}
     </tbody>

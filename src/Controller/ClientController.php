@@ -36,21 +36,6 @@ class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'client_search', methods: ['GET'])]
-    public function search(Request $request, ClientRepository $clientRepository): Response
-    {
-        $clients = [];
-        $ids = array_filter(explode(",", $request->get('ids')));
-
-        foreach ($ids as $id) {
-            $clients[] = $clientRepository->findOneBy(['id' => $id]);
-        }
-
-        return $this->render("client/search.html.twig", [
-            "clients" => $clients,
-        ]);
-    }
-
     #[Route('/new', name: 'client_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {

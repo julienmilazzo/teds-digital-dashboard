@@ -30,20 +30,6 @@ class ClickAndCollectController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'click_and_collect_search', methods: ['GET'])]
-    public function search(Request $request, ClickAndCollectRepository $clickAndCollectRepository): Response
-    {
-        $clickAndCollects= [];
-        $ids = array_filter(explode(",", $request->get('ids')));
-        foreach ($ids as $id) {
-            $clickAndCollects[] = $clickAndCollectRepository->findOneBy(['id' => $id]);
-        }
-
-        return $this->render("click_and_collect/search.html.twig", [
-            'click_and_collects' => $clickAndCollects,
-        ]);
-    }
-
     #[Route('/new', name: 'click_and_collect_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {

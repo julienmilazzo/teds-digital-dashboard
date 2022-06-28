@@ -29,20 +29,6 @@ class DomainNameController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'domain_name_search', methods: ['GET'])]
-    public function search(Request $request): Response
-    {
-        $domainNames = [];
-        $ids = array_filter(explode(",", $request->get('ids')));
-        foreach ($ids as $id) {
-            $domainNames[] = $this->dr->findOneBy(['id' => $id]);
-        }
-
-        return $this->render('domain_name/search.html.twig', [
-            'domain_names' => $domainNames
-        ]);
-    }
-
     #[Route('/new', name: 'domain_name_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {

@@ -28,21 +28,6 @@ class ServerController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'server_search', methods: ['GET'])]
-    public function search(Request $request, ServerRepository $serverRepository): Response
-    {
-        $servers = [];
-        $ids = array_filter(explode(",", $request->get('ids')));
-
-        foreach ($ids as $id) {
-            $servers[] = $serverRepository->findOneBy(['id' => $id]);
-        }
-
-        return $this->render('server/search.html.twig', [
-            'servers' => $servers,
-        ]);
-    }
-
     #[Route('/new', name: 'server_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {

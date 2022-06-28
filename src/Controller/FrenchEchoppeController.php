@@ -26,33 +26,6 @@ class FrenchEchoppeController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'french_echoppe_search', methods: ['GET'])]
-    public function search(Request $request, FrenchEchoppeRepository $frenchEchoppeRepository): Response
-    {
-        $frenchEchoppes= [];
-        $ids = array_filter(explode(",", $request->get('ids')));
-
-        foreach ($ids as $id) {
-            $frenchEchoppes[] = $frenchEchoppeRepository->findOneBy(['id' => $id]);
-        }
-
-        return $this->render('french_echoppe/search.html.twig', [
-            'frenchEchoppes' => $frenchEchoppes,
-        ]);
-    }
-
-    #[Route('/ordered/{id}', name: 'french-echoppe_ordered', methods: ['GET'])]
-    public function ordered(Request $request, FrenchEchoppeRepository $frenchEchoppeRepository, FrenchEchoppe $frenchEchoppe): Response
-    {
-        $orderBy = ('ASC' === $request->get('orderBy')) ? 'DESC' : 'ASC';
-
-        return $this->render('french_echoppe/index.html.twig', [
-            'french_echoppes' => $frenchEchoppeRepository->findBy([], [$request->get('orderedType') => $orderBy]),
-            'orderBy' => $orderBy,
-            'currentFrenchEchoppe' => $frenchEchoppe
-        ]);
-    }
-
     #[Route('/new', name: 'french_echoppe_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -76,17 +49,6 @@ class FrenchEchoppeController extends AbstractController
         return $this->renderForm('french_echoppe/new.html.twig', [
             'currentFrenchEchoppe' => $frenchEchoppe,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'french_echoppe_show', methods: ['GET'])]
-    public function show(FrenchEchoppe $frenchEchoppe, FrenchEchoppeRepository $frenchEchoppeRepository): Response
-    {
-        $frenchEchoppes = $frenchEchoppeRepository->findAll();
-
-        return $this->render('french_echoppe/index.html.twig', [
-            'french_echoppes' => $frenchEchoppes,
-            'currentFrenchEchoppe' => $frenchEchoppe
         ]);
     }
 

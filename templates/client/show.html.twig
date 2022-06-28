@@ -43,7 +43,7 @@
                     </a>
                 </div>
                 <div class="div-add-btn d-inline-block bg-white">
-                    <a href="{{ path('mail_new') }}" class="btn parme">Un mail</a>
+                    <a href="{{ path('mail_new', {'clientId': currentClient.id}) }}" class="btn parme">Un mail</a>
                 </div>
 {#                <div class="div-add-btn d-inline-block bg-white">#}
 {#                    <a href="{{ path('french_echoppe_new') }}" class="btn parme">Un French Echoppe</a>#}
@@ -95,23 +95,13 @@
             </div>
         {% endif %}
 
-{#        {% if mails|length %}#}
-{#            <h3 class="title-details">Email : </h3>#}
-{#            <div class="grid-for container-fluid div3">#}
-{#                {% for currentMail in mails %}#}
-{#                    {% set rowIndex = rowIndex + 1 %}#}
-{#                    {% if rowIndex is same as 4  %}#}
-{#                        {% set rowIndex = 1 %}#}
-{#                        </div>#}
-{#                        <div class="grid-for container-fluid div3">#}
-{#                    {% endif %}#}
-{#                    <div class="div-details-for bg-white" style="grid-column: {{ rowIndex * 3 }}/{{ rowIndex * 3 + 3 }} ">#}
-{#                        {% include 'mail/details.html.twig' %}#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#                {% set rowIndex = 0 %}#}
-{#            </div>#}
-{#        {% endif %}#}
+        {% if mails|length %}
+            <div class="row ps-5">
+                <div class="col-11 offset-1 pt-3 ps-5">
+                    {% include 'mail/details.html.twig' %}
+                </div>
+            </div>
+        {% endif %}
 
 {#        {% if frenchEchoppes|length %}#}
 {#            <h3 class="title-details">French Echoppe : </h3>#}

@@ -26,11 +26,11 @@
             <tr class="align-middle">
                 {% set client = currentServer.client %}
                 {% include 'helpers/table-body/client.html.twig' %}
-                <td>{{ currentServer.provider }}</td>
-                <td>{{ currentServer.offer }}</td>
-                <td>{{ currentServer.cost }}</td>
-                <td>{{ currentServer.invoicedPrice }}</td>
-                <td>{{ currentServer.renewalType }}</td>
+                {% include 'helpers/table-body/provider.html.twig' with {'provider': currentServer.provider} only %}
+                {% include 'helpers/table-body/offer.html.twig' with {'offer': currentServer.offer} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentServer.cost} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentServer.invoicedPrice} only %}
+                {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentServer.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentServer.startDate} only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentServer.renewalDate} only %}
                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentServer.enable} only %}
@@ -49,16 +49,7 @@
                 {% set domainNames = currentServer.domainNames %}
                 {% include 'helpers/table-body/domains.html.twig' %}
                 {% include 'helpers/table-body/clickcollects.html.twig' %}
-                <td class="text-center">
-                    <a href="{{ path('server_edit', {'id': currentServer.id}) }}" class="btn blue">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </a>
-                    {% if date(currentServer.renewalDate) < date('+1month') %}
-                        <button onclick="updateAddRenewalDate('{{ path('updateAddRenewalDate', {id: currentServer.id}) }}')" class="btn parme">
-                            Facturé
-                        </button>
-                    {% endif %}
-                </td>
+                {% include 'helpers/table-body/edit-link.html.twig' with {'link': path('server_edit', {'id': currentServer.id})} only %}
             </tr>
         {% endfor %}
     </tbody>

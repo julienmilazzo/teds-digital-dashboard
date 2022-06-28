@@ -4,35 +4,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        var searchItems = [];
-        $(document).ready(() => {
-            $("#search-form").on("submit", (e) => {
-                e.preventDefault();
-                search();
-            });
-        });
-
-        function search() {
-            if (1 === searchItems.length) {
-                window.location.href = '/click/and/collect/' + searchItems[0];
-            } else {
-                window.location.href = '{{ path("click_and_collect_search") }}' + '?ids=' + searchItems.join();
-            }
-        }
-        function searchSame() {
-            searchItems = [];
-            {% for click_and_collect in clickAndCollects %}
-                var clickAndCollectClientName = "{{ click_and_collect.client.name }}"
-                if (!clickAndCollectClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
-                    $('#click-and-collect-{{ click_and_collect.id }}').addClass("d-none");
-                } else {
-                    $('#click-and-collect-{{ click_and_collect.id }}').removeClass("d-none");
-                    searchItems.push({{ click_and_collect.id }});
-                }
-            {% endfor %}
-        }
-    </script>
 {% endblock %}
 
 {% block body %}
@@ -42,12 +13,6 @@
     <div class="yellow row div-title">
         <div class="col-sm">
             <h1 class="title-index bd-bt">Click & Collect</h1>
-        </div>
-        <div class="col-sm search-div">
-            <form id="search-form" action="">
-                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
-                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
-            </form>
         </div>
     </div>
 

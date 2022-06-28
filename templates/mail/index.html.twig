@@ -6,35 +6,6 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        var searchItems = [];
-        $(document).ready(() => {
-            $("#search-form").on("submit", (e) => {
-                e.preventDefault();
-                search();
-            });
-        });
-
-        function search() {
-            if (1 === searchItems.length) {
-                window.location.href = '/mail/' + searchItems[0];
-            } else {
-                window.location.href = '{{ path("mail_search") }}' + '?ids=' + searchItems.join();
-            }
-        }
-        function searchSame() {
-            searchItems = [];
-            {% for mail in mails %}
-                var mailClientName = "{{ mail.client.name }}"
-                if (!mailClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
-                    $('#mail-{{ mail.id }}').addClass("d-none");
-                } else {
-                    $('#mail-{{ mail.id }}').removeClass("d-none");
-                    searchItems.push({{ mail.id }});
-                }
-            {% endfor %}
-        }
-    </script>
 {% endblock %}
 
 {% block body %}
@@ -44,73 +15,20 @@
     {% endblock %}
     <div class="yellow row div-title">
         <div class="col-sm">
-            <h1 class="title-index bd-bt" style="display: inline-block">Mails :</h1>
-        </div>
-        <div class="col-sm search-div">
-            <form id="search-form" action="">
-                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
-                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
-            </form>
+            <h1 class="title-index bd-bt">Mails</h1>
         </div>
     </div>
-    <div class="grid container-fluid div3">
-        <div class="div4 div-list bg-white">
-            <h1 class="c-blue bd-bt">Liste : </h1>
-            {% if currentMail is defined and currentMail is not null %}
-                <table class="table table-index">
-                    <thead>
-                        <tr>
-                            <th>Client</th>
-                            <th>Prestataire</th>
-                            <th>Offre</th>
-                            <th>Coût</th>
-                            <th>Prix facturé</th>
-                            <th>Type de renouvellement</th>
-                            <th>Date de début</th>
-                            <th>date de renouvellement</th>
-                            <th>Commentaire</th>
-                            <th>Actif</th>
-                            <th>Voir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for mail in mails %}
-                            <tr style="vertical-align: middle" id="mail-{{ mail.id }}">
-                                <td>{{ mail.client.name }}</td>
-                                <td>{{ mail.provider }}</td>
-                                <td>{{ mail.offer }}</td>
-                                <td>{{ mail.cost }}</td>
-                                <td>{{ mail.invoicedPrice }}</td>
-                                <td>{{ mail.renewalType }}</td>
-                                <td>{{ mail.startDate ? mail.startDate|date('Y-m-d') : '' }}</td>
-                                <td>{{ mail.renewalDate ? mail.renewalDate|date('Y-m-d') : '' }}</td>
-                                <td>{{ mail.commentary }}</td>
-                                <td>{{ mail.enable ? 'Oui' : 'Non' }}</td>
-                                <td>
-                                    <a href="{{ path('mail_show', {'id': mail.id}) }}" class="btn btn-secondary">Détails</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>Aucun Mail</p>
-            {% endif %}
-        </div>
 
-        <div class="div-details bg-white">
-            {% if currentMail is defined and currentMail is not null %}
-                {% include 'mail/details.html.twig' %}
-            {% else %}
-                <h1 class="c-parme bd-bt">Détails </h1>
-            {% endif %}
-        </div>
-        <div class="div-action bg-white" style="text-align: center">
-            <h1 class="c-yellow bd-bt">Actions : </h1>
-            <a href="{{ path('mail_new') }}" class="btn parme" style="margin: 7%">Ajouter</a>
-            {% if currentMail is defined and currentMail is not null %}
-                <a href="{{ path('mail_edit', {'id': currentMail.id}) }}" class="btn blue" style="margin: 5%">Éditer</a>
-            {% endif %}
+    <div class="container-fluid pt-4">
+        <div class="row ps-5">
+            <div class="col-11 offset-1 pt-3 ps-5">
+                <a href="{{ path('mail_new') }}" class="btn parme float-end">Ajouter un mail</a>
+                {% if mails|length %}
+                    {% include 'mail/details.html.twig' %}
+                {% else %}
+                    <p>Aucun mail</p>
+                {% endif %}
+            </div>
         </div>
     </div>
     {% block footer %}

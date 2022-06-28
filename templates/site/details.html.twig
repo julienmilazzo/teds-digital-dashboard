@@ -5,8 +5,8 @@
         <tr class="table-dark">
             {% include 'helpers/table-head/client.html.twig' %}
             <th>Nom du site</th>
-            <th>Date de mise en ligne</th>
-            <th>En ligne</th>
+            <th data-filter="false">Date de mise en ligne</th>
+            <th data-filter="false">En ligne</th>
             {% include 'helpers/table-head/actif.html.twig' %}
             {% include 'helpers/table-head/servers.html.twig' %}
             {% include 'helpers/table-head/domains.html.twig' %}
@@ -26,12 +26,7 @@
             {% include 'helpers/table-body/servers.html.twig' %}
             {% include 'helpers/table-body/domains.html.twig' %}
             {% include 'helpers/table-body/clickcollects.html.twig' %}
-            <td class="text-center">
-                <a href="{{ path('site_edit', {'id': currentSite.id}) }}" class="btn blue">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
-
+            {% include 'helpers/table-body/edit-link.html.twig' with {'link': path('site_edit', {'id': currentSite.id})} only %}
         </tr>
     {% endfor %}
     </tbody>

@@ -28,30 +28,8 @@
             $("#search-form").on("submit", (e) => {
                 e.preventDefault();
                 isEasterEgg();
-                search();
             });
         });
-
-        function search() {
-            if (1 === searchItems.length) {
-                window.location.href = '/site/' + searchItems[0];
-            } else {
-                window.location.href = '{{ path("site_search") }}' + '?ids=' + searchItems.join();
-            }
-        }
-
-        function searchSame() {
-            searchItems = [];
-            {% for site in sites %}
-                var siteName = "{{ site.name }}"
-                if (!siteName.toLowerCase().includes($('#search').val().toLowerCase())) {
-                    $('#site-{{ site.id }}').addClass("d-none");
-                } else {
-                    $('#site-{{ site.id }}').removeClass("d-none");
-                    searchItems.push({{ site.id }});
-                }
-            {% endfor %}
-        }
     </script>
 {% endblock %}
 
@@ -65,12 +43,6 @@
         <div class="col-sm">
             <h1 class="title-index bd-bt">Sites</h1>
         </div>
-        <div class="col-sm search-div">
-            <form id="search-form" action="">
-                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
-                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
-            </form>
-           </div>
     </div>
 
     <div class="container-fluid pt-4">

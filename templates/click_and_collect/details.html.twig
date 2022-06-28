@@ -4,12 +4,12 @@
     <thead>
         <tr class="table-dark">
             {% include 'helpers/table-head/client.html.twig' %}
-            <th>Date de mise en ligne</th>
             {% include 'helpers/table-head/prestataire.html.twig' %}
             {% include 'helpers/table-head/offre.html.twig' %}
             {% include 'helpers/table-head/cost.html.twig' %}
             {% include 'helpers/table-head/price.html.twig' %}
             {% include 'helpers/table-head/renew.html.twig' %}
+            <th data-filter="false">Date de mise en ligne</th>
             {% include 'helpers/table-head/start.html.twig' %}
             {% include 'helpers/table-head/date-renew.html.twig' %}
             {% include 'helpers/table-head/actif.html.twig' %}
@@ -24,18 +24,18 @@
             <tr class="align-middle">
                 {% set client = currentClickAndCollect.client %}
                 {% include 'helpers/table-body/client.html.twig' %}
+                {% include 'helpers/table-body/provider.html.twig' with {'provider': currentClickAndCollect.provider} only %}
+                {% include 'helpers/table-body/offer.html.twig' with {'offer': currentClickAndCollect.offer} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentClickAndCollect.cost} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentClickAndCollect.invoicedPrice} only %}
+                {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentClickAndCollect.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.onlineDate} only %}
-                <td>{{ currentClickAndCollect.provider }}</td>
-                <td>{{ currentClickAndCollect.offer }}</td>
-                <td>{{ currentClickAndCollect.cost }}</td>
-                <td>{{ currentClickAndCollect.invoicedPrice }}</td>
-                <td>{{ currentClickAndCollect.renewalType }}</td>
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.startDate} only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentClickAndCollect.renewalDate} only %}
                 {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentClickAndCollect.online} only %}
                 {% set currentSite = currentClickAndCollect.site %}
                 <td>{{ currentSite.name }}</td>
-                <td>{{ currentClickAndCollect.commentary }}</td>
+                {% include 'helpers/table-body/commentary.html.twig' with {'commentary': currentClickAndCollect.commentary} only %}
                 {% include 'helpers/table-body/servers.html.twig' %}
                 <td>
                     <a href="{{ path('click_and_collect_edit', {'id': currentClickAndCollect.id}) }}" class="btn blue">

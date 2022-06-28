@@ -11,10 +11,10 @@
             {% include 'helpers/table-head/renew.html.twig' %}
             {% include 'helpers/table-head/start.html.twig' %}
             {% include 'helpers/table-head/date-renew.html.twig' %}
-            <th>Date de fin</th>
+            <th data-filter="false">Date de fin</th>
             {% include 'helpers/table-head/actif.html.twig' %}
-            <th>Site</th>
-            <th>Réseau Social</th>
+            <th data-filter="false">Site</th>
+            <th data-filter="false">Réseau Social</th>
             {% include 'helpers/table-head/commentary.html.twig' %}
             {% include 'helpers/table-head/empty-non-sortable.html.twig' %}
         </tr>
@@ -24,11 +24,11 @@
             <tr class="align-middle">
                 {% set client = currentAd.client %}
                 {% include 'helpers/table-body/client.html.twig' %}
-                <td>{{ currentAd.provider }}</td>
-                <td>{{ currentAd.offer }}</td>
-                <td>{{ currentAd.cost }}</td>
-                <td>{{ currentAd.invoicedPrice }}</td>
-                <td>{{ currentAd.renewalType }}</td>
+                {% include 'helpers/table-body/provider.html.twig' with {'provider': currentAd.provider} only %}
+                {% include 'helpers/table-body/offer.html.twig' with {'offer': currentAd.offer} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentAd.cost} only %}
+                {% include 'helpers/table-body/price-ht.html.twig' with {'price': currentAd.invoicedPrice} only %}
+                {% include 'helpers/table-body/renewal-type.html.twig' with {'renewalType': currentAd.renewalType } only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentAd.startDate} only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentAd.renewalDate} only %}
                 {% include 'helpers/table-body/date.html.twig' with {'date': currentAd.endDate} only %}
@@ -52,17 +52,7 @@
                     {% endif %}
                 </td>
                 {% include 'helpers/table-body/commentary.html.twig' with {'commentary': currentAd.commentary} only %}
-                <td class="text-center">
-                    <a href="{{ path('ad_edit', {'id': currentAd.id}) }}" class="btn blue">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </a>
-                    {# TODO : check this #}
-{#                    {% if date(currentServer.renewalDate) < date('+1month') %}#}
-{#                        <button onclick="updateAddRenewalDate('{{ path('updateAddRenewalDate', {id:currentAd.id}) }}')" class="btn parme">#}
-{#                            Facturé#}
-{#                        </button>#}
-{#                    {% endif %}#}
-                </td>
+                {% include 'helpers/table-body/edit-link.html.twig' with {'link': path('ad_edit', {'id': currentAd.id})} only %}
             </tr>
         {% endfor %}
     </tbody>

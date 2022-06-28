@@ -16,11 +16,7 @@
             <td>{{ currentClient.zipCode }}</td>
             <td>{{ currentClient.phone }}</td>
             {% include 'helpers/table-body/oui-non.html.twig' with {'boolean': currentClient.enable} only %}
-            <td>
-                <a href="{{ path('client_edit', {'id': currentClient.id}) }}" class="btn blue">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
+            {% include 'helpers/table-body/edit-link.html.twig' with {'link': path('client_edit', {'id': currentClient.id})} only %}
         </tr>
     </tbody>
 </table>

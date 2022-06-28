@@ -4,36 +4,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        var searchItems = [];
-        $(document).ready(() => {
-            $("#search-form").on("submit", (e) => {
-                e.preventDefault();
-                search();
-            });
-        });
-
-        function search() {
-            if (1 === searchItems.length) {
-                window.location.href = '/french/echoppe/' + searchItems[0];
-            } else {
-                window.location.href = '{{ path("french_echoppe_search") }}' + '?ids=' + searchItems.join();
-            }
-        }
-        function searchSame() {
-            searchItems = [];
-            {% for french_echoppe in french_echoppes %}
-                var frenchEchoppeClientName = "{{ french_echoppe.client.name }}"
-
-                if (!frenchEchoppeClientName.toLowerCase().includes($('#search').val().toLowerCase())) {
-                    $('#french-echoppe-{{ french_echoppe.id }}').addClass("d-none");
-                } else {
-                    $('#french-echoppe-{{ french_echoppe.id }}').removeClass("d-none");
-                    searchItems.push({{ french_echoppe.id }});
-                }
-            {% endfor %}
-        }
-    </script>
 {% endblock %}
 
 {% block body %}
@@ -43,12 +13,6 @@
     <div class="yellow row div-title">
         <div class="col-sm">
             <h1 class="title-index bd-bt" style="display: inline-block">French-echoppe :</h1>
-        </div>
-        <div class="col-sm search-div">
-            <form id="search-form" action="">
-                <input id="search" class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher" aria-label="Search" onkeyup="searchSame()">
-                <button class="btn parme my-2 my-sm-0" style="margin-bottom: 0.5rem!important;">Rechercher</button>
-            </form>
         </div>
     </div>
     <div class="grid container-fluid div3">

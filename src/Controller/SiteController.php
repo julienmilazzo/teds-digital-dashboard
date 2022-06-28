@@ -28,21 +28,6 @@ class SiteController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'site_search', methods: ['GET'])]
-    public function search(Request $request, SiteRepository $siteRepository): Response
-    {
-        $sites = [];
-        $ids = array_filter(explode(",", $request->get('ids')));
-
-        foreach ($ids as $id) {
-            $sites[] = $siteRepository->findOneBy(['id' => $id]);
-        }
-
-        return $this->render('site/search.html.twig', [
-            'sites' => $sites,
-        ]);
-    }
-
     #[Route('/new', name: 'site_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
