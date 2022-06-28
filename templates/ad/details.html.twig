@@ -57,15 +57,3 @@
         {% endfor %}
     </tbody>
 </table>
-<script>
-    {# TODO : check this #}
-    function updateAddRenewalDate(url) {
-        ajax = $.ajax({
-            url: url,
-            type: 'GET',
-            success: function() {
-                location.reload();
-            },
-        });
-    }
-</script>
